@@ -5,8 +5,939 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Générateur d'Expériences SCP - Fondation SCP</title>
     <meta name="description" content="Générateur d'idées d'expériences pour les anomalies SCP - Développé par Vincent O'Bryan">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://i.imgur.com/9Qx8vZy.jpg') center/cover fixed;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(2px);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: #ff6b35;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 5px;
+        }
+
+        .credit {
+            font-size: 0.9rem;
+            color: #ff6b35;
+            font-style: italic;
+        }
+
+        .search-section {
+            background: rgba(31, 41, 55, 0.9);
+            border: 1px solid #374151;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #d1d5db;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-container input {
+            width: 100%;
+            padding: 15px 50px 15px 15px;
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid #4b5563;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+        }
+
+        .input-container input:focus {
+            outline: none;
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            background: #e55a2b;
+            transform: translateY(-2px);
+        }
+
+        .generate-btn:disabled {
+            background: #6b7280;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            margin-top: 50px;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .results-header h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .results-header p {
+            color: #9ca3af;
+        }
+
+        .experiment-card {
+            background: rgba(31, 41, 55, 0.9);
+            border: 1px solid #374151;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 25px;
+            border-bottom: 1px solid #374151;
+        }
+
+        .card-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .card-header p {
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        .card-stats {
+            padding: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-box {
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid;
+        }
+
+        .stat-box h4 {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-sub {
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+
+        .risk-low {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .risk-low .stat-value {
+            color: #10b981;
+        }
+
+        .risk-medium {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .risk-medium .stat-value {
+            color: #f59e0b;
+        }
+
+        .risk-high {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: rgba(249, 115, 22, 0.3);
+        }
+
+        .risk-high .stat-value {
+            color: #f97316;
+        }
+
+        .risk-critical {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .risk-critical .stat-value {
+            color: #ef4444;
+        }
+
+        .personnel-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .personnel-box .stat-value {
+            color: #3b82f6;
+        }
+
+        .zone-box {
+            background: rgba(168, 85, 247, 0.1);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .zone-box .stat-value {
+            color: #a855f7;
+            font-size: 1rem;
+        }
+
+        .card-details {
+            padding: 25px;
+            background: rgba(17, 24, 39, 0.5);
+        }
+
+        .detail-section {
+            margin-bottom: 25px;
+        }
+
+        .detail-section h4 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .detail-section p {
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        .detail-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 8px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #d1d5db;
+        }
+
+        .detail-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .objective { color: #ff6b35; }
+        .materials { color: #3b82f6; }
+        .precautions { color: #f59e0b; }
+        .results { color: #10b981; }
+
+        .regenerate-section {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .regenerate-btn {
+            padding: 15px 30px;
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .regenerate-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 80px;
+            padding: 40px 0;
+            border-top: 1px solid #374151;
+        }
+
+        .footer p {
+            color: #9ca3af;
+            margin-bottom: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .card-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <script src="index.js"></script>
+    <div class="overlay">
+        <div class="container">
+            <!-- Header -->
+            <div class="header">
+                <h1>GÉNÉRATEUR D'EXPÉRIENCES SCP</h1>
+                <p>Système Avancé de Génération d'Idées Expérimentales</p>
+                <p class="credit">Développé par Vincent O'Bryan</p>
+            </div>
+
+            <!-- Search Section -->
+            <div class="search-section">
+                <div class="input-group">
+                    <label for="scpInput">Numéro SCP à étudier</label>
+                    <div class="input-container">
+                        <input type="text" id="scpInput" placeholder="Ex: 173, 096, 999...">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                </div>
+                <button id="generateBtn" class="generate-btn">
+                    <span class="btn-content">Générer</span>
+                </button>
+            </div>
+
+            <!-- Results -->
+            <div id="results" class="results hidden"></div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <p>© COSMOS SCP • Générateur d'Expériences • Base de données: <span id="dbCount">325+</span> variations</p>
+                <p style="font-size: 0.8rem; color: #6b7280;">Classification: RESTREINT • Usage autorisé pour personnel de recherche uniquement</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Protection contre l'inspection du code
+        document.addEventListener('keydown', function(e) {
+            // Désactiver F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+U
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C')) ||
+                (e.ctrlKey && e.key === 'u')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Désactiver le clic droit
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Base de données des expériences
+        const baseExperiences = [
+            {
+                titre: "Test de Résistance Psychologique",
+                description: "Évaluer la stabilité mentale des sujets exposés à l'anomalie pendant des périodes prolongées",
+                classeD: 3,
+                objets: ["Caméras de surveillance", "Équipement médical", "Dispositifs de mesure neurologique"],
+                risque: 25,
+                duree: "6 heures",
+                objectif: "Déterminer les effets psychologiques à long terme",
+                precautions: ["Personnel médical en standby", "Protocole d'extraction d'urgence", "Surveillance continue"],
+                resultatsAttendus: "Données sur la résistance mentale humaine",
+                autorisationRequise: "Niveau 3",
+                materiels: ["Casques EEG", "Moniteurs cardiaques", "Sédatifs d'urgence"],
+                zone: "Chambre d'observation sécurisée"
+            },
+            {
+                titre: "Interaction avec Matériaux Organiques",
+                description: "Observer les réactions de l'entité en présence de différents tissus biologiques",
+                classeD: 2,
+                objets: ["Échantillons de tissus", "Microscopes", "Équipement de protection"],
+                risque: 40,
+                duree: "2 heures",
+                objectif: "Comprendre les préférences biologiques de l'entité",
+                precautions: ["Chambre hermétique", "Décontamination complète", "Personnel en combinaison"],
+                resultatsAttendus: "Catalogue des réactions biologiques",
+                autorisationRequise: "Niveau 2",
+                materiels: ["Pinces stérilisées", "Plateaux d'échantillons", "Solution de décontamination"],
+                zone: "Laboratoire de biologie sécurisé"
+            },
+            {
+                titre: "Test de Propagation Environnementale",
+                description: "Mesurer la capacité de l'anomalie à se propager dans différents environnements contrôlés",
+                classeD: 5,
+                objets: ["Chambres environnementales", "Capteurs atmosphériques", "Matériaux de test"],
+                risque: 60,
+                duree: "24 heures",
+                objectif: "Évaluer les risques de propagation",
+                precautions: ["Confinement hermétique", "Système de purification d'air", "Évacuation d'urgence"],
+                resultatsAttendus: "Modèle de propagation et vitesse de diffusion",
+                autorisationRequise: "Niveau 4",
+                materiels: ["Détecteurs de particules", "Ventilation forcée", "Matériaux de confinement"],
+                zone: "Chambre de confinement atmosphérique"
+            },
+            {
+                titre: "Analyse des Fréquences Sonores",
+                description: "Étudier l'impact des différentes fréquences audio sur le comportement de l'entité",
+                classeD: 1,
+                objets: ["Équipement audio", "Analyseurs de fréquence", "Protection auditive"],
+                risque: 15,
+                duree: "4 heures",
+                objectif: "Identifier les fréquences de résonance",
+                precautions: ["Protection auditive obligatoire", "Limitation du volume", "Surveillance médicale"],
+                resultatsAttendus: "Spectre des fréquences actives",
+                autorisationRequise: "Niveau 2",
+                materiels: ["Haut-parleurs directionnels", "Sonomètres", "Casques anti-bruit"],
+                zone: "Chambre anéchoïque"
+            },
+            {
+                titre: "Interaction avec Intelligence Artificielle",
+                description: "Tester les réactions de l'anomalie face à des systèmes d'IA de différentes complexités",
+                classeD: 0,
+                objets: ["Ordinateurs", "IA expérimentales", "Interfaces de communication"],
+                risque: 35,
+                duree: "8 heures",
+                objectif: "Évaluer la reconnaissance de l'intelligence artificielle",
+                precautions: ["Isolation des systèmes", "Coupe-circuits d'urgence", "Surveillance informatique"],
+                resultatsAttendus: "Protocoles d'interaction IA-anomalie",
+                autorisationRequise: "Niveau 3",
+                materiels: ["Serveurs sécurisés", "Interfaces tactiles", "Systèmes de sauvegarde"],
+                zone: "Laboratoire informatique blindé"
+            },
+            {
+                titre: "Résistance aux Températures Extrêmes",
+                description: "Exposer l'entité à des conditions thermiques extrêmes pour tester sa résistance",
+                classeD: 2,
+                objets: ["Chambres thermiques", "Thermomètres industriels", "Équipement cryogénique"],
+                risque: 50,
+                duree: "12 heures",
+                objectif: "Déterminer les limites thermiques",
+                precautions: ["Combinaisons thermiques", "Surveillance médicale", "Protocoles de réchauffement"],
+                resultatsAttendus: "Plage de tolérance thermique",
+                autorisationRequise: "Niveau 3",
+                materiels: ["Azote liquide", "Chauffages industriels", "Sondes de température"],
+                zone: "Chambre thermique contrôlée"
+            },
+            {
+                titre: "Exposition à Radiations Contrôlées",
+                description: "Mesurer l'effet des radiations ionisantes sur la structure de l'anomalie",
+                classeD: 3,
+                objets: ["Sources radioactives", "Détecteurs de radiation", "Blindage de plomb"],
+                risque: 75,
+                duree: "6 heures",
+                objectif: "Analyser la résistance aux radiations",
+                precautions: ["Combinaisons de protection", "Dosimètres personnels", "Zone d'exclusion"],
+                resultatsAttendus: "Seuils de tolérance radiologique",
+                autorisationRequise: "Niveau 4",
+                materiels: ["Compteurs Geiger", "Plaques de blindage", "Dosimètres"],
+                zone: "Chambre de radiation sécurisée"
+            },
+            {
+                titre: "Test de Communication Linguistique",
+                description: "Tenter d'établir une communication avec l'entité à travers différents langages",
+                classeD: 1,
+                objets: ["Systèmes de traduction", "Interfaces de communication", "Linguistes"],
+                risque: 20,
+                duree: "10 heures",
+                objectif: "Établir un protocole de communication",
+                precautions: ["Barrière de sécurité", "Personnel linguistique formé", "Enregistrement complet"],
+                resultatsAttendus: "Protocoles de communication établis",
+                autorisationRequise: "Niveau 2",
+                materiels: ["Micros directionnels", "Systèmes d'enregistrement", "Dictionnaires spécialisés"],
+                zone: "Chambre de communication isolée"
+            },
+            {
+                titre: "Réaction aux Champs Électromagnétiques",
+                description: "Analyser l'impact des champs électromagnétiques de différentes intensités",
+                classeD: 2,
+                objets: ["Générateurs EM", "Bobines Tesla", "Détecteurs de champ"],
+                risque: 45,
+                duree: "5 heures",
+                objectif: "Cartographier la sensibilité électromagnétique",
+                precautions: ["Cage de Faraday", "Équipement isolé", "Surveillance cardiaque"],
+                resultatsAttendus: "Spectre de sensibilité électromagnétique",
+                autorisationRequise: "Niveau 3",
+                materiels: ["Oscilloscopes", "Antennes directionnelles", "Blindage électromagnétique"],
+                zone: "Laboratoire électromagnétique"
+            },
+            {
+                titre: "Interaction avec Phéromones Humaines",
+                description: "Étudier les réactions de l'entité aux différentes phéromones et odeurs humaines",
+                classeD: 4,
+                objets: ["Échantillons de phéromones", "Analyseurs chimiques", "Systèmes de diffusion"],
+                risque: 30,
+                duree: "8 heures",
+                objectif: "Comprendre les mécanismes de détection chimique",
+                precautions: ["Ventilation contrôlée", "Masques filtrants", "Surveillance médicale"],
+                resultatsAttendus: "Catalogue des réactions chimiques",
+                autorisationRequise: "Niveau 2",
+                materiels: ["Diffuseurs d'arômes", "Spectromètres", "Filtres à air"],
+                zone: "Chambre de diffusion chimique"
+            }
+        ];
+
+        // 75 expériences spécialisées supplémentaires
+        const specializedExperiences = [
+            {
+                titre: "Test de Résistance aux Acides Concentrés",
+                description: "Exposer l'entité à différents acides pour mesurer sa résistance chimique",
+                classeD: 2,
+                objets: ["Acides concentrés", "Équipement de protection chimique", "Neutralisants"],
+                risque: 65,
+                duree: "4 heures",
+                objectif: "Évaluer la résistance aux substances corrosives",
+                precautions: ["Combinaisons anti-acide", "Douches de décontamination", "Ventilation forcée"],
+                resultatsAttendus: "Profil de résistance chimique",
+                autorisationRequise: "Niveau 4",
+                materiels: ["Béchers en téflon", "pH-mètres", "Solutions tampons"],
+                zone: "Laboratoire de chimie sécurisé"
+            },
+            {
+                titre: "Interaction avec Matériaux Supraconducteurs",
+                description: "Analyser les effets de la supraconductivité sur le comportement de l'anomalie",
+                classeD: 1,
+                objets: ["Supraconducteurs refroidis", "Champs magnétiques", "Capteurs quantiques"],
+                risque: 40,
+                duree: "6 heures",
+                objectif: "Comprendre l'interaction avec les phénomènes quantiques",
+                precautions: ["Isolation cryogénique", "Surveillance des champs", "Protocoles d'urgence"],
+                resultatsAttendus: "Données sur les interactions quantiques",
+                autorisationRequise: "Niveau 3",
+                materiels: ["Hélium liquide", "Bobines supraconductrices", "Magnétomètres"],
+                zone: "Laboratoire de physique quantique"
+            },
+            {
+                titre: "Analyse des Réactions aux Isotopes Radioactifs",
+                description: "Tester la sensibilité de l'entité aux différents isotopes radioactifs",
+                classeD: 3,
+                objets: ["Isotopes variés", "Spectromètres gamma", "Blindage adaptatif"],
+                risque: 80,
+                duree: "8 heures",
+                objectif: "Cartographier la sensibilité isotopique",
+                precautions: ["Bunker de confinement", "Surveillance radiologique", "Décontamination complète"],
+                resultatsAttendus: "Spectre de sensibilité isotopique",
+                autorisationRequise: "Niveau 5",
+                materiels: ["Détecteurs alpha/beta/gamma", "Chambres d'ionisation", "Filtres HEPA"],
+                zone: "Bunker de recherche nucléaire"
+            },
+            {
+                titre: "Test de Sensibilité aux Ondes Gravitationnelles",
+                description: "Mesurer l'impact des ondes gravitationnelles artificielles sur l'anomalie",
+                classeD: 0,
+                objets: ["Générateurs d'ondes gravitationnelles", "Interféromètres", "Capteurs spatiaux"],
+                risque: 55,
+                duree: "12 heures",
+                objectif: "Évaluer la sensibilité aux distorsions spatio-temporelles",
+                precautions: ["Isolation vibratoire", "Surveillance spatiale", "Protocoles d'évacuation"],
+                resultatsAttendus: "Profil de sensibilité gravitationnelle",
+                autorisationRequise: "Niveau 4",
+                materiels: ["Lasers de précision", "Miroirs suspendus", "Systèmes de stabilisation"],
+                zone: "Observatoire gravitationnel souterrain"
+            },
+            {
+                titre: "Exposition aux Rayonnements Synchrotron",
+                description: "Analyser les effets des rayonnements synchrotron haute énergie",
+                classeD: 2,
+                objets: ["Accélérateur de particules", "Détecteurs de rayons X", "Blindage plombé"],
+                risque: 70,
+                duree: "3 heures",
+                objectif: "Étudier l'interaction avec les rayonnements haute énergie",
+                precautions: ["Bunker blindé", "Surveillance dosimétrique", "Arrêt d'urgence"],
+                resultatsAttendus: "Données d'interaction haute énergie",
+                autorisationRequise: "Niveau 4",
+                materiels: ["Synchrotron compact", "Détecteurs CCD", "Collimateurs"],
+                zone: "Facility de rayonnement synchrotron"
+            },
+            {
+                titre: "Test de Réaction aux Neutrinos",
+                description: "Mesurer la capacité de détection des neutrinos par l'entité",
+                classeD: 0,
+                objets: ["Détecteurs de neutrinos", "Eau ultra-pure", "Photomultiplicateurs"],
+                risque: 25,
+                duree: "48 heures",
+                objectif: "Évaluer la sensibilité aux particules subatomiques",
+                precautions: ["Isolation souterraine", "Blindage cosmique", "Surveillance continue"],
+                resultatsAttendus: "Profil de détection neutrinique",
+                autorisationRequise: "Niveau 3",
+                materiels: ["Cuves de détection", "Électronique ultra-sensible", "Systèmes de refroidissement"],
+                zone: "Laboratoire souterrain de particules"
+            },
+            {
+                titre: "Interaction avec Plasma Confiné",
+                description: "Analyser le comportement de l'anomalie en présence de plasma haute température",
+                classeD: 1,
+                objets: ["Générateurs de plasma", "Champs magnétiques de confinement", "Diagnostics plasma"],
+                risque: 60,
+                duree: "2 heures",
+                objectif: "Comprendre l'interaction avec la matière ionisée",
+                precautions: ["Confinement magnétique", "Refroidissement d'urgence", "Isolation thermique"],
+                resultatsAttendus: "Données d'interaction plasma-anomalie",
+                autorisationRequise: "Niveau 4",
+                materiels: ["Bobines de confinement", "Diagnostics optiques", "Systèmes de refroidissement"],
+                zone: "Réacteur de fusion expérimental"
+            },
+            {
+                titre: "Test de Résistance aux Antimatières",
+                description: "Exposer l'entité à de petites quantités d'antimatière contrôlée",
+                classeD: 0,
+                objets: ["Piège à antimatière", "Annihilateurs contrôlés", "Détecteurs de positrons"],
+                risque: 95,
+                duree: "30 minutes",
+                objectif: "Évaluer la réaction à l'antimatière",
+                precautions: ["Confinement électromagnétique", "Évacuation automatique", "Blindage total"],
+                resultatsAttendus: "Profil de réaction à l'antimatière",
+                autorisationRequise: "Niveau 5",
+                materiels: ["Pièges de Penning", "Détecteurs gamma", "Systèmes d'annihilation"],
+                zone: "Laboratoire d'antimatière ultra-sécurisé"
+            },
+            {
+                titre: "Analyse des Effets de Distorsion Temporelle",
+                description: "Mesurer l'impact des champs de distorsion temporelle sur l'anomalie",
+                classeD: 2,
+                objets: ["Générateurs temporels", "Horloges atomiques", "Capteurs chronométriques"],
+                risque: 85,
+                duree: "Variable",
+                objectif: "Étudier l'interaction avec les anomalies temporelles",
+                precautions: ["Isolation temporelle", "Synchronisation d'urgence", "Protocoles paradoxaux"],
+                resultatsAttendus: "Données de comportement temporel",
+                autorisationRequise: "Niveau 5",
+                materiels: ["Horloges de précision", "Champs temporels", "Stabilisateurs chronaux"],
+                zone: "Laboratoire de recherche temporelle"
+            },
+            {
+                titre: "Test d'Interaction avec Matière Noire Simulée",
+                description: "Analyser les réactions à des simulations de matière noire",
+                classeD: 0,
+                objets: ["Simulateurs de matière noire", "Détecteurs WIMPs", "Champs gravitationnels"],
+                risque: 45,
+                duree: "24 heures",
+                objectif: "Évaluer la sensibilité à la matière noire",
+                precautions: ["Isolation gravitationnelle", "Surveillance cosmique", "Blindage particulaire"],
+                resultatsAttendus: "Profil d'interaction matière noire",
+                autorisationRequise: "Niveau 4",
+                materiels: ["Détecteurs cryogéniques", "Blindage cosmique", "Électronique ultra-sensible"],
+                zone: "Observatoire de matière noire"
+            }
+        ];
+
+        // Génération d'expériences supplémentaires
+        function generateMoreExperiences() {
+            const variations = [
+                "Analyse Comportementale Approfondie", "Test de Stress Environnemental", "Évaluation des Capacités Sensorielles",
+                "Protocole d'Adaptation Évolutive", "Mesure de Résistance Structurelle", "Analyse des Patterns Temporels",
+                "Test d'Interaction Sociale", "Évaluation Cognitive Avancée", "Protocole de Stress Thermique",
+                "Analyse des Réflexes Primaires", "Test de Mémoire à Long Terme", "Évaluation de l'Instinct de Survie",
+                "Protocole d'Exposition Lumineuse", "Analyse des Capacités Régénératrices", "Test de Reconnaissance Faciale",
+                "Évaluation des Mécanismes de Défense", "Protocole d'Isolation Sensorielle", "Analyse des Cycles Biologiques",
+                "Test de Coordination Motrice", "Évaluation des Réponses Émotionnelles", "Protocole de Stimulation Tactile",
+                "Analyse des Habitudes Alimentaires", "Test de Perception Spatiale", "Évaluation des Capacités d'Apprentissage"
+            ];
+
+            const environments = [
+                "sous pression atmosphérique modifiée", "en présence de gaz inertes", "avec éclairage stroboscopique",
+                "en gravité simulée réduite", "sous champs magnétiques intenses", "avec exposition à ultrasons",
+                "en atmosphère humidifiée", "sous contrainte temporelle", "avec interférences électriques",
+                "en environnement aseptisé"
+            ];
+
+            const objectives = [
+                "cartographier les réponses neurologiques", "identifier les seuils de tolérance", "évaluer les mécanismes d'adaptation",
+                "mesurer les capacités de récupération", "analyser les patterns comportementaux", "déterminer les facteurs déclencheurs",
+                "quantifier les réactions physiologiques", "établir des protocoles de contrôle", "créer des modèles prédictifs",
+                "développer des contre-mesures"
+            ];
+
+            const additionalExperiences = [];
+
+            variations.forEach((variation, i) => {
+                for (let j = 0; j < 10; j++) {
+                    const envIndex = (i + j) % environments.length;
+                    const objIndex = (i + j) % objectives.length;
+                    const risk = Math.floor(Math.random() * 80) + 10;
+                    const duration = ["30 minutes", "1 heure", "2 heures", "4 heures", "6 heures", 
+                                    "8 heures", "12 heures", "24 heures", "48 heures", "72 heures"][j % 10];
+                    const classDCount = Math.floor(Math.random() * 8) + 1;
+
+                    additionalExperiences.push({
+                        titre: `${variation} ${environments[envIndex]}`,
+                        description: `Expérience visant à ${objectives[objIndex]} ${environments[envIndex]}`,
+                        classeD: classDCount,
+                        objets: ["Équipement de surveillance avancé", "Capteurs spécialisés", "Dispositifs de mesure", "Matériel de sécurité"],
+                        risque: risk,
+                        duree: duration,
+                        objectif: objectives[objIndex].charAt(0).toUpperCase() + objectives[objIndex].slice(1),
+                        precautions: ["Personnel qualifié requis", "Protocoles de sécurité standard", "Surveillance continue", "Plan d'évacuation préparé"],
+                        resultatsAttendus: `Données quantifiées sur ${objectives[objIndex]}`,
+                        autorisationRequise: risk > 50 ? "Niveau 4" : risk > 30 ? "Niveau 3" : "Niveau 2",
+                        materiels: ["Instruments de mesure", "Équipement de protection", "Systèmes d'enregistrement", "Matériel d'urgence"],
+                        zone: "Zone de test sécurisée adaptée"
+                    });
+                }
+            });
+
+            return additionalExperiences;
+        }
+
+        // Toutes les expériences
+        const allExperiences = [...baseExperiences, ...specializedExperiences, ...generateMoreExperiences()];
+        let generatedExperiences = [];
+        let isLoading = false;
+
+        // Fonctions utilitaires
+        function getRiskClass(risk) {
+            if (risk < 25) return 'risk-low';
+            if (risk < 50) return 'risk-medium';
+            if (risk < 75) return 'risk-high';
+            return 'risk-critical';
+        }
+
+        // Génération d'expériences
+        function generateExperiences() {
+            const scpInput = document.getElementById('scpInput');
+            const scpName = scpInput.value.trim();
+            
+            if (!scpName) return;
+
+            isLoading = true;
+            updateLoadingState();
+
+            setTimeout(() => {
+                const shuffled = [...allExperiences].sort(() => Math.random() - 0.5);
+                const selected = shuffled.slice(0, 5).map((exp, index) => ({
+                    ...exp,
+                    id: `${Date.now()}-${index}`,
+                    titre: `${exp.titre} - SCP-${scpName}`,
+                    description: `${exp.description} spécifiquement adaptée pour SCP-${scpName}.`
+                }));
+                
+                generatedExperiences = selected;
+                isLoading = false;
+                updateLoadingState();
+                renderResults(scpName);
+            }, 1500);
+        }
+
+        // Mise à jour de l'état de chargement
+        function updateLoadingState() {
+            const generateBtn = document.getElementById('generateBtn');
+            const btnContent = generateBtn.querySelector('.btn-content');
+            
+            if (isLoading) {
+                btnContent.innerHTML = '<div class="spinner"></div> Génération...';
+                generateBtn.disabled = true;
+            } else {
+                btnContent.innerHTML = '📄 Générer';
+                generateBtn.disabled = false;
+            }
+        }
+
+        // Rendu des résultats
+        function renderResults(scpName) {
+            const resultsContainer = document.getElementById('results');
+            
+            if (generatedExperiences.length === 0) {
+                resultsContainer.classList.add('hidden');
+                return;
+            }
+
+            resultsContainer.classList.remove('hidden');
+            
+            const resultsHTML = `
+                <div class="results-header">
+                    <h2>Idées d'Expériences pour SCP-${scpName}</h2>
+                    <p>${generatedExperiences.length} expériences générées • Plus de ${allExperiences.length} variations disponibles</p>
+                </div>
+
+                ${generatedExperiences.map(exp => `
+                    <div class="experiment-card">
+                        <div class="card-header">
+                            <h3>${exp.titre}</h3>
+                            <p>${exp.description}</p>
+                        </div>
+
+                        <div class="card-stats">
+                            <div class="stat-box ${getRiskClass(exp.risque)}">
+                                <h4>Niveau de Risque</h4>
+                                <div class="stat-value">${exp.risque}%</div>
+                                <div class="stat-sub">Autorisation: ${exp.autorisationRequise}</div>
+                            </div>
+
+                            <div class="stat-box personnel-box">
+                                <h4>Personnel</h4>
+                                <div class="stat-value">${exp.classeD} Classe-D</div>
+                                <div class="stat-sub">Durée: ${exp.duree}</div>
+                            </div>
+
+                            <div class="stat-box zone-box">
+                                <h4>Zone</h4>
+                                <div class="stat-value">${exp.zone}</div>
+                            </div>
+                        </div>
+
+                        <div class="card-details">
+                            <div class="detail-section">
+                                <h4 class="objective">OBJECTIF</h4>
+                                <p>${exp.objectif}</p>
+                            </div>
+
+                            <div class="detail-section">
+                                <h4 class="materials">MATÉRIELS REQUIS</h4>
+                                <div class="detail-list">
+                                    ${exp.materiels.map(materiel => `
+                                        <div class="detail-item">
+                                            <div class="detail-dot" style="background-color: #3b82f6;"></div>
+                                            ${materiel}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <div class="detail-section">
+                                <h4 class="precautions">PRÉCAUTIONS</h4>
+                                <div class="detail-list">
+                                    ${exp.precautions.map(precaution => `
+                                        <div class="detail-item">
+                                            <div class="detail-dot" style="background-color: #f59e0b;"></div>
+                                            ${precaution}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <div class="detail-section">
+                                <h4 class="results">RÉSULTATS ATTENDUS</h4>
+                                <p>${exp.resultatsAttendus}</p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+
+                <div class="regenerate-section">
+                    <button class="regenerate-btn" onclick="generateExperiences()">
+                        Générer Nouvelles Idées
+                    </button>
+                    <p style="color: #9ca3af; font-size: 0.9rem; margin-top: 10px;">
+                        Générez autant d'idées que nécessaire • Système infini
+                    </p>
+                </div>
+            `;
+            
+            resultsContainer.innerHTML = resultsHTML;
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            const scpInput = document.getElementById('scpInput');
+            const generateBtn = document.getElementById('generateBtn');
+            const dbCount = document.getElementById('dbCount');
+            
+            dbCount.textContent = allExperiences.length;
+
+            scpInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    generateExperiences();
+                }
+            });
+
+            generateBtn.addEventListener('click', generateExperiences);
+        });
+    </script>
 </body>
 </html>
