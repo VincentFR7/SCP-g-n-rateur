@@ -1,5 +1,35 @@
 // Générateur d'Expériences SCP - Fichier unique
-// Développé par Vincent O'Bryan - Chercheur Novice
+// Développé par Vincent O'Bryan - Membre des Scientifiques
+
+// Protection contre l'inspection du code
+document.addEventListener('keydown', function(e) {
+  // Empêcher Ctrl+U (voir le code source)
+  if (e.ctrlKey && e.keyCode === 85) {
+    e.preventDefault();
+    return false;
+  }
+  // Empêcher F12 (outils de développement)
+  if (e.keyCode === 123) {
+    e.preventDefault();
+    return false;
+  }
+  // Empêcher Ctrl+Shift+I (outils de développement)
+  if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+    e.preventDefault();
+    return false;
+  }
+  // Empêcher Ctrl+Shift+C (sélecteur d'élément)
+  if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+    e.preventDefault();
+    return false;
+  }
+});
+
+// Désactiver le clic droit
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+  return false;
+});
 
 // Base de données des expériences
 const baseExperiences = [
@@ -145,6 +175,766 @@ const baseExperiences = [
   }
 ];
 
+// 75 nouvelles expériences spécialisées
+const specializedExperiences = [
+  {
+    titre: "Test de Résistance aux Acides",
+    description: "Exposer l'entité à différents types d'acides pour mesurer sa résistance chimique",
+    classeD: 2,
+    objets: ["Solutions acides", "Équipement de protection", "Neutralisants"],
+    risque: 55,
+    duree: "3 heures",
+    objectif: "Déterminer la résistance aux substances corrosives",
+    precautions: ["Combinaisons anti-acide", "Douches de décontamination", "Ventilation forcée"],
+    resultatsAttendus: "Seuils de résistance chimique",
+    autorisationRequise: "Niveau 3",
+    materiels: ["pH-mètres", "Solutions tampons", "Équipement de neutralisation"],
+    zone: "Laboratoire de chimie sécurisé"
+  },
+  {
+    titre: "Analyse des Réactions aux Métaux Lourds",
+    description: "Tester l'impact de différents métaux lourds sur l'anomalie",
+    classeD: 1,
+    objets: ["Échantillons métalliques", "Spectromètres", "Détecteurs de toxicité"],
+    risque: 40,
+    duree: "4 heures",
+    objectif: "Identifier les métaux ayant un effet sur l'entité",
+    precautions: ["Masques filtrants", "Gants de protection", "Surveillance toxicologique"],
+    resultatsAttendus: "Catalogue des interactions métalliques",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Plaques métalliques", "Analyseurs XRF", "Détecteurs de vapeurs"],
+    zone: "Laboratoire de métallurgie"
+  },
+  {
+    titre: "Test de Sensibilité Lumineuse Ultraviolette",
+    description: "Exposer l'entité à différentes longueurs d'onde UV",
+    classeD: 1,
+    objets: ["Lampes UV", "Filtres optiques", "Photomètres"],
+    risque: 25,
+    duree: "2 heures",
+    objectif: "Mesurer la sensibilité aux rayonnements UV",
+    precautions: ["Protection oculaire", "Crème solaire", "Limitation d'exposition"],
+    resultatsAttendus: "Spectre de sensibilité UV",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Spectromètres UV", "Dosimètres UV", "Écrans de protection"],
+    zone: "Chambre d'exposition lumineuse"
+  },
+  {
+    titre: "Interaction avec Champs Gravitationnels",
+    description: "Tester les réactions de l'anomalie dans des conditions de gravité modifiée",
+    classeD: 3,
+    objets: ["Centrifugeuse", "Simulateur de microgravité", "Accéléromètres"],
+    risque: 60,
+    duree: "6 heures",
+    objectif: "Analyser l'impact de la gravité sur l'entité",
+    precautions: ["Harnais de sécurité", "Surveillance médicale", "Arrêt d'urgence"],
+    resultatsAttendus: "Données sur la sensibilité gravitationnelle",
+    autorisationRequise: "Niveau 3",
+    materiels: ["Capteurs d'accélération", "Systèmes gyroscopiques", "Moniteurs physiologiques"],
+    zone: "Laboratoire de physique gravitationnelle"
+  },
+  {
+    titre: "Test de Résistance aux Ondes de Choc",
+    description: "Mesurer la résistance de l'entité aux ondes de pression",
+    classeD: 2,
+    objets: ["Générateurs d'ondes", "Capteurs de pression", "Matériaux amortissants"],
+    risque: 70,
+    duree: "1 heure",
+    objectif: "Évaluer la résistance aux impacts soniques",
+    precautions: ["Bunker renforcé", "Protection auditive", "Distance de sécurité"],
+    resultatsAttendus: "Seuils de résistance aux ondes de choc",
+    autorisationRequise: "Niveau 4",
+    materiels: ["Manomètres", "Oscilloscopes", "Matériaux de blindage"],
+    zone: "Chambre d'essais balistiques"
+  },
+  {
+    titre: "Analyse des Réactions aux Gaz Nobles",
+    description: "Exposer l'anomalie à différents gaz nobles pour observer les réactions",
+    classeD: 1,
+    objets: ["Bouteilles de gaz", "Analyseurs atmosphériques", "Systèmes de ventilation"],
+    risque: 20,
+    duree: "4 heures",
+    objectif: "Déterminer l'impact des gaz inertes",
+    precautions: ["Masques respiratoires", "Détecteurs d'oxygène", "Ventilation d'urgence"],
+    resultatsAttendus: "Réactions aux atmosphères inertes",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Chromatographes", "Capteurs de gaz", "Régulateurs de débit"],
+    zone: "Chambre atmosphérique contrôlée"
+  },
+  {
+    titre: "Test de Sensibilité aux Vibrations",
+    description: "Analyser les réactions de l'entité à différentes fréquences vibratoires",
+    classeD: 2,
+    objets: ["Générateurs de vibrations", "Accéléromètres", "Tables vibrantes"],
+    risque: 35,
+    duree: "3 heures",
+    objectif: "Cartographier la sensibilité vibratoire",
+    precautions: ["Fixations de sécurité", "Surveillance structurelle", "Arrêt automatique"],
+    resultatsAttendus: "Spectre de résonance vibratoire",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Analyseurs de fréquence", "Capteurs sismiques", "Amortisseurs"],
+    zone: "Laboratoire de mécanique vibratoire"
+  },
+  {
+    titre: "Interaction avec Matériaux Supraconducteurs",
+    description: "Tester les réactions de l'anomalie en présence de supraconducteurs",
+    classeD: 1,
+    objets: ["Supraconducteurs", "Système de refroidissement", "Champs magnétiques"],
+    risque: 45,
+    duree: "5 heures",
+    objectif: "Analyser l'interaction avec les propriétés quantiques",
+    precautions: ["Isolation thermique", "Champs magnétiques contrôlés", "Équipement cryogénique"],
+    resultatsAttendus: "Données sur les interactions quantiques",
+    autorisationRequise: "Niveau 3",
+    materiels: ["Cryostats", "Magnétomètres", "Thermomètres cryogéniques"],
+    zone: "Laboratoire de physique quantique"
+  },
+  {
+    titre: "Test de Résistance aux Enzymes",
+    description: "Exposer l'entité à différentes enzymes pour mesurer les réactions biologiques",
+    classeD: 2,
+    objets: ["Solutions enzymatiques", "Incubateurs", "Microscopes"],
+    risque: 30,
+    duree: "8 heures",
+    objectif: "Comprendre les interactions enzymatiques",
+    precautions: ["Stérilisation complète", "Contrôle de température", "Surveillance biologique"],
+    resultatsAttendus: "Profil de résistance enzymatique",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Spectrophotomètres", "Plaques de culture", "Solutions tampons"],
+    zone: "Laboratoire de biochimie"
+  },
+  {
+    titre: "Analyse des Réactions aux Isotopes Radioactifs",
+    description: "Tester l'impact de différents isotopes sur l'anomalie",
+    classeD: 3,
+    objets: ["Sources isotopiques", "Détecteurs gamma", "Blindage spécialisé"],
+    risque: 80,
+    duree: "4 heures",
+    objectif: "Mesurer la sensibilité aux différents rayonnements",
+    precautions: ["Combinaisons plombées", "Dosimètres individuels", "Zone d'exclusion étendue"],
+    resultatsAttendus: "Spectre de sensibilité isotopique",
+    autorisationRequise: "Niveau 4",
+    materiels: ["Spectromètres gamma", "Chambres d'ionisation", "Blindages modulaires"],
+    zone: "Bunker de radioprotection"
+  },
+  {
+    titre: "Test de Sensibilité aux Champs Électriques",
+    description: "Analyser les réactions de l'entité à différentes intensités électriques",
+    classeD: 2,
+    objets: ["Générateurs haute tension", "Électrodes", "Isolants"],
+    risque: 65,
+    duree: "2 heures",
+    objectif: "Déterminer la sensibilité électrique",
+    precautions: ["Isolation électrique", "Disjoncteurs de sécurité", "Équipement isolant"],
+    resultatsAttendus: "Seuils de sensibilité électrique",
+    autorisationRequise: "Niveau 3",
+    materiels: ["Voltmètres", "Ampèremètres", "Transformateurs"],
+    zone: "Laboratoire haute tension"
+  },
+  {
+    titre: "Interaction avec Cristaux Piézoélectriques",
+    description: "Tester les réactions de l'anomalie aux propriétés piézoélectriques",
+    classeD: 1,
+    objets: ["Cristaux de quartz", "Générateurs de pression", "Oscilloscopes"],
+    risque: 25,
+    duree: "3 heures",
+    objectif: "Analyser l'interaction avec les propriétés cristallines",
+    precautions: ["Manipulation délicate", "Contrôle de pression", "Protection contre les éclats"],
+    resultatsAttendus: "Données sur les interactions cristallines",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Analyseurs de fréquence", "Capteurs de contrainte", "Microscopes polarisants"],
+    zone: "Laboratoire de cristallographie"
+  },
+  {
+    titre: "Test de Résistance aux Ultrasons Focalisés",
+    description: "Exposer l'entité à des ultrasons de haute intensité",
+    classeD: 2,
+    objets: ["Transducteurs ultrasoniques", "Amplificateurs", "Hydrophones"],
+    risque: 50,
+    duree: "1 heure",
+    objectif: "Mesurer l'impact des ultrasons focalisés",
+    precautions: ["Protection auditive renforcée", "Limitation de puissance", "Surveillance médicale"],
+    resultatsAttendus: "Seuils de tolérance ultrasonique",
+    autorisationRequise: "Niveau 3",
+    materiels: ["Générateurs d'ultrasons", "Analyseurs spectraux", "Dosimètres acoustiques"],
+    zone: "Chambre anéchoïque renforcée"
+  },
+  {
+    titre: "Analyse des Réactions aux Polymères",
+    description: "Tester l'interaction de l'anomalie avec différents polymères synthétiques",
+    classeD: 1,
+    objets: ["Échantillons polymères", "Analyseurs thermiques", "Microscopes électroniques"],
+    risque: 20,
+    duree: "6 heures",
+    objectif: "Comprendre les interactions avec les matériaux synthétiques",
+    precautions: ["Ventilation chimique", "Équipement anti-statique", "Contrôle de température"],
+    resultatsAttendus: "Catalogue des interactions polymères",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Spectromètres IR", "Analyseurs DSC", "Microscopes AFM"],
+    zone: "Laboratoire de science des matériaux"
+  },
+  {
+    titre: "Test de Sensibilité aux Rayons Cosmiques",
+    description: "Exposer l'entité à des particules cosmiques simulées",
+    classeD: 2,
+    objets: ["Accélérateur de particules", "Détecteurs de rayonnement", "Chambres à brouillard"],
+    risque: 75,
+    duree: "8 heures",
+    objectif: "Analyser l'impact des rayonnements cosmiques",
+    precautions: ["Blindage renforcé", "Surveillance radiologique", "Protocoles d'urgence"],
+    resultatsAttendus: "Sensibilité aux particules de haute énergie",
+    autorisationRequise: "Niveau 4",
+    materiels: ["Détecteurs de particules", "Calorimètres", "Systèmes de déclenchement"],
+    zone: "Facility d'accélération de particules"
+  },
+  {
+    titre: "Interaction avec Champs Magnétiques Pulsés",
+    description: "Tester les réactions de l'anomalie aux impulsions magnétiques",
+    classeD: 2,
+    objets: ["Bobines pulsées", "Condensateurs", "Blindage magnétique"],
+    risque: 55,
+    duree: "2 heures",
+    objectif: "Mesurer l'impact des champs magnétiques variables",
+    precautions: ["Isolation magnétique", "Surveillance cardiaque", "Équipement non-magnétique"],
+    resultatsAttendus: "Réponse aux variations magnétiques",
+    autorisationRequise: "Niveau 3",
+    materiels: ["Gaussmètres", "Oscilloscopes", "Bobines de Helmholtz"],
+    zone: "Laboratoire de magnétisme"
+  },
+  {
+    titre: "Test de Résistance aux Micro-ondes",
+    description: "Exposer l'entité à différentes fréquences micro-ondes",
+    classeD: 1,
+    objets: ["Générateurs micro-ondes", "Guides d'ondes", "Absorbants RF"],
+    risque: 40,
+    duree: "3 heures",
+    objectif: "Analyser la sensibilité aux micro-ondes",
+    precautions: ["Cage de Faraday", "Dosimètres RF", "Surveillance thermique"],
+    resultatsAttendus: "Spectre de sensibilité micro-ondes",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Analyseurs de spectre", "Wattmètres RF", "Thermomètres IR"],
+    zone: "Chambre RF blindée"
+  },
+  {
+    titre: "Analyse des Réactions aux Nanomatériaux",
+    description: "Tester l'interaction de l'anomalie avec des nanoparticules",
+    classeD: 2,
+    objets: ["Nanoparticules", "Microscopes électroniques", "Analyseurs de taille"],
+    risque: 35,
+    duree: "5 heures",
+    objectif: "Comprendre les interactions à l'échelle nanométrique",
+    precautions: ["Confinement nano", "Masques HEPA", "Surveillance particulaire"],
+    resultatsAttendus: "Interactions avec les nanomatériaux",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Microscopes TEM", "Analyseurs DLS", "Compteurs de particules"],
+    zone: "Laboratoire de nanotechnologie"
+  },
+  {
+    titre: "Test de Sensibilité aux Plasmas",
+    description: "Exposer l'entité à différents types de plasmas",
+    classeD: 3,
+    objets: ["Générateurs de plasma", "Électrodes", "Gaz ionisés"],
+    risque: 70,
+    duree: "2 heures",
+    objectif: "Analyser l'interaction avec la matière ionisée",
+    precautions: ["Confinement magnétique", "Refroidissement", "Surveillance des gaz"],
+    resultatsAttendus: "Réactions aux états plasma",
+    autorisationRequise: "Niveau 4",
+    materiels: ["Spectromètres plasma", "Sondes de Langmuir", "Systèmes de confinement"],
+    zone: "Laboratoire de physique des plasmas"
+  },
+  {
+    titre: "Interaction avec Matériaux Biomimétiques",
+    description: "Tester les réactions de l'anomalie aux matériaux imitant la nature",
+    classeD: 1,
+    objets: ["Matériaux biomimétiques", "Analyseurs de surface", "Microscopes"],
+    risque: 25,
+    duree: "4 heures",
+    objectif: "Comprendre les interactions avec les structures naturelles",
+    precautions: ["Manipulation stérile", "Contrôle d'humidité", "Surveillance biologique"],
+    resultatsAttendus: "Réponses aux structures biomimétiques",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Microscopes confocaux", "Analyseurs de texture", "Capteurs biologiques"],
+    zone: "Laboratoire de biomimétique"
+  },
+  {
+    titre: "Test de Résistance aux Rayons Gamma Pulsés",
+    description: "Exposer l'entité à des impulsions gamma de haute intensité",
+    classeD: 3,
+    objets: ["Sources gamma pulsées", "Détecteurs rapides", "Blindage modulaire"],
+    risque: 85,
+    duree: "1 heure",
+    objectif: "Mesurer la résistance aux rayonnements pulsés",
+    precautions: ["Bunker blindé", "Dosimètres électroniques", "Évacuation automatique"],
+    resultatsAttendus: "Seuils de tolérance gamma pulsée",
+    autorisationRequise: "Niveau 4",
+    materiels: ["Détecteurs scintillants", "Oscilloscopes rapides", "Systèmes de déclenchement"],
+    zone: "Bunker gamma sécurisé"
+  },
+  {
+    titre: "Analyse des Réactions aux Fluides Non-Newtoniens",
+    description: "Tester l'interaction de l'anomalie avec des fluides aux propriétés spéciales",
+    classeD: 2,
+    objets: ["Fluides non-newtoniens", "Rhéomètres", "Systèmes de contrainte"],
+    risque: 30,
+    duree: "3 heures",
+    objectif: "Comprendre les interactions avec les fluides complexes",
+    precautions: ["Confinement étanche", "Nettoyage spécialisé", "Surveillance de viscosité"],
+    resultatsAttendus: "Comportement dans les fluides complexes",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Viscosimètres", "Capteurs de contrainte", "Systèmes de mélange"],
+    zone: "Laboratoire de rhéologie"
+  },
+  {
+    titre: "Test de Sensibilité aux Ondes Térahertz",
+    description: "Exposer l'entité aux rayonnements térahertz",
+    classeD: 1,
+    objets: ["Sources THz", "Détecteurs térahertz", "Optiques spécialisées"],
+    risque: 20,
+    duree: "4 heures",
+    objectif: "Analyser la sensibilité aux fréquences térahertz",
+    precautions: ["Protection oculaire", "Contrôle de puissance", "Surveillance thermique"],
+    resultatsAttendus: "Spectre de sensibilité térahertz",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Spectromètres THz", "Bolomètres", "Systèmes optiques"],
+    zone: "Laboratoire d'optique térahertz"
+  },
+  {
+    titre: "Interaction avec Matériaux à Mémoire de Forme",
+    description: "Tester les réactions de l'anomalie aux alliages à mémoire de forme",
+    classeD: 1,
+    objets: ["Alliages SMA", "Systèmes de chauffage", "Capteurs de déformation"],
+    risque: 25,
+    duree: "5 heures",
+    objectif: "Comprendre les interactions avec les matériaux adaptatifs",
+    precautions: ["Contrôle thermique", "Surveillance mécanique", "Limitation de contrainte"],
+    resultatsAttendus: "Réactions aux transformations de phase",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Extensomètres", "Thermocouples", "Systèmes de charge"],
+    zone: "Laboratoire de matériaux intelligents"
+  },
+  {
+    titre: "Test de Résistance aux Neutrons Thermiques",
+    description: "Exposer l'entité à un flux de neutrons thermiques",
+    classeD: 3,
+    objets: ["Source de neutrons", "Modérateurs", "Détecteurs neutroniques"],
+    risque: 75,
+    duree: "6 heures",
+    objectif: "Mesurer l'impact des neutrons de basse énergie",
+    precautions: ["Blindage neutronique", "Surveillance d'activation", "Contrôle de criticité"],
+    resultatsAttendus: "Sensibilité aux neutrons thermiques",
+    autorisationRequise: "Niveau 4",
+    materiels: ["Compteurs BF3", "Détecteurs He-3", "Moniteurs de flux"],
+    zone: "Facility neutronique"
+  },
+  {
+    titre: "Analyse des Réactions aux Aérogels",
+    description: "Tester l'interaction de l'anomalie avec des matériaux ultra-légers",
+    classeD: 1,
+    objets: ["Aérogels", "Microscopes haute résolution", "Analyseurs de porosité"],
+    risque: 15,
+    duree: "3 heures",
+    objectif: "Comprendre les interactions avec les structures poreuses",
+    precautions: ["Manipulation délicate", "Contrôle d'humidité", "Protection contre la poussière"],
+    resultatsAttendus: "Comportement avec les matériaux poreux",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Porosimètres", "Microscopes SEM", "Analyseurs BET"],
+    zone: "Laboratoire de matériaux poreux"
+  },
+  {
+    titre: "Test de Sensibilité aux Champs Électrostatiques",
+    description: "Analyser les réactions de l'anomalie aux charges électrostatiques",
+    classeD: 2,
+    objets: ["Générateurs Van de Graaff", "Électromètres", "Matériaux isolants"],
+    risque: 40,
+    duree: "2 heures",
+    objectif: "Mesurer la sensibilité aux charges statiques",
+    precautions: ["Mise à la terre", "Contrôle d'humidité", "Équipement antistatique"],
+    resultatsAttendus: "Seuils de sensibilité électrostatique",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Électromètres", "Générateurs de charges", "Cages de Faraday"],
+    zone: "Laboratoire d'électrostatique"
+  },
+  {
+    titre: "Interaction avec Cristaux Liquides",
+    description: "Tester les réactions de l'anomalie aux phases mésomorphes",
+    classeD: 1,
+    objets: ["Cristaux liquides", "Microscopes polarisants", "Contrôleurs de température"],
+    risque: 20,
+    duree: "4 heures",
+    objectif: "Analyser l'interaction avec les phases intermédiaires",
+    precautions: ["Contrôle thermique précis", "Manipulation délicate", "Protection optique"],
+    resultatsAttendus: "Réactions aux transitions de phase",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Platines chauffantes", "Analyseurs d'image", "Capteurs optiques"],
+    zone: "Laboratoire de cristaux liquides"
+  },
+  {
+    titre: "Test de Résistance aux Ondes de Surface",
+    description: "Exposer l'entité aux ondes acoustiques de surface",
+    classeD: 2,
+    objets: ["Transducteurs SAW", "Substrats piézoélectriques", "Analyseurs de réseau"],
+    risque: 30,
+    duree: "3 heures",
+    objectif: "Mesurer l'impact des ondes de surface",
+    precautions: ["Isolation vibratoire", "Contrôle de fréquence", "Protection acoustique"],
+    resultatsAttendus: "Sensibilité aux ondes de surface",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Générateurs RF", "Oscilloscopes", "Analyseurs spectraux"],
+    zone: "Laboratoire d'acoustique de surface"
+  },
+  {
+    titre: "Analyse des Réactions aux Métamatériaux",
+    description: "Tester l'interaction de l'anomalie avec des matériaux aux propriétés exotiques",
+    classeD: 1,
+    objets: ["Métamatériaux", "Sources électromagnétiques", "Analyseurs de champ"],
+    risque: 35,
+    duree: "5 heures",
+    objectif: "Comprendre les interactions avec les propriétés artificielles",
+    precautions: ["Blindage EM", "Contrôle de puissance", "Surveillance des champs"],
+    resultatsAttendus: "Réactions aux propriétés exotiques",
+    autorisationRequise: "Niveau 3",
+    materiels: ["Analyseurs vectoriels", "Sondes de champ", "Systèmes de mesure"],
+    zone: "Laboratoire de métamatériaux"
+  },
+  {
+    titre: "Test de Sensibilité aux Phonons",
+    description: "Analyser les réactions de l'anomalie aux vibrations quantiques",
+    classeD: 2,
+    objets: ["Générateurs de phonons", "Détecteurs quantiques", "Systèmes cryogéniques"],
+    risque: 45,
+    duree: "6 heures",
+    objectif: "Mesurer l'interaction avec les excitations quantiques",
+    precautions: ["Refroidissement extrême", "Isolation vibratoire", "Contrôle quantique"],
+    resultatsAttendus: "Sensibilité aux excitations quantiques",
+    autorisationRequise: "Niveau 3",
+    materiels: ["Cryostats dilution", "Détecteurs TES", "Systèmes de contrôle"],
+    zone: "Laboratoire de physique quantique"
+  },
+  {
+    titre: "Interaction avec Matériaux Photoniques",
+    description: "Tester les réactions de l'anomalie aux cristaux photoniques",
+    classeD: 1,
+    objets: ["Cristaux photoniques", "Sources laser", "Spectromètres optiques"],
+    risque: 25,
+    duree: "4 heures",
+    objectif: "Analyser l'interaction avec les structures photoniques",
+    precautions: ["Protection laser", "Contrôle optique", "Surveillance thermique"],
+    resultatsAttendus: "Réponse aux bandes interdites photoniques",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Lasers accordables", "Monochromateurs", "Détecteurs optiques"],
+    zone: "Laboratoire de photonique"
+  },
+  {
+    titre: "Test de Résistance aux Impulsions Laser",
+    description: "Exposer l'entité à des impulsions laser de haute puissance",
+    classeD: 2,
+    objets: ["Lasers pulsés", "Optiques de focalisation", "Calorimètres"],
+    risque: 60,
+    duree: "1 heure",
+    objectif: "Mesurer la résistance aux impulsions de haute énergie",
+    precautions: ["Protection laser classe 4", "Confinement optique", "Surveillance thermique"],
+    resultatsAttendus: "Seuils de dommage laser",
+    autorisationRequise: "Niveau 3",
+    materiels: ["Puissancemètres", "Caméras thermiques", "Systèmes de sécurité"],
+    zone: "Laboratoire laser haute puissance"
+  },
+  {
+    titre: "Analyse des Réactions aux Ferrofluides",
+    description: "Tester l'interaction de l'anomalie avec des fluides magnétiques",
+    classeD: 2,
+    objets: ["Ferrofluides", "Aimants permanents", "Microscopes magnétiques"],
+    risque: 30,
+    duree: "3 heures",
+    objectif: "Comprendre les interactions magnéto-fluidiques",
+    precautions: ["Confinement magnétique", "Nettoyage spécialisé", "Surveillance de dispersion"],
+    resultatsAttendus: "Comportement dans les fluides magnétiques",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Magnétomètres", "Rhéomètres magnétiques", "Systèmes d'imagerie"],
+    zone: "Laboratoire de fluides magnétiques"
+  },
+  {
+    titre: "Test de Sensibilité aux Ondes Gravitationnelles",
+    description: "Analyser les réactions de l'anomalie aux perturbations gravitationnelles",
+    classeD: 3,
+    objets: ["Détecteurs gravitationnels", "Interféromètres", "Systèmes d'isolation"],
+    risque: 50,
+    duree: "12 heures",
+    objectif: "Mesurer la sensibilité aux ondes gravitationnelles",
+    precautions: ["Isolation sismique", "Contrôle environnemental", "Surveillance continue"],
+    resultatsAttendus: "Sensibilité aux perturbations de l'espace-temps",
+    autorisationRequise: "Niveau 4",
+    materiels: ["Interféromètres Michelson", "Systèmes de suspension", "Lasers stabilisés"],
+    zone: "Observatoire gravitationnel"
+  },
+  {
+    titre: "Interaction avec Matériaux Thermoélectriques",
+    description: "Tester les réactions de l'anomalie aux effets thermoélectriques",
+    classeD: 1,
+    objets: ["Matériaux thermoélectriques", "Gradients thermiques", "Voltmètres"],
+    risque: 25,
+    duree: "4 heures",
+    objectif: "Analyser l'interaction avec les effets Seebeck et Peltier",
+    precautions: ["Contrôle thermique", "Isolation électrique", "Surveillance de température"],
+    resultatsAttendus: "Réactions aux effets thermoélectriques",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Thermocouples", "Sources de courant", "Calorimètres"],
+    zone: "Laboratoire de thermoélectricité"
+  },
+  {
+    titre: "Test de Résistance aux Rayons X Mous",
+    description: "Exposer l'entité aux rayonnements X de basse énergie",
+    classeD: 2,
+    objets: ["Sources X molles", "Détecteurs proportionnels", "Filtres X"],
+    risque: 55,
+    duree: "3 heures",
+    objectif: "Mesurer la sensibilité aux rayons X de basse énergie",
+    precautions: ["Blindage plombé", "Dosimètres personnels", "Surveillance médicale"],
+    resultatsAttendus: "Spectre de sensibilité X molle",
+    autorisationRequise: "Niveau 3",
+    materiels: ["Spectromètres X", "Chambres d'ionisation", "Moniteurs de dose"],
+    zone: "Laboratoire de rayons X"
+  },
+  {
+    titre: "Analyse des Réactions aux Matériaux Piézorésistifs",
+    description: "Tester l'interaction de l'anomalie avec les capteurs de contrainte",
+    classeD: 1,
+    objets: ["Capteurs piézorésistifs", "Systèmes de charge", "Ponts de Wheatstone"],
+    risque: 20,
+    duree: "3 heures",
+    objectif: "Comprendre les interactions avec les capteurs de pression",
+    precautions: ["Calibration précise", "Protection contre les surcharges", "Isolation électrique"],
+    resultatsAttendus: "Réponse aux variations de résistance",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Multimètres de précision", "Systèmes de charge", "Amplificateurs"],
+    zone: "Laboratoire de capteurs"
+  },
+  {
+    titre: "Test de Sensibilité aux Champs Hyperfréquences",
+    description: "Analyser les réactions de l'anomalie aux fréquences millimétriques",
+    classeD: 2,
+    objets: ["Sources millimétriques", "Guides d'ondes", "Détecteurs Schottky"],
+    risque: 35,
+    duree: "2 heures",
+    objectif: "Mesurer la sensibilité aux ondes millimétriques",
+    precautions: ["Blindage RF", "Contrôle de puissance", "Protection oculaire"],
+    resultatsAttendus: "Spectre de sensibilité millimétrique",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Analyseurs de spectre", "Puissancemètres", "Atténuateurs"],
+    zone: "Laboratoire hyperfréquences"
+  },
+  {
+    titre: "Interaction avec Matériaux Électrorhéologiques",
+    description: "Tester les réactions de l'anomalie aux fluides contrôlés électriquement",
+    classeD: 2,
+    objets: ["Fluides ER", "Électrodes", "Sources haute tension"],
+    risque: 40,
+    duree: "3 heures",
+    objectif: "Comprendre les interactions électrorhéologiques",
+    precautions: ["Isolation électrique", "Confinement étanche", "Surveillance de viscosité"],
+    resultatsAttendus: "Comportement dans les fluides ER",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Rhéomètres", "Sources HT", "Capteurs de viscosité"],
+    zone: "Laboratoire de fluides intelligents"
+  },
+  {
+    titre: "Test de Résistance aux Particules Alpha",
+    description: "Exposer l'entité aux rayonnements alpha de différentes énergies",
+    classeD: 3,
+    objets: ["Sources alpha", "Détecteurs silicium", "Chambres à vide"],
+    risque: 65,
+    duree: "4 heures",
+    objectif: "Mesurer la résistance aux particules chargées",
+    precautions: ["Confinement étanche", "Surveillance d'air", "Équipement de décontamination"],
+    resultatsAttendus: "Seuils de résistance alpha",
+    autorisationRequise: "Niveau 3",
+    materiels: ["Spectromètres alpha", "Pompes à vide", "Moniteurs de contamination"],
+    zone: "Laboratoire de particules alpha"
+  },
+  {
+    titre: "Analyse des Réactions aux Matériaux Magnétostrictifs",
+    description: "Tester l'interaction de l'anomalie avec les matériaux magnétostrictifs",
+    classeD: 1,
+    objets: ["Alliages magnétostrictifs", "Bobines d'excitation", "Extensomètres"],
+    risque: 30,
+    duree: "4 heures",
+    objectif: "Comprendre les interactions magnéto-mécaniques",
+    precautions: ["Contrôle magnétique", "Surveillance mécanique", "Isolation vibratoire"],
+    resultatsAttendus: "Réponse aux déformations magnétiques",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Gaussmètres", "Capteurs de déformation", "Générateurs de champ"],
+    zone: "Laboratoire de magnétostriction"
+  },
+  {
+    titre: "Test de Sensibilité aux Ondes Évanescentes",
+    description: "Analyser les réactions de l'anomalie aux champs évanescents",
+    classeD: 1,
+    objets: ["Prismes optiques", "Sources laser", "Détecteurs de champ proche"],
+    risque: 25,
+    duree: "3 heures",
+    objectif: "Mesurer la sensibilité aux champs évanescents",
+    precautions: ["Alignement optique précis", "Protection laser", "Contrôle de distance"],
+    resultatsAttendus: "Sensibilité aux champs évanescents",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Microscopes SNOM", "Positionneurs nanométriques", "Détecteurs APD"],
+    zone: "Laboratoire d'optique de champ proche"
+  },
+  {
+    titre: "Interaction avec Matériaux Électrochromes",
+    description: "Tester les réactions de l'anomalie aux changements de couleur électriques",
+    classeD: 1,
+    objets: ["Matériaux électrochromes", "Sources de tension", "Spectromètres"],
+    risque: 20,
+    duree: "3 heures",
+    objectif: "Analyser l'interaction avec les changements optiques",
+    precautions: ["Contrôle électrique", "Surveillance optique", "Protection UV"],
+    resultatsAttendus: "Réactions aux transitions électrochromes",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Colorimètres", "Sources de tension", "Analyseurs spectraux"],
+    zone: "Laboratoire d'électrochromisme"
+  },
+  {
+    titre: "Test de Résistance aux Faisceaux d'Électrons",
+    description: "Exposer l'entité à des faisceaux d'électrons de haute énergie",
+    classeD: 3,
+    objets: ["Accélérateur d'électrons", "Détecteurs de dose", "Blindage électronique"],
+    risque: 70,
+    duree: "2 heures",
+    objectif: "Mesurer la résistance aux électrons énergétiques",
+    precautions: ["Blindage X", "Surveillance de dose", "Confinement du faisceau"],
+    resultatsAttendus: "Seuils de résistance électronique",
+    autorisationRequise: "Niveau 4",
+    materiels: ["Moniteurs de faisceau", "Dosimètres électroniques", "Cages de Faraday"],
+    zone: "Facility d'irradiation électronique"
+  },
+  {
+    titre: "Analyse des Réactions aux Matériaux Photochromes",
+    description: "Tester l'interaction de l'anomalie avec les matériaux photosensibles",
+    classeD: 1,
+    objets: ["Matériaux photochromes", "Sources UV", "Spectromètres optiques"],
+    risque: 15,
+    duree: "4 heures",
+    objectif: "Comprendre les interactions photochimiques",
+    precautions: ["Protection UV", "Contrôle d'exposition", "Surveillance optique"],
+    resultatsAttendus: "Réactions aux transitions photochromes",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Sources UV calibrées", "Spectrophotomètres", "Dosimètres UV"],
+    zone: "Laboratoire de photochimie"
+  },
+  {
+    titre: "Test de Sensibilité aux Ondes de Spin",
+    description: "Analyser les réactions de l'anomalie aux excitations magnétiques",
+    classeD: 2,
+    objets: ["Générateurs d'ondes de spin", "Détecteurs magnétiques", "Guides d'ondes magnétiques"],
+    risque: 40,
+    duree: "5 heures",
+    objectif: "Mesurer l'interaction avec les ondes de spin",
+    precautions: ["Contrôle magnétique", "Blindage RF", "Surveillance des champs"],
+    resultatsAttendus: "Sensibilité aux excitations de spin",
+    autorisationRequise: "Niveau 3",
+    materiels: ["Analyseurs de réseau", "Magnétomètres", "Sources micro-ondes"],
+    zone: "Laboratoire de spintronique"
+  },
+  {
+    titre: "Interaction avec Matériaux Multiferroïques",
+    description: "Tester les réactions de l'anomalie aux matériaux multifonctionnels",
+    classeD: 1,
+    objets: ["Matériaux multiferroïques", "Champs électriques et magnétiques", "Capteurs multiples"],
+    risque: 35,
+    duree: "6 heures",
+    objectif: "Analyser les interactions multiferroïques",
+    precautions: ["Contrôle des champs croisés", "Isolation multiple", "Surveillance complexe"],
+    resultatsAttendus: "Réponse aux couplages multiferroïques",
+    autorisationRequise: "Niveau 3",
+    materiels: ["Systèmes de champs croisés", "Capteurs multiaxes", "Analyseurs de couplage"],
+    zone: "Laboratoire de matériaux multiferroïques"
+  },
+  {
+    titre: "Test de Résistance aux Rayonnements Synchrotron",
+    description: "Exposer l'entité aux rayonnements synchrotron de haute brillance",
+    classeD: 3,
+    objets: ["Faisceau synchrotron", "Monochromateurs", "Détecteurs 2D"],
+    risque: 80,
+    duree: "4 heures",
+    objectif: "Mesurer la résistance aux rayonnements intenses",
+    precautions: ["Blindage renforcé", "Surveillance de dose", "Contrôle de faisceau"],
+    resultatsAttendus: "Seuils de résistance synchrotron",
+    autorisationRequise: "Niveau 4",
+    materiels: ["Moniteurs de faisceau", "Détecteurs pixellisés", "Systèmes de sécurité"],
+    zone: "Ligne de lumière synchrotron"
+  },
+  {
+    titre: "Analyse des Réactions aux Matériaux Auxétiques",
+    description: "Tester l'interaction de l'anomalie avec les matériaux à coefficient de Poisson négatif",
+    classeD: 1,
+    objets: ["Matériaux auxétiques", "Systèmes de traction", "Capteurs de déformation"],
+    risque: 20,
+    duree: "3 heures",
+    objectif: "Comprendre les interactions avec les déformations anormales",
+    precautions: ["Contrôle de charge", "Surveillance de déformation", "Protection mécanique"],
+    resultatsAttendus: "Réponse aux déformations auxétiques",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Machines de traction", "Extensomètres 2D", "Systèmes d'imagerie"],
+    zone: "Laboratoire de mécanique des matériaux"
+  },
+  {
+    titre: "Test de Sensibilité aux Plasmons de Surface",
+    description: "Analyser les réactions de l'anomalie aux excitations plasmoniques",
+    classeD: 1,
+    objets: ["Structures plasmoniques", "Sources laser", "Spectromètres de surface"],
+    risque: 25,
+    duree: "4 heures",
+    objectif: "Mesurer l'interaction avec les plasmons de surface",
+    precautions: ["Protection laser", "Contrôle de surface", "Surveillance optique"],
+    resultatsAttendus: "Sensibilité aux excitations plasmoniques",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Spectromètres Raman", "Microscopes optiques", "Sources accordables"],
+    zone: "Laboratoire de plasmonique"
+  },
+  {
+    titre: "Interaction avec Matériaux Piézoélectriques Flexibles",
+    description: "Tester les réactions de l'anomalie aux piézoélectriques déformables",
+    classeD: 1,
+    objets: ["Polymères piézoélectriques", "Systèmes de flexion", "Capteurs de charge"],
+    risque: 15,
+    duree: "3 heures",
+    objectif: "Analyser l'interaction avec les piézoélectriques flexibles",
+    precautions: ["Contrôle de déformation", "Protection contre les déchirures", "Surveillance électrique"],
+    resultatsAttendus: "Réponse aux piézoélectriques flexibles",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Amplificateurs de charge", "Systèmes de flexion", "Oscilloscopes"],
+    zone: "Laboratoire d'électronique flexible"
+  },
+  {
+    titre: "Test de Résistance aux Rayons Cosmiques Secondaires",
+    description: "Exposer l'entité aux particules secondaires des rayons cosmiques",
+    classeD: 2,
+    objets: ["Détecteurs de muons", "Chambres à étincelles", "Systèmes de coïncidence"],
+    risque: 45,
+    duree: "8 heures",
+    objectif: "Mesurer l'impact des particules cosmiques secondaires",
+    precautions: ["Blindage sélectif", "Surveillance de flux", "Détection multiple"],
+    resultatsAttendus: "Sensibilité aux particules secondaires",
+    autorisationRequise: "Niveau 3",
+    materiels: ["Détecteurs de muons", "Systèmes de déclenchement", "Analyseurs de traces"],
+    zone: "Observatoire de rayons cosmiques"
+  },
+  {
+    titre: "Analyse des Réactions aux Matériaux Thermochromes",
+    description: "Tester l'interaction de l'anomalie avec les matériaux sensibles à la température",
+    classeD: 1,
+    objets: ["Matériaux thermochromes", "Sources de chaleur", "Caméras thermiques"],
+    risque: 20,
+    duree: "3 heures",
+    objectif: "Comprendre les interactions thermochromes",
+    precautions: ["Contrôle thermique", "Surveillance de température", "Protection contre la surchauffe"],
+    resultatsAttendus: "Réactions aux transitions thermochromes",
+    autorisationRequise: "Niveau 2",
+    materiels: ["Thermomètres IR", "Sources de chaleur contrôlées", "Spectromètres"],
+    zone: "Laboratoire de thermochromisme"
+  }
+];
+
 // Génération d'expériences supplémentaires
 function generateMoreExperiences() {
   const variations = [
@@ -249,7 +1039,7 @@ function generateMoreExperiences() {
 }
 
 // Variables globales
-let allExperiences = [...baseExperiences, ...generateMoreExperiences()];
+let allExperiences = [...baseExperiences, ...specializedExperiences, ...generateMoreExperiences()];
 let generatedExperiences = [];
 let isLoading = false;
 
@@ -341,7 +1131,7 @@ function renderResults(scpName) {
     <div class="results-section">
       <div class="results-header">
         <h2>Idées d'Expériences pour SCP-${scpName}</h2>
-        <p>${generatedExperiences.length} expériences générées • Plus de 250 variations disponibles</p>
+        <p>${generatedExperiences.length} expériences générées • Plus de ${allExperiences.length} variations disponibles</p>
       </div>
 
       <div class="experiments-grid">
@@ -465,7 +1255,7 @@ function initApp() {
 
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background: url('https://i.imgur.com/9Qx8vZy.jpg') center/cover fixed;
+                background: url('https://i.imgur.com/XOO9bZQ.jpeg') center/cover fixed;
                 color: white;
                 min-height: 100vh;
             }
@@ -740,12 +1530,8 @@ function initApp() {
             .info-section h4 {
                 font-weight: 600;
                 margin-bottom: 0.5rem;
+                color: #f97316;
             }
-
-            .info-section h4:contains("🎯") { color: #f97316; }
-            .info-section h4:contains("🔬") { color: #60a5fa; }
-            .info-section h4:contains("⚠️") { color: #fbbf24; }
-            .info-section h4:contains("📊") { color: #10b981; }
 
             .info-section p {
                 color: #d1d5db;
@@ -895,7 +1681,7 @@ function initApp() {
                 <div id="results"></div>
 
                 <div class="footer">
-                    <p>© Fondation SCP • Générateur d'Expériences • Base de données: ${allExperiences.length} variations</p>
+                    <p>© COSMOS SCP • Générateur d'Expériences • Base de données: ${allExperiences.length} variations</p>
                     <p>Classification: RESTREINT • Usage autorisé pour personnel de recherche uniquement</p>
                 </div>
             </div>
@@ -926,6 +1712,6 @@ if (typeof window !== 'undefined') {
   }
 } else {
   // Pour Node.js
-  console.log('Générateur d\'Expériences SCP - Plus de 250 variations disponibles');
+  console.log('Générateur d\'Expériences SCP - Plus de ' + allExperiences.length + ' variations disponibles');
   console.log('Développé par Vincent O\'Bryan - Chercheur Novice');
 }
