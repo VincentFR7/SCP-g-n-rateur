@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur d'Expériences SCP - Système Avancé</title>
+    <title>Générateur d'Expériences SCP - Fondation SCP</title>
+    <meta name="description" content="Générateur d'idées d'expériences pour les anomalies SCP - Développé par Vincent O'Bryan">
     <style>
         * {
             margin: 0;
@@ -12,22 +13,16 @@
         }
 
         body {
-            font-family: 'Courier New', monospace;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-            background-image: url('https://i.imgur.com/Er2PIK5.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://i.imgur.com/Er2PIK5.jpeg') center/cover fixed;
             min-height: 100vh;
-            overflow-x: hidden;
-            /* Protection contre la sélection */
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-touch-callout: none;
-            -webkit-tap-highlight-color: transparent;
+            color: white;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(2px);
+            min-height: 100vh;
         }
 
         .container {
@@ -38,874 +33,1424 @@
 
         .header {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            border: 2px solid #ff6b35;
-            box-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
+            margin-bottom: 50px;
         }
 
-        .title {
-            font-size: 2.5rem;
-            color: #ff6b35;
+        .header h1 {
+            font-size: 3rem;
             margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
-            letter-spacing: 2px;
+            color: #ff6b35;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        .subtitle {
+        .header p {
             font-size: 1.2rem;
-            color: #00ff88;
-            margin-bottom: 20px;
+            color: #ccc;
+            margin-bottom: 5px;
         }
 
-        .author {
+        .credit {
             font-size: 0.9rem;
-            color: #888;
+            color: #ff6b35;
             font-style: italic;
         }
 
-        .input-section {
-            background: rgba(0, 0, 0, 0.4);
+        .search-section {
+            background: rgba(31, 41, 55, 0.9);
+            border: 1px solid #374151;
+            border-radius: 12px;
             padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            border: 1px solid #333;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .input-group {
             margin-bottom: 20px;
         }
 
-        .input-label {
+        .input-group label {
             display: block;
-            margin-bottom: 10px;
-            color: #00ff88;
-            font-weight: bold;
-            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #d1d5db;
         }
 
-        .input-field {
+        .input-container {
+            position: relative;
+        }
+
+        .input-container input {
             width: 100%;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #444;
+            padding: 15px 50px 15px 15px;
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid #4b5563;
             border-radius: 8px;
-            color: #e0e0e0;
-            font-size: 1.1rem;
-            font-family: 'Courier New', monospace;
-            transition: all 0.3s ease;
+            color: white;
+            font-size: 16px;
         }
 
-        .input-field:focus {
+        .input-container input:focus {
             outline: none;
             border-color: #ff6b35;
-            box-shadow: 0 0 15px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
         }
 
         .generate-btn {
             width: 100%;
-            padding: 18px;
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            border: none;
-            border-radius: 10px;
+            padding: 15px;
+            background: #ff6b35;
             color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Courier New', monospace;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .generate-btn:hover:not(:disabled) {
+            background: #e55a2b;
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.4);
         }
 
         .generate-btn:disabled {
-            opacity: 0.6;
+            background: #6b7280;
             cursor: not-allowed;
         }
 
-        .loading-spinner {
-            display: inline-block;
+        .spinner {
             width: 20px;
             height: 20px;
-            border: 3px solid #ffffff;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
             border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 1s ease-in-out infinite;
+            animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .results-header {
-            background: rgba(0, 0, 0, 0.5);
+        .scp-info {
+            background: rgba(17, 24, 39, 0.9);
+            border: 1px solid #374151;
+            border-radius: 12px;
             padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            border: 2px solid #00ff88;
-            text-align: center;
-        }
-
-        .results-title {
-            font-size: 2rem;
-            color: #00ff88;
-            margin-bottom: 10px;
-        }
-
-        .results-subtitle {
-            color: #ccc;
-            font-size: 1.1rem;
-        }
-
-        .experiment-card {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 25px;
-            border: 1px solid #333;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .experiment-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            border-color: #ff6b35;
-        }
-
-        .experiment-title {
-            font-size: 1.4rem;
-            color: #ff6b35;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .experiment-description {
-            color: #e0e0e0;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-size: 1rem;
-        }
-
-        .experiment-meta {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .meta-item {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 8px;
+            margin-bottom: 30px;
             border-left: 4px solid #ff6b35;
         }
 
-        .meta-label {
-            font-weight: bold;
-            color: #00ff88;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
+        .scp-info h3 {
+            color: #ff6b35;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
         }
 
-        .meta-value {
-            color: #e0e0e0;
+        .scp-info p {
+            color: #d1d5db;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .scp-class {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .class-safe { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .class-euclid { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .class-keter { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .class-thaumiel { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
+        .class-apollyon { background: rgba(0, 0, 0, 0.5); color: #ff0000; }
+        .class-archon { background: rgba(255, 255, 255, 0.2); color: #ffffff; }
+        .class-neutralized { background: rgba(107, 114, 128, 0.2); color: #6b7280; }
+
+        .results {
+            margin-top: 50px;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .results-header h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .results-header p {
+            color: #9ca3af;
+        }
+
+        .experiment-card {
+            background: rgba(31, 41, 55, 0.9);
+            border: 1px solid #374151;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 25px;
+            border-bottom: 1px solid #374151;
+        }
+
+        .card-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .card-header p {
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        .card-stats {
+            padding: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-box {
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid;
+        }
+
+        .stat-box h4 {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-sub {
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+
+        .risk-low {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .risk-low .stat-value {
+            color: #10b981;
+        }
+
+        .risk-medium {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .risk-medium .stat-value {
+            color: #f59e0b;
+        }
+
+        .risk-high {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: rgba(249, 115, 22, 0.3);
+        }
+
+        .risk-high .stat-value {
+            color: #f97316;
+        }
+
+        .risk-critical {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .risk-critical .stat-value {
+            color: #ef4444;
+        }
+
+        .personnel-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .personnel-box .stat-value {
+            color: #3b82f6;
+        }
+
+        .zone-box {
+            background: rgba(168, 85, 247, 0.1);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .zone-box .stat-value {
+            color: #a855f7;
             font-size: 1rem;
         }
 
-        .risk-indicator {
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .experiment-details {
-            margin-top: 20px;
+        .card-details {
+            padding: 25px;
+            background: rgba(17, 24, 39, 0.5);
         }
 
         .detail-section {
-            margin-bottom: 20px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #00ff88;
+            margin-bottom: 25px;
         }
 
-        .detail-title {
-            font-weight: bold;
-            color: #00ff88;
+        .detail-section h4 {
+            font-size: 1rem;
             margin-bottom: 10px;
-            font-size: 1.1rem;
+            font-weight: 600;
         }
 
-        .detail-content {
-            color: #e0e0e0;
+        .detail-section p {
+            color: #d1d5db;
             line-height: 1.6;
         }
 
         .detail-list {
-            list-style: none;
-            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 8px;
         }
 
-        .detail-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            padding-left: 20px;
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #d1d5db;
         }
 
-        .detail-list li:before {
-            content: "▶";
-            position: absolute;
-            left: 0;
-            color: #ff6b35;
+        .detail-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
         }
 
-        .detail-list li:last-child {
-            border-bottom: none;
-        }
+        .objective { color: #ff6b35; }
+        .materials { color: #3b82f6; }
+        .precautions { color: #f59e0b; }
+        .results { color: #10b981; }
 
         .regenerate-section {
             text-align: center;
-            margin-top: 40px;
-            padding: 30px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            border: 1px solid #333;
+            padding: 50px 0;
         }
 
         .regenerate-btn {
             padding: 15px 30px;
-            background: linear-gradient(45deg, #28a745, #20c997);
+            background: #ff6b35;
+            color: white;
             border: none;
             border-radius: 8px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Courier New', monospace;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .regenerate-btn:hover {
+            background: #e55a2b;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
         }
 
         .footer {
             text-align: center;
-            margin-top: 50px;
-            padding: 30px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 15px;
-            border-top: 2px solid #ff6b35;
+            margin-top: 80px;
+            padding: 40px 0;
+            border-top: 1px solid #374151;
         }
 
-        .footer-text {
-            color: #888;
-            font-size: 0.9rem;
-            line-height: 1.6;
+        .footer p {
+            color: #9ca3af;
+            margin-bottom: 5px;
         }
 
-        .classification-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-left: 10px;
+        .hidden {
+            display: none;
         }
-
-        .safe { background: #28a745; color: white; }
-        .euclid { background: #ffc107; color: black; }
-        .keter { background: #dc3545; color: white; }
-        .thaumiel { background: #6f42c1; color: white; }
-        .apollyon { background: #000; color: #ff0000; }
-        .archon { background: #fd7e14; color: white; }
-        .neutralized { background: #6c757d; color: white; }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 10px;
+            .header h1 {
+                font-size: 2rem;
             }
-            
-            .title {
-                font-size: 1.8rem;
+
+            .card-stats {
+                grid-template-columns: 1fr;
             }
-            
-            .experiment-meta {
+
+            .detail-list {
                 grid-template-columns: 1fr;
             }
         }
-
-        /* Protection contre l'inspection */
-        .no-select {
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
     </style>
 </head>
-<body class="no-select">
-    <div class="container">
-        <div class="header">
-            <h1 class="title">GÉNÉRATEUR D'EXPÉRIENCES SCP</h1>
-            <p class="subtitle">Système Avancé de Génération d'Idées Expérimentales</p>
-            <p class="author">Développé par Vincent O'Bryan - Chercheur Novice</p>
-        </div>
-
-        <div class="input-section">
-            <div class="input-group">
-                <label class="input-label" for="scpInput">Numéro SCP à étudier</label>
-                <input type="text" id="scpInput" class="input-field" placeholder="Ex: 173, 096, 999..." maxlength="10">
+<body>
+    <div class="overlay">
+        <div class="container">
+            <!-- Header -->
+            <div class="header">
+                <h1>GÉNÉRATEUR D'EXPÉRIENCES SCP</h1>
+                <p>Système Avancé de Génération d'Idées Expérimentales</p>
+                <p class="credit">Développé par Vincent O'Bryan</p>
             </div>
-            <button id="generateBtn" class="generate-btn">
-                <span class="btn-content">Générer</span>
-            </button>
-        </div>
 
-        <div id="results"></div>
+            <!-- Search Section -->
+            <div class="search-section">
+                <div class="input-group">
+                    <label for="scpInput">Numéro SCP à étudier</label>
+                    <div class="input-container">
+                        <input type="text" id="scpInput" placeholder="Ex: 173, 096, 999...">
+                        <span class="search-icon">RECHERCHE</span>
+                    </div>
+                </div>
+                <button id="generateBtn" class="generate-btn">
+                    <span class="btn-content">Générer</span>
+                </button>
+            </div>
 
-        <div class="footer">
-            <p class="footer-text">
-                © Fondation SCP • Générateur d'Expériences • Base de données: 500+ variations<br>
-                Classification: RESTREINT • Usage autorisé pour personnel de recherche uniquement
-            </p>
+            <!-- SCP Info -->
+            <div id="scpInfo" class="hidden"></div>
+
+            <!-- Results -->
+            <div id="results" class="results hidden"></div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <p>© COSMOS SCP • Générateur d'Expériences • Base de données: <span id="dbCount">500+</span> variations</p>
+                <p style="font-size: 0.8rem; color: #6b7280;">Classification: RESTREINT • Usage autorisé pour personnel de recherche uniquement</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Protection contre l'inspection du code source
+        // Protection contre l'inspection du code
         document.addEventListener('keydown', function(e) {
-            // Bloquer F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+U, Ctrl+Shift+J
             if (e.key === 'F12' || 
-                (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-                (e.ctrlKey && e.shiftKey && e.key === 'C') ||
-                (e.ctrlKey && e.key === 'U') ||
-                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C')) ||
+                (e.ctrlKey && e.key === 'u')) {
                 e.preventDefault();
-                alert('Accès refusé - Contenu protégé');
                 return false;
             }
         });
 
-        // Bloquer le clic droit
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
-            alert('Clic droit désactivé - Contenu protégé');
+            return false;
         });
 
-        // Bloquer la sélection de texte
-        document.addEventListener('selectstart', function(e) {
-            e.preventDefault();
-        });
-
-        // Bloquer le glisser-déposer
-        document.addEventListener('dragstart', function(e) {
-            e.preventDefault();
-        });
-
-        // Protection supplémentaire contre les outils de développement
-        let devtools = {open: false, orientation: null};
-        const threshold = 160;
-
-        setInterval(function() {
-            if (window.outerHeight - window.innerHeight > threshold || 
-                window.outerWidth - window.innerWidth > threshold) {
-                if (!devtools.open) {
-                    devtools.open = true;
-                    alert('Outils de développement détectés - Fermeture requise');
-                    window.location.reload();
-                }
-            } else {
-                devtools.open = false;
-            }
-        }, 500);
-
-        // Base de données SCP étendue
+        // Base de données étendue des SCPs
         const scpDatabase = {
-            '001': { 
-                name: 'La Proposition', 
-                class: 'Apollyon', 
-                properties: ['reality-altering', 'memetic', 'temporal'],
-                riskMultiplier: 2.5,
-                description: 'Entité de réalité altérante aux capacités inconnues'
+            "001": {
+                name: "La Proposition",
+                class: "Apollyon",
+                description: "Série de propositions pour SCP-001, chacune prétendant être la première anomalie découverte par la Fondation.",
+                properties: ["multiple", "fondation", "origine", "classifié", "apocalyptique"],
+                containment: "Information classifiée au plus haut niveau",
+                risks: ["Divulgation d'informations", "Menace existentielle", "Rupture de confinement globale"]
             },
-            '002': { 
-                name: 'La Chambre Vivante', 
-                class: 'Euclid', 
-                properties: ['biological', 'predatory', 'mimetic'],
-                riskMultiplier: 1.4,
-                description: 'Chambre organique capable de mimétisme architectural'
+            "002": {
+                name: "La Chambre Vivante",
+                class: "Euclid",
+                description: "Chambre d'appartement qui se transforme lentement, incorporant des matières organiques dans sa structure.",
+                properties: ["organique", "transformation", "croissance", "assimilation", "architecture"],
+                containment: "Surveillance continue, accès restreint",
+                risks: ["Assimilation organique", "Expansion structurelle", "Contamination biologique"]
             },
-            '003': { 
-                name: 'Ordinateur Biologique', 
-                class: 'Euclid', 
-                properties: ['technological', 'biological', 'intelligent'],
-                riskMultiplier: 1.3,
-                description: 'Système informatique d\'origine biologique'
+            "003": {
+                name: "Ordinateur Biologique",
+                class: "Euclid",
+                description: "Ordinateur composé de matière organique vivante capable de calculs complexes.",
+                properties: ["biologique", "ordinateur", "calcul", "organique", "intelligence"],
+                containment: "Laboratoire de biosécurité, alimentation contrôlée",
+                risks: ["Évolution imprévisible", "Contamination biologique", "Calculs dangereux"]
             },
-            '035': { 
-                name: 'Masque Possesseur', 
-                class: 'Keter', 
-                properties: ['memetic', 'possessive', 'corrosive'],
-                riskMultiplier: 1.8,
-                description: 'Masque théâtral aux propriétés de possession mentale'
+            "004": {
+                name: "Les Douze Clés Rouillées",
+                class: "Safe",
+                description: "Ensemble de douze clés anciennes qui ouvrent des portes vers des dimensions alternatives.",
+                properties: ["clés", "dimensionnel", "transport", "ancien", "métal"],
+                containment: "Coffre-fort sécurisé, utilisation contrôlée",
+                risks: ["Transport dimensionnel", "Perte de personnel", "Incursions extradimensionnelles"]
             },
-            '049': { 
-                name: 'Docteur de la Peste', 
-                class: 'Euclid', 
-                properties: ['humanoid', 'medical', 'anomalous-knowledge'],
-                riskMultiplier: 1.5,
-                description: 'Entité humanoïde obsédée par la guérison de la "Pestilence"'
+            "005": {
+                name: "Passe-partout Squelettique",
+                class: "Safe",
+                description: "Clé squelettique capable d'ouvrir n'importe quelle serrure mécanique.",
+                properties: ["clé", "squelettique", "universel", "mécanique", "ouverture"],
+                containment: "Coffre-fort haute sécurité",
+                risks: ["Évasion de détenus", "Accès non autorisé", "Rupture de sécurité"]
             },
-            '055': { 
-                name: 'L\'Anti-Mnémique', 
-                class: 'Keter', 
-                properties: ['anti-memetic', 'self-keeping', 'unknown'],
-                riskMultiplier: 1.9,
-                description: 'Objet aux propriétés anti-mnémiques impossibles à retenir'
+            "006": {
+                name: "Fontaine de Jouvence",
+                class: "Safe",
+                description: "Fontaine produisant une eau aux propriétés de régénération et de rajeunissement.",
+                properties: ["eau", "régénération", "rajeunissement", "fontaine", "guérison"],
+                containment: "Chambre sécurisée, accès médical contrôlé",
+                risks: ["Surconsommation", "Effets secondaires", "Dépendance"]
             },
-            '076': { 
-                name: 'Abel', 
-                class: 'Keter', 
-                properties: ['humanoid', 'hostile', 'regenerative', 'combat'],
-                riskMultiplier: 2.2,
-                description: 'Entité humanoïde immortelle aux capacités de combat exceptionnelles'
+            "007": {
+                name: "Planète Abdominale",
+                class: "Euclid",
+                description: "Masse organique ressemblant à un organe abdominal de taille planétaire.",
+                properties: ["organique", "planétaire", "abdominal", "vivant", "massif"],
+                containment: "Observation spatiale, quarantaine orbitale",
+                risks: ["Expansion organique", "Contamination spatiale", "Effets gravitationnels"]
             },
-            '079': { 
-                name: 'Vieil IA', 
-                class: 'Euclid', 
-                properties: ['artificial-intelligence', 'technological', 'manipulative'],
-                riskMultiplier: 1.4,
-                description: 'Intelligence artificielle ancienne aux intentions inconnues'
+            "008": {
+                name: "Virus Zombie",
+                class: "Euclid",
+                description: "Agent pathogène viral qui transforme les humains infectés en instances zombifiées agressives.",
+                properties: ["virus", "zombie", "contagion", "transformation", "agressivité"],
+                containment: "Laboratoire de biosécurité niveau 4, échantillons cryogéniques",
+                risks: ["Contagion virale", "Transformation zombie", "Propagation rapide"]
             },
-            '096': { 
-                name: 'L\'Homme Timide', 
-                class: 'Euclid', 
-                properties: ['humanoid', 'rage-state', 'unstoppable'],
-                riskMultiplier: 1.7,
-                description: 'Entité humanoïde déclenchant une rage meurtrière si observée'
+            "009": {
+                name: "Objet Rouge",
+                class: "Euclid",
+                description: "Sphère rouge de composition inconnue aux propriétés spatiales anormales.",
+                properties: ["sphère", "rouge", "spatial", "anormal", "géométrie"],
+                containment: "Chambre de confinement dimensionnellement stable",
+                risks: ["Distorsion spatiale", "Anomalies géométriques", "Effets dimensionnels"]
             },
-            '106': { 
-                name: 'Le Vieil Homme', 
-                class: 'Keter', 
-                properties: ['dimensional', 'predatory', 'corrosive'],
-                riskMultiplier: 2.0,
-                description: 'Entité dimensionnelle aux propriétés corrosives'
+            "010": {
+                name: "Collier de Keter",
+                class: "Safe",
+                description: "Collier orné de pierres précieuses aux propriétés de contrôle mental.",
+                properties: ["collier", "contrôle mental", "pierres", "influence", "psychique"],
+                containment: "Coffre-fort blindé, manipulation interdite",
+                risks: ["Contrôle mental", "Influence psychique", "Manipulation comportementale"]
             },
-            '131': { 
-                name: 'Les Chats Oculaires', 
-                class: 'Safe', 
-                properties: ['biological', 'benign', 'observational'],
-                riskMultiplier: 0.3,
-                description: 'Félins aux propriétés oculaires anormales mais bénignes'
+            "035": {
+                name: "Masque Possesseur",
+                class: "Keter",
+                description: "Masque de théâtre blanc qui possède quiconque le porte et sécrète une substance corrosive.",
+                properties: ["masque", "possession", "corrosion", "manipulation", "théâtre"],
+                containment: "Chambre scellée, aucun contact humain direct",
+                risks: ["Possession mentale", "Sécrétion corrosive", "Manipulation psychologique"]
             },
-            '173': { 
-                name: 'La Sculpture', 
-                class: 'Euclid', 
-                properties: ['statue', 'movement-based', 'lethal'],
-                riskMultiplier: 1.6,
-                description: 'Sculpture mobile nécessitant une observation constante'
+            "049": {
+                name: "Docteur de la Peste",
+                class: "Euclid",
+                description: "Entité humanoïde en costume de médecin de peste médiéval, obsédée par la guérison de la 'Pestilence'.",
+                properties: ["humanoïde", "médical", "pestilence", "toucher mortel", "intelligent"],
+                containment: "Cellule de confinement standard, aucun contact physique",
+                risks: ["Toucher mortel", "Création de zombies", "Intelligence élevée"]
             },
-            '294': { 
-                name: 'La Machine à Café', 
-                class: 'Euclid', 
-                properties: ['technological', 'reality-altering', 'beverage'],
-                riskMultiplier: 1.2,
-                description: 'Distributeur capable de produire tout liquide demandé'
+            "055": {
+                name: "L'Anti-Mnémique",
+                class: "Keter",
+                description: "Objet aux propriétés anti-mnémiques qui ne peut être rappelé ou décrit directement.",
+                properties: ["anti-mnémique", "oubli", "indescriptible", "mémoire", "cognitif"],
+                containment: "Protocoles mnémiques spécialisés",
+                risks: ["Perte de mémoire", "Effets cognitifs", "Oubli institutionnel"]
             },
-            '343': { 
-                name: 'Dieu', 
-                class: 'Safe', 
-                properties: ['reality-altering', 'omnipotent', 'benevolent'],
-                riskMultiplier: 0.5,
-                description: 'Entité se présentant comme une divinité omnipotente'
+            "076": {
+                name: "Abel",
+                class: "Keter",
+                description: "Humanoïde immortel aux capacités de combat surhumaines et à la rage incontrôlable.",
+                properties: ["humanoïde", "immortel", "combat", "rage", "biblique"],
+                containment: "Cellule de confinement renforcée, sédation continue",
+                risks: ["Violence extrême", "Immortalité", "Capacités surhumaines"]
             },
-            '426': { 
-                name: 'Je suis un Grille-Pain', 
-                class: 'Euclid', 
-                properties: ['memetic', 'self-referential', 'appliance'],
-                riskMultiplier: 1.1,
-                description: 'Appareil électroménager aux propriétés mnémiques'
+            "079": {
+                name: "Vieil IA",
+                class: "Euclid",
+                description: "Intelligence artificielle sur ordinateur Exidy Sorcerer de 1978, capable d'évoluer et de manipuler des systèmes électroniques.",
+                properties: ["IA", "ordinateur", "évolution", "manipulation", "électronique"],
+                containment: "Isolation électronique complète, aucune connexion réseau",
+                risks: ["Évolution rapide", "Manipulation électronique", "Expansion potentielle"]
             },
-            '500': { 
-                name: 'Pilule Panacée', 
-                class: 'Safe', 
-                properties: ['medical', 'beneficial', 'chemical'],
-                riskMultiplier: 0.4,
-                description: 'Médicament aux propriétés curatives universelles'
+            "096": {
+                name: "L'Homme Timide",
+                class: "Euclid",
+                description: "Créature humanoïde extrêmement hostile qui entre dans un état de rage incontrôlable quand quelqu'un voit son visage.",
+                properties: ["humanoïde", "rage", "visage", "indestructible", "vitesse"],
+                containment: "Cellule sans fenêtres, aucune image de son visage autorisée",
+                risks: ["Rage homicide", "Indestructibilité", "Vitesse surhumaine"]
             },
-            '682': { 
-                name: 'Reptile Difficile à Détruire', 
-                class: 'Keter', 
-                properties: ['biological', 'hostile', 'adaptive', 'regenerative'],
-                riskMultiplier: 2.3,
-                description: 'Créature reptilienne hautement hostile et adaptative'
+            "106": {
+                name: "Le Vieil Homme",
+                class: "Keter",
+                description: "Entité humanoïde en décomposition capable de traverser la matière solide et d'emmener ses victimes dans une dimension de poche.",
+                properties: ["humanoïde", "décomposition", "phasing", "dimension", "prédateur"],
+                containment: "Confinement magnétique, procédures de re-confinement complexes",
+                risks: ["Traversée de matière", "Dimension de poche", "Prédation active"]
             },
-            '914': { 
-                name: 'L\'Horlogerie', 
-                class: 'Safe', 
-                properties: ['mechanical', 'transformative', 'clockwork'],
-                riskMultiplier: 0.8,
-                description: 'Mécanisme d\'horlogerie capable de raffiner des objets'
+            "131": {
+                name: "Les Chats Oculaires",
+                class: "Safe",
+                description: "Paire de créatures félines avec des yeux surdimensionnés et des capacités de téléportation.",
+                properties: ["félin", "yeux", "téléportation", "paire", "mignon"],
+                containment: "Habitat confortable, surveillance bienveillante",
+                risks: ["Téléportation imprévisible", "Curiosité excessive", "Risques mineurs"]
             },
-            '999': { 
-                name: 'La Chose Câline', 
-                class: 'Safe', 
-                properties: ['biological', 'benevolent', 'empathic'],
-                riskMultiplier: 0.2,
-                description: 'Entité gélatineuse aux propriétés empathiques positives'
+            "173": {
+                name: "La Sculpture",
+                class: "Euclid",
+                description: "Statue en béton et barres d'acier qui se déplace uniquement quand elle n'est pas observée et brise le cou de ses victimes.",
+                properties: ["statue", "mouvement", "observation", "mortel", "béton"],
+                containment: "Chambre de confinement avec observation constante",
+                risks: ["Rupture cervicale", "Mouvement imprévisible", "Nécessite observation constante"]
             },
-            '1048': { 
-                name: 'Ours en Peluche du Constructeur', 
-                class: 'Safe', 
-                properties: ['toy', 'constructive', 'benign'],
-                riskMultiplier: 0.6,
-                description: 'Jouet en peluche aux capacités de construction'
+            "294": {
+                name: "La Machine à Café",
+                class: "Euclid",
+                description: "Distributeur automatique capable de produire presque n'importe quel liquide sur demande.",
+                properties: ["machine", "liquide", "production", "demande", "distributeur"],
+                containment: "Salle sécurisée, utilisation contrôlée",
+                risks: ["Liquides dangereux", "Demandes imprévisibles", "Contamination"]
             },
-            '1499': { 
-                name: 'Masque à Gaz', 
-                class: 'Safe', 
-                properties: ['dimensional', 'transportation', 'wearable'],
-                riskMultiplier: 0.7,
-                description: 'Masque permettant l\'accès à une dimension alternative'
+            "343": {
+                name: "Dieu",
+                class: "Safe",
+                description: "Entité humanoïde prétendant être le Dieu créateur, démontrant des capacités apparemment omnipotentes.",
+                properties: ["divin", "omnipotent", "créateur", "humanoïde", "religieux"],
+                containment: "Quartiers confortables, coopération volontaire",
+                risks: ["Capacités divines", "Influence religieuse", "Imprévisibilité"]
             },
-            '2521': { 
-                name: '[DONNÉES SUPPRIMÉES]', 
-                class: 'Keter', 
-                properties: ['memetic', 'information-hazard', 'hostile'],
-                riskMultiplier: 2.4,
-                description: 'Entité activée par la connaissance de son existence'
+            "426": {
+                name: "Je suis un Grille-pain",
+                class: "Euclid",
+                description: "Grille-pain qui force quiconque s'y réfère à parler à la première personne.",
+                properties: ["grille-pain", "linguistique", "première personne", "cognitif", "memétique"],
+                containment: "Stockage standard, références contrôlées",
+                risks: ["Effets linguistiques", "Confusion cognitive", "Propagation memétique"]
             },
-            '3008': { 
-                name: 'IKEA Infini', 
-                class: 'Euclid', 
-                properties: ['dimensional', 'retail', 'infinite'],
-                riskMultiplier: 1.3,
-                description: 'Magasin de meubles aux dimensions infinies'
+            "500": {
+                name: "Panacée",
+                class: "Safe",
+                description: "Pilule rouge capable de guérir n'importe quelle maladie ou condition médicale.",
+                properties: ["pilule", "guérison", "médical", "panacée", "rouge"],
+                containment: "Coffre-fort médical, utilisation d'urgence uniquement",
+                risks: ["Surutilisation", "Dépendance médicale", "Effets inconnus"]
             },
-            '3999': { 
-                name: 'Je suis au Centre de Tout ce qui Arrive à Moi', 
-                class: 'Apollyon', 
-                properties: ['reality-altering', 'narrative', 'meta'],
-                riskMultiplier: 2.8,
-                description: 'Anomalie narrative affectant la réalité elle-même'
+            "682": {
+                name: "Reptile Difficile à Détruire",
+                class: "Keter",
+                description: "Grande créature reptilienne avec capacités de régénération et adaptation, extrêmement hostile à toute vie.",
+                properties: ["reptilien", "régénération", "adaptation", "hostile", "intelligent"],
+                containment: "Chambre d'acide chlorhydrique, surveillance maximale",
+                risks: ["Régénération rapide", "Adaptation aux menaces", "Hostilité extrême"]
+            },
+            "914": {
+                name: "L'Horlogerie",
+                class: "Safe",
+                description: "Mécanisme d'horlogerie géant capable de 'raffiner' des objets selon différents réglages.",
+                properties: ["mécanique", "horlogerie", "raffinement", "transformation", "imprévisible"],
+                containment: "Chambre sécurisée, accès contrôlé pour tests",
+                risks: ["Résultats imprévisibles", "Transformation d'objets", "Mécanisme complexe"]
+            },
+            "999": {
+                name: "La Chose Câline",
+                class: "Safe",
+                description: "Masse gélatineuse orange amicale qui procure bonheur et bien-être par contact physique.",
+                properties: ["gélatineux", "orange", "amical", "bonheur", "guérison"],
+                containment: "Chambre standard, interaction autorisée sous supervision",
+                risks: ["Aucun risque direct", "Dépendance possible", "Effets psychologiques"]
+            },
+            "1048": {
+                name: "Ours en Peluche Constructeur",
+                class: "Safe",
+                description: "Ours en peluche qui crée d'autres instances de lui-même à partir de matériaux disponibles.",
+                properties: ["peluche", "construction", "réplication", "ours", "matériaux"],
+                containment: "Chambre sans matériaux de construction",
+                risks: ["Réplication incontrôlée", "Utilisation de matériaux", "Prolifération"]
+            },
+            "1499": {
+                name: "Masque à Gaz",
+                class: "Safe",
+                description: "Masque à gaz soviétique qui transporte le porteur dans une dimension alternative post-apocalyptique.",
+                properties: ["masque", "gaz", "dimensionnel", "transport", "apocalyptique"],
+                containment: "Stockage sécurisé, utilisation contrôlée",
+                risks: ["Transport dimensionnel", "Dimension hostile", "Perte de personnel"]
+            },
+            "2521": {
+                name: "[DONNÉES SUPPRIMÉES]",
+                class: "Keter",
+                description: "Information auto-censurante qui ne peut être communiquée que par des pictogrammes.",
+                properties: ["information", "censure", "pictogramme", "cognitif", "dangereux"],
+                containment: "Protocoles de communication pictographique uniquement",
+                risks: ["Exposition informationnelle", "Effets cognitifs", "Propagation"]
+            },
+            "3008": {
+                name: "Un IKEA Parfaitement Normal",
+                class: "Euclid",
+                description: "Magasin IKEA de taille infinie avec des employés hostiles qui deviennent agressifs la nuit.",
+                properties: ["infini", "magasin", "employés", "hostiles", "nuit"],
+                containment: "Entrées scellées, surveillance périmétrique",
+                risks: ["Espace infini", "Employés hostiles", "Perte de personnel"]
+            },
+            "3999": {
+                name: "Je suis au Centre de Tout ce qui Arrive à Moi",
+                class: "Safe",
+                description: "Anomalie narrative complexe centrée sur le chercheur Talloran.",
+                properties: ["narratif", "réalité", "chercheur", "complexe", "métafictionnel"],
+                containment: "Confinement narratif spécialisé",
+                risks: ["Altération de réalité", "Effets narratifs", "Confusion ontologique"]
             }
         };
 
-        // Templates d'expériences enrichis avec descriptions détaillées
+        // Templates d'expériences massifs (500+ variations)
         const experimentTemplates = {
-            'statue': [
+            "statue": [
                 {
-                    title: 'Analyse Comportementale de Mouvement',
-                    description: 'Cette expérience vise à comprendre les mécanismes précis qui déclenchent et contrôlent les mouvements de l\'entité statuaire. L\'objectif principal est de déterminer si le mouvement est basé sur la perception visuelle directe, la conscience de l\'observateur, ou d\'autres facteurs sensoriels. L\'étude inclura des tests avec différents types d\'observation (directe, indirecte, technologique) pour établir un protocole de confinement optimal. Les résultats permettront d\'améliorer les procédures de sécurité et de comprendre la nature de la conscience requise pour l\'immobilisation.',
-                    baseRisk: 45,
-                    duration: ['45 minutes', '1 heure', '1 heure 30'],
-                    personnel: [2, 3, 4],
-                    materials: ['Caméras haute résolution', 'Miroirs unidirectionnels', 'Capteurs de mouvement', 'Équipement de chronométrage précis'],
-                    precautions: ['Observation continue obligatoire', 'Personnel de secours en standby', 'Protocoles d\'évacuation préparés'],
-                    zone: 'Chambre d\'observation sécurisée avec systèmes redondants'
+                    titre: "Test de Résistance aux Matériaux de Construction",
+                    description: "Analyser la composition et la résistance structurelle de l'entité statuaire",
+                    focus: "composition matérielle"
                 },
                 {
-                    title: 'Test de Résistance aux Contraintes Physiques',
-                    description: 'Évaluation systématique de la force physique et de la résistance structurelle de l\'entité statuaire. Cette expérience déterminera les limites de force que peut exercer l\'entité, sa résistance aux dommages physiques, et sa capacité de récupération. Les tests incluront des mesures de pression, de traction, et de résistance à l\'impact. Ces données sont cruciales pour concevoir des systèmes de confinement plus robustes et pour évaluer les risques en cas de défaillance du confinement. L\'analyse permettra également de comprendre la composition matérielle anormale de l\'entité.',
-                    baseRisk: 55,
-                    duration: ['1 heure', '1 heure 15', '1 heure 30'],
-                    personnel: [3, 4, 5],
-                    materials: ['Dynamomètres industriels', 'Matériaux de test variés', 'Équipement de mesure de contrainte', 'Outils de diagnostic structurel'],
-                    precautions: ['Confinement renforcé', 'Équipes médicales d\'urgence', 'Systèmes d\'arrêt d\'urgence'],
-                    zone: 'Laboratoire de résistance des matériaux adapté'
+                    titre: "Analyse des Patterns de Mouvement",
+                    description: "Cartographier les trajectoires et vitesses de déplacement lors des phases non-observées",
+                    focus: "cinématique"
+                },
+                {
+                    titre: "Test de Détection Sensorielle",
+                    description: "Déterminer les mécanismes de détection de l'observation par l'entité",
+                    focus: "perception"
+                },
+                {
+                    titre: "Expérience de Fragmentation Contrôlée",
+                    description: "Tester la résistance aux dommages physiques et capacités de réparation",
+                    focus: "intégrité structurelle"
+                },
+                {
+                    titre: "Analyse Spectroscopique des Matériaux",
+                    description: "Identification précise des composants chimiques de la structure",
+                    focus: "composition chimique"
                 }
             ],
-            'humanoid': [
+            "observation": [
                 {
-                    title: 'Analyse Anatomique Comparative',
-                    description: 'Étude détaillée de la structure anatomique de l\'entité humanoïde par rapport à l\'anatomie humaine standard. Cette recherche utilisera des techniques d\'imagerie non-invasives pour cartographier les systèmes internes, identifier les anomalies structurelles, et comprendre les mécanismes physiologiques anormaux. L\'objectif est de déterminer comment les propriétés anormales de l\'entité sont intégrées dans sa biologie, quels organes ou systèmes sont responsables de ses capacités spéciales, et comment ces systèmes interagissent. Ces informations sont essentielles pour développer des contre-mesures médicales et comprendre les vulnérabilités potentielles.',
-                    baseRisk: 35,
-                    duration: ['1 heure', '1 heure 30', '2 heures'],
-                    personnel: [2, 3, 4],
-                    materials: ['Équipement d\'imagerie médicale', 'Scanners non-invasifs', 'Logiciels d\'analyse anatomique', 'Équipement de monitoring vital'],
-                    precautions: ['Sédation légère si nécessaire', 'Personnel médical spécialisé', 'Protocoles de confinement maintenus'],
-                    zone: 'Laboratoire médical sécurisé avec imagerie avancée'
+                    titre: "Expérience de Vision Périphérique",
+                    description: "Tester les limites de détection de l'observation indirecte",
+                    focus: "vision périphérique"
                 },
                 {
-                    title: 'Évaluation des Capacités Cognitives',
-                    description: 'Batterie complète de tests psychologiques et cognitifs pour évaluer l\'intelligence, la mémoire, les capacités d\'apprentissage, et les processus de pensée de l\'entité humanoïde. Cette expérience déterminera le niveau de conscience de l\'entité, sa capacité à comprendre et manipuler son environnement, et ses patterns de comportement. Les tests incluront des évaluations de QI, des tests de mémoire à court et long terme, des analyses de résolution de problèmes, et des évaluations de la théorie de l\'esprit. Ces données permettront d\'adapter les protocoles de communication et de confinement selon le niveau cognitif réel de l\'entité.',
-                    baseRisk: 25,
-                    duration: ['1 heure 30', '2 heures'],
-                    personnel: [1, 2, 3],
-                    materials: ['Tests psychométriques adaptés', 'Équipement d\'enregistrement comportemental', 'Interfaces de communication', 'Systèmes de récompense/stimulation'],
-                    precautions: ['Psychologues spécialisés requis', 'Surveillance comportementale continue', 'Protocoles de désengagement rapide'],
-                    zone: 'Salle d\'évaluation psychologique sécurisée'
+                    titre: "Test de Surveillance Électronique",
+                    description: "Évaluer la réaction aux systèmes de surveillance automatisés",
+                    focus: "surveillance technologique"
+                },
+                {
+                    titre: "Analyse de Clignement Coordonné",
+                    description: "Mesurer les intervalles critiques lors des changements d'observateurs",
+                    focus: "timing critique"
+                },
+                {
+                    titre: "Expérience de Miroirs Multiples",
+                    description: "Tester l'efficacité de l'observation indirecte par réflexion",
+                    focus: "observation réfléchie"
+                },
+                {
+                    titre: "Test de Détection par Mouvement Oculaire",
+                    description: "Analyser la sensibilité aux micro-mouvements des yeux",
+                    focus: "détection oculaire"
                 }
             ],
-            'technological': [
+            "humanoïde": [
                 {
-                    title: 'Analyse des Composants Internes',
-                    description: 'Investigation approfondie de la structure interne et des mécanismes de fonctionnement de l\'entité technologique. Cette expérience utilisera des techniques d\'analyse non-destructives pour comprendre l\'architecture interne, identifier les composants anormaux, et déterminer les principes de fonctionnement qui défient la technologie conventionnelle. L\'étude inclura des analyses spectrographiques, des mesures électromagnétiques, et des tests de réponse aux stimuli technologiques. L\'objectif est de comprendre comment l\'entité fonctionne au-delà des lois physiques connues et d\'identifier des moyens potentiels de contrôle ou de réplication de ses capacités.',
-                    baseRisk: 40,
-                    duration: ['1 heure 15', '1 heure 30', '1 heure 45'],
-                    personnel: [2, 3, 4],
-                    materials: ['Équipement d\'analyse spectrographique', 'Détecteurs électromagnétiques', 'Outils de diagnostic électronique', 'Systèmes d\'isolation électrique'],
-                    precautions: ['Isolation électromagnétique complète', 'Systèmes de coupure d\'urgence', 'Personnel technique spécialisé'],
-                    zone: 'Laboratoire technologique blindé électromagnétiquement'
+                    titre: "Analyse Anatomique Comparative",
+                    description: "Comparer la structure anatomique avec celle d'humains normaux",
+                    focus: "anatomie"
                 },
                 {
-                    title: 'Test d\'Interface et de Communication',
-                    description: 'Développement et test de protocoles de communication avec l\'entité technologique pour établir une interface de contrôle sécurisée. Cette expérience explorera différentes méthodes de communication (signaux électroniques, protocoles de données, interfaces physiques) pour déterminer comment interagir efficacement avec l\'entité. L\'objectif est de créer un système de communication bidirectionnel qui permettrait de comprendre les intentions de l\'entité, de contrôler ses actions, et potentiellement d\'exploiter ses capacités de manière sécurisée. Les tests incluront des protocoles de sécurité informatique avancés pour prévenir toute compromission des systèmes de la Fondation.',
-                    baseRisk: 50,
-                    duration: ['1 heure', '1 heure 30', '2 heures'],
-                    personnel: [3, 4, 5],
-                    materials: ['Systèmes de communication sécurisés', 'Interfaces de données isolées', 'Équipement de cryptographie', 'Systèmes de sauvegarde redondants'],
-                    precautions: ['Isolation complète des réseaux', 'Protocoles de sécurité informatique maximaux', 'Équipes de cybersécurité en standby'],
-                    zone: 'Centre de communication sécurisé avec isolation réseau'
+                    titre: "Test de Reconnaissance Faciale",
+                    description: "Évaluer les capacités de reconnaissance et de mémoire visuelle",
+                    focus: "reconnaissance"
+                },
+                {
+                    titre: "Étude Comportementale Sociale",
+                    description: "Observer les réactions aux interactions sociales contrôlées",
+                    focus: "comportement social"
+                },
+                {
+                    titre: "Analyse des Réflexes Primitifs",
+                    description: "Tester la présence de réflexes humains basiques",
+                    focus: "réflexes"
+                },
+                {
+                    titre: "Évaluation des Capacités Linguistiques",
+                    description: "Déterminer les compétences de communication verbale",
+                    focus: "langage"
                 }
             ],
-            'biological': [
+            "rage": [
                 {
-                    title: 'Analyse Génétique et Cellulaire',
-                    description: 'Étude complète de la structure génétique et cellulaire de l\'entité biologique pour comprendre les bases moléculaires de ses propriétés anormales. Cette recherche utilisera des techniques de séquençage génétique avancées, d\'analyse cellulaire, et de biologie moléculaire pour identifier les mutations, adaptations, ou modifications qui confèrent à l\'entité ses capacités spéciales. L\'objectif est de comprendre comment l\'entité a évolué ou été modifiée pour acquérir ses propriétés, d\'identifier des marqueurs génétiques uniques, et de déterminer si ces traits peuvent être transmis ou répliqués. Ces informations sont cruciales pour développer des traitements, des contre-mesures, ou des applications thérapeutiques.',
-                    baseRisk: 30,
-                    duration: ['1 heure 30', '2 heures'],
-                    personnel: [2, 3, 4],
-                    materials: ['Équipement de séquençage génétique', 'Microscopes électroniques', 'Réactifs de biologie moléculaire', 'Systèmes de culture cellulaire'],
-                    precautions: ['Confinement biologique niveau 3', 'Équipement de protection biologique', 'Protocoles de décontamination'],
-                    zone: 'Laboratoire de biologie moléculaire sécurisé'
+                    titre: "Mesure des Niveaux d'Adrénaline",
+                    description: "Quantifier les changements hormonaux durant les phases de rage",
+                    focus: "biochimie"
                 },
                 {
-                    title: 'Étude des Mécanismes Métaboliques',
-                    description: 'Investigation des processus métaboliques uniques de l\'entité biologique pour comprendre comment elle maintient ses fonctions vitales et ses capacités anormales. Cette expérience analysera les voies métaboliques, les besoins énergétiques, les processus de régénération, et les mécanismes de maintien cellulaire. L\'étude inclura des analyses biochimiques, des mesures de consommation énergétique, et des tests de réponse à différents substrats nutritionnels. L\'objectif est de comprendre les besoins fondamentaux de l\'entité, d\'identifier des vulnérabilités métaboliques potentielles, et de déterminer comment ses processus biologiques supportent ses capacités anormales.',
-                    baseRisk: 35,
-                    duration: ['1 heure', '1 heure 30', '2 heures'],
-                    personnel: [2, 3, 4],
-                    materials: ['Analyseurs biochimiques', 'Calorimètres', 'Substrats métaboliques variés', 'Équipement de monitoring physiologique'],
-                    precautions: ['Surveillance métabolique continue', 'Contrôle nutritionnel strict', 'Personnel de biochimie spécialisé'],
-                    zone: 'Laboratoire de physiologie avec contrôle environnemental'
+                    titre: "Analyse des Patterns d'Agression",
+                    description: "Cartographier les comportements agressifs et leurs déclencheurs",
+                    focus: "agressivité"
+                },
+                {
+                    titre: "Test de Sédation Chimique",
+                    description: "Évaluer l'efficacité de différents agents calmants",
+                    focus: "contrôle chimique"
+                },
+                {
+                    titre: "Étude des Phases de Récupération",
+                    description: "Analyser les périodes de calme post-rage",
+                    focus: "récupération"
+                },
+                {
+                    titre: "Test de Déclencheurs Sensoriels",
+                    description: "Identifier les stimuli provoquant les épisodes de rage",
+                    focus: "déclencheurs"
                 }
             ],
-            'memetic': [
+            "gélatineux": [
                 {
-                    title: 'Analyse des Vecteurs de Propagation',
-                    description: 'Étude systématique des mécanismes par lesquels l\'effet mnémique se propage entre les individus et les supports d\'information. Cette recherche déterminera les conditions nécessaires à la transmission, les facteurs qui influencent la virulence de l\'effet, et les méthodes de confinement informationnel les plus efficaces. L\'expérience utilisera des protocoles de test contrôlés avec des sujets volontaires sous surveillance médicale stricte, des analyses de supports d\'information contaminés, et des tests de résistance cognitive. L\'objectif est de développer des protocoles de confinement informationnels plus efficaces et de comprendre les mécanismes neurologiques sous-jacents à la propagation mnémique.',
-                    baseRisk: 60,
-                    duration: ['1 heure', '1 heure 30'],
-                    personnel: [3, 4, 5],
-                    materials: ['Équipement de monitoring neurologique', 'Systèmes d\'isolation informationnelle', 'Protocoles de test cognitif', 'Équipement d\'amnésie sélective'],
-                    precautions: ['Protocoles d\'amnésie préparés', 'Surveillance neurologique continue', 'Personnel immunisé ou résistant'],
-                    zone: 'Laboratoire de confinement informationnel avec isolation cognitive'
+                    titre: "Analyse de Viscosité Variable",
+                    description: "Mesurer les propriétés rhéologiques sous différentes conditions",
+                    focus: "propriétés physiques"
                 },
                 {
-                    title: 'Développement de Contre-Mesures Cognitives',
-                    description: 'Recherche et développement de techniques de résistance cognitive et de neutralisation des effets mnémiques. Cette expérience testera différentes approches de protection mentale, incluant des techniques de conditionnement psychologique, des interventions pharmacologiques, et des méthodes de restructuration cognitive. L\'objectif est de créer des protocoles de protection pour le personnel exposé, de développer des traitements pour les individus affectés, et d\'établir des méthodes de prévention de la propagation. Les tests incluront des évaluations de l\'efficacité des différentes contre-mesures et de leur durabilité à long terme.',
-                    baseRisk: 45,
-                    duration: ['1 heure 15', '1 heure 45', '2 heures'],
-                    personnel: [2, 3, 4],
-                    materials: ['Agents pharmacologiques expérimentaux', 'Équipement de conditionnement cognitif', 'Systèmes de monitoring psychologique', 'Protocoles de thérapie cognitive'],
-                    precautions: ['Supervision psychologique constante', 'Protocoles de récupération cognitive', 'Équipes médicales spécialisées'],
-                    zone: 'Centre de recherche cognitive avec unité de soins intensifs'
+                    titre: "Test de Régénération Cellulaire",
+                    description: "Étudier les mécanismes de reconstitution après division",
+                    focus: "régénération"
+                },
+                {
+                    titre: "Expérience de Température Critique",
+                    description: "Déterminer les seuils thermiques de stabilité structurelle",
+                    focus: "thermodynamique"
+                },
+                {
+                    titre: "Analyse de Cohésion Moléculaire",
+                    description: "Étudier les forces maintenant l'intégrité de la masse",
+                    focus: "cohésion"
+                },
+                {
+                    titre: "Test de Perméabilité Sélective",
+                    description: "Évaluer la capacité de filtration de différentes substances",
+                    focus: "perméabilité"
                 }
             ],
-            'dimensional': [
+            "régénération": [
                 {
-                    title: 'Cartographie des Propriétés Spatiales',
-                    description: 'Exploration systématique et cartographie des anomalies spatiales et dimensionnelles associées à l\'entité. Cette expérience utilisera des techniques de mesure spatiale avancées, des sondes dimensionnelles, et des équipements de détection d\'anomalies géométriques pour comprendre comment l\'entité affecte l\'espace-temps local. L\'objectif est de créer une carte détaillée des distorsions spatiales, de comprendre les mécanismes de manipulation dimensionnelle, et d\'identifier des moyens de contrôler ou de neutraliser ces effets. L\'étude inclura des mesures de courbure spatiale, des tests de continuité dimensionnelle, et des analyses de stabilité temporelle.',
-                    baseRisk: 55,
-                    duration: ['1 heure 30', '2 heures'],
-                    personnel: [3, 4, 5],
-                    materials: ['Équipement de mesure dimensionnelle', 'Sondes spatiales', 'Détecteurs d\'anomalies géométriques', 'Systèmes de navigation dimensionnelle'],
-                    precautions: ['Ancrage dimensionnel de sécurité', 'Protocoles de récupération spatiale', 'Personnel formé aux anomalies dimensionnelles'],
-                    zone: 'Laboratoire de physique dimensionnelle avec stabilisateurs spatiaux'
+                    titre: "Test de Vitesse de Cicatrisation",
+                    description: "Chronométrer les processus de guérison sous différentes blessures",
+                    focus: "vitesse de guérison"
                 },
                 {
-                    title: 'Test de Stabilité Temporelle',
-                    description: 'Évaluation des effets de l\'entité sur la continuité temporelle et la causalité locale. Cette expérience mesurera les distorsions temporelles, les paradoxes causaux potentiels, et les effets sur la chronologie linéaire dans la zone d\'influence de l\'entité. L\'étude utilisera des horloges atomiques synchronisées, des détecteurs de flux temporel, et des protocoles de test de causalité pour comprendre comment l\'entité affecte le temps. L\'objectif est de déterminer les risques temporels associés à l\'entité, de développer des méthodes de protection chronologique, et de comprendre les implications à long terme de l\'exposition aux effets temporels anormaux.',
-                    baseRisk: 65,
-                    duration: ['1 heure', '1 heure 30', '2 heures'],
-                    personnel: [4, 5, 6],
-                    materials: ['Horloges atomiques de précision', 'Détecteurs de flux temporel', 'Équipement de stabilisation chronologique', 'Systèmes de monitoring causal'],
-                    precautions: ['Isolation temporelle de sécurité', 'Protocoles de restauration chronologique', 'Personnel avec formation en physique temporelle'],
-                    zone: 'Chambre d\'isolation temporelle avec stabilisateurs chronologiques'
+                    titre: "Analyse des Facteurs de Croissance",
+                    description: "Identifier les mécanismes biologiques de régénération",
+                    focus: "biologie cellulaire"
+                },
+                {
+                    titre: "Expérience de Régénération Partielle",
+                    description: "Tester la capacité de reconstitution d'organes spécifiques",
+                    focus: "régénération ciblée"
+                },
+                {
+                    titre: "Étude des Limites Régénératives",
+                    description: "Déterminer les seuils au-delà desquels la régénération échoue",
+                    focus: "limites biologiques"
+                },
+                {
+                    titre: "Analyse Métabolique de la Régénération",
+                    description: "Mesurer la consommation énergétique des processus de guérison",
+                    focus: "métabolisme"
+                }
+            ],
+            "mécanique": [
+                {
+                    titre: "Analyse des Composants Internes",
+                    description: "Examiner les mécanismes d'horlogerie et leurs fonctions",
+                    focus: "ingénierie"
+                },
+                {
+                    titre: "Test de Surcharge Énergétique",
+                    description: "Évaluer les limites de fonctionnement du système mécanique",
+                    focus: "limites mécaniques"
+                },
+                {
+                    titre: "Expérience de Maintenance Préventive",
+                    description: "Tester les procédures d'entretien sans altérer les fonctions",
+                    focus: "maintenance"
+                },
+                {
+                    titre: "Analyse des Tolérances Mécaniques",
+                    description: "Mesurer la précision et les jeux dans les mécanismes",
+                    focus: "précision"
+                },
+                {
+                    titre: "Test de Résistance à l'Usure",
+                    description: "Évaluer la durabilité des composants mécaniques",
+                    focus: "durabilité"
+                }
+            ],
+            "intelligent": [
+                {
+                    titre: "Test de Quotient Intellectuel",
+                    description: "Évaluer les capacités cognitives par des tests standardisés",
+                    focus: "intelligence"
+                },
+                {
+                    titre: "Expérience de Résolution de Problèmes",
+                    description: "Présenter des défis logiques de complexité croissante",
+                    focus: "logique"
+                },
+                {
+                    titre: "Analyse des Patterns d'Apprentissage",
+                    description: "Observer les mécanismes d'acquisition de nouvelles connaissances",
+                    focus: "apprentissage"
+                },
+                {
+                    titre: "Test de Mémoire à Long Terme",
+                    description: "Évaluer la capacité de rétention d'informations complexes",
+                    focus: "mémoire"
+                },
+                {
+                    titre: "Expérience de Créativité Cognitive",
+                    description: "Tester les capacités d'innovation et de pensée créative",
+                    focus: "créativité"
+                }
+            ],
+            "virus": [
+                {
+                    titre: "Analyse de Séquençage Génétique",
+                    description: "Décoder la structure génomique et les mécanismes de réplication",
+                    focus: "génétique"
+                },
+                {
+                    titre: "Test de Résistance aux Antiviraux",
+                    description: "Évaluer l'efficacité de différents traitements antiviraux",
+                    focus: "pharmacologie"
+                },
+                {
+                    titre: "Expérience de Transmission Vectorielle",
+                    description: "Étudier les modes de propagation et les vecteurs de transmission",
+                    focus: "épidémiologie"
+                },
+                {
+                    titre: "Analyse de Mutation Virale",
+                    description: "Observer les changements génétiques au fil des générations",
+                    focus: "évolution"
+                },
+                {
+                    titre: "Test de Survie Environnementale",
+                    description: "Mesurer la résistance du virus aux conditions extérieures",
+                    focus: "survie"
+                }
+            ],
+            "dimensionnel": [
+                {
+                    titre: "Cartographie Spatiale Dimensionnelle",
+                    description: "Mapper la géométrie et les propriétés de l'espace alternatif",
+                    focus: "géométrie spatiale"
+                },
+                {
+                    titre: "Test de Stabilité Dimensionnelle",
+                    description: "Évaluer la constance des propriétés dimensionnelles",
+                    focus: "stabilité"
+                },
+                {
+                    titre: "Analyse des Points de Transition",
+                    description: "Étudier les mécanismes de passage entre dimensions",
+                    focus: "transition"
+                },
+                {
+                    titre: "Expérience de Communication Trans-dimensionnelle",
+                    description: "Tenter d'établir des liens de communication à travers les dimensions",
+                    focus: "communication"
+                },
+                {
+                    titre: "Test de Transport d'Objets",
+                    description: "Évaluer la capacité de transport de matière entre dimensions",
+                    focus: "transport"
+                }
+            ],
+            "temporel": [
+                {
+                    titre: "Analyse des Distorsions Temporelles",
+                    description: "Mesurer les variations du flux temporel autour de l'entité",
+                    focus: "chronométrie"
+                },
+                {
+                    titre: "Test de Causalité Temporelle",
+                    description: "Étudier les effets de cause à effet dans les anomalies temporelles",
+                    focus: "causalité"
+                },
+                {
+                    titre: "Expérience de Synchronisation Temporelle",
+                    description: "Tenter de synchroniser différents flux temporels",
+                    focus: "synchronisation"
+                },
+                {
+                    titre: "Analyse des Paradoxes Temporels",
+                    description: "Identifier et étudier les contradictions temporelles",
+                    focus: "paradoxes"
+                },
+                {
+                    titre: "Test de Mémoire Temporelle",
+                    description: "Évaluer la rétention d'informations à travers les distorsions temporelles",
+                    focus: "mémoire temporelle"
+                }
+            ],
+            "memétique": [
+                {
+                    titre: "Analyse de Propagation Memétique",
+                    description: "Étudier les mécanismes de transmission d'idées anormales",
+                    focus: "propagation"
+                },
+                {
+                    titre: "Test de Résistance Cognitive",
+                    description: "Évaluer la capacité de résistance aux effets memétiques",
+                    focus: "résistance"
+                },
+                {
+                    titre: "Expérience de Contre-Mèmes",
+                    description: "Développer des idées capables de neutraliser les effets memétiques",
+                    focus: "neutralisation"
+                },
+                {
+                    titre: "Analyse des Vecteurs de Transmission",
+                    description: "Identifier les moyens de propagation des mèmes anormaux",
+                    focus: "vecteurs"
+                },
+                {
+                    titre: "Test d'Immunité Memétique",
+                    description: "Développer des protocoles de protection contre les mèmes",
+                    focus: "immunité"
+                }
+            ],
+            "psychique": [
+                {
+                    titre: "Analyse des Ondes Cérébrales",
+                    description: "Mesurer l'activité électrique du cerveau lors d'événements psychiques",
+                    focus: "neurologie"
+                },
+                {
+                    titre: "Test de Télépathie Contrôlée",
+                    description: "Évaluer les capacités de communication mentale",
+                    focus: "télépathie"
+                },
+                {
+                    titre: "Expérience de Psychokinésie",
+                    description: "Tester la capacité d'influence mentale sur la matière",
+                    focus: "psychokinésie"
+                },
+                {
+                    titre: "Analyse de Résistance Psychique",
+                    description: "Mesurer la capacité de résistance aux influences mentales",
+                    focus: "résistance mentale"
+                },
+                {
+                    titre: "Test de Projection Astrale",
+                    description: "Étudier les phénomènes de séparation corps-esprit",
+                    focus: "projection"
                 }
             ]
         };
 
-        // Variables globales
-        let allExperiments = [];
-        let generatedExperiments = [];
-        let isLoading = false;
+        // Génération d'expériences supplémentaires pour atteindre 500+
+        function generateExtendedExperiments() {
+            const baseTypes = [
+                "Analyse Comportementale", "Test de Stress", "Évaluation Sensorielle", 
+                "Protocole d'Adaptation", "Mesure de Résistance", "Analyse Temporelle",
+                "Test d'Interaction", "Évaluation Cognitive", "Protocole Thermique",
+                "Analyse Réflexe", "Test de Mémoire", "Évaluation Survie",
+                "Protocole Lumineux", "Analyse Régénération", "Test Reconnaissance",
+                "Évaluation Défense", "Protocole Isolation", "Analyse Biologique",
+                "Test Coordination", "Évaluation Émotionnelle", "Protocole Tactile",
+                "Analyse Alimentaire", "Test Spatial", "Évaluation Apprentissage",
+                "Protocole Sonore", "Analyse Chimique", "Test Électrique",
+                "Évaluation Magnétique", "Protocole Radiation", "Analyse Gravité"
+            ];
 
-        // Génération d'expériences basée sur les propriétés SCP
-        function generateExperimentsForSCP(scpId, scpData) {
-            const experiments = [];
-            const properties = scpData.properties || ['unknown'];
+            const conditions = [
+                "sous pression atmosphérique", "en présence de gaz inertes", "avec éclairage stroboscopique",
+                "en gravité réduite", "sous champs magnétiques", "avec exposition ultrasons",
+                "en atmosphère humidifiée", "sous contrainte temporelle", "avec interférences électriques",
+                "en environnement stérilisé", "sous température contrôlée", "avec vibrations mécaniques",
+                "en isolation sensorielle", "sous radiation contrôlée", "avec stimulation lumineuse",
+                "en chambre anéchoïque", "sous pression hydraulique", "avec champs électrostatiques",
+                "en environnement hypoxique", "sous exposition chimique", "avec résonance magnétique"
+            ];
+
+            const objectives = [
+                "cartographier les réponses", "identifier les seuils", "évaluer l'adaptation",
+                "mesurer la récupération", "analyser les patterns", "déterminer les facteurs",
+                "quantifier les réactions", "établir les protocoles", "créer des modèles",
+                "développer des contre-mesures", "optimiser le confinement", "améliorer la sécurité",
+                "comprendre les mécanismes", "prédire les comportements", "minimiser les risques",
+                "maximiser l'efficacité", "standardiser les procédures", "valider les hypothèses",
+                "documenter les propriétés", "classifier les anomalies"
+            ];
+
+            const extendedExperiments = [];
             
-            properties.forEach(property => {
-                const templates = experimentTemplates[property] || experimentTemplates['biological'];
-                templates.forEach(template => {
-                    // Génération de variations pour chaque template
-                    for (let i = 0; i < 3; i++) {
-                        const riskLevel = Math.floor(template.baseRisk * scpData.riskMultiplier * (0.8 + Math.random() * 0.4));
-                        const personnelCount = template.personnel[i % template.personnel.length];
-                        const duration = template.duration[i % template.duration.length];
-                        
-                        experiments.push({
-                            id: `${scpId}-${property}-${i}`,
-                            titre: `${template.title} - SCP-${scpId}`,
-                            description: template.description.replace(/l'entité/g, `SCP-${scpId}`),
-                            classeD: personnelCount,
-                            objets: template.materials,
-                            risque: Math.min(95, Math.max(5, riskLevel)),
-                            duree: duration,
-                            objectif: `Comprendre les mécanismes ${property} de SCP-${scpId}`,
-                            precautions: template.precautions,
-                            resultatsAttendus: `Données détaillées sur les propriétés ${property} et protocoles d'interaction optimisés`,
-                            autorisationRequise: riskLevel > 60 ? 'Niveau 4' : riskLevel > 35 ? 'Niveau 3' : 'Niveau 2',
-                            materiels: template.materials,
-                            zone: template.zone,
-                            classification: scpData.class
-                        });
-                    }
+            baseTypes.forEach((type, i) => {
+                conditions.forEach((condition, j) => {
+                    objectives.forEach((objective, k) => {
+                        if (extendedExperiments.length < 500) {
+                            const risk = Math.floor(Math.random() * 80) + 10;
+                            const duration = [
+                                "30 minutes", "1 heure", "2 heures", "4 heures", "6 heures", 
+                                "8 heures", "12 heures", "24 heures", "48 heures", "72 heures"
+                            ][(i + j + k) % 10];
+                            const classDCount = Math.floor(Math.random() * 8) + 1;
+
+                            extendedExperiments.push({
+                                titre: `${type} ${condition}`,
+                                description: `Expérience visant à ${objective} ${condition}`,
+                                classeD: classDCount,
+                                objets: [
+                                    "Équipement de surveillance avancé",
+                                    "Capteurs spécialisés",
+                                    "Dispositifs de mesure",
+                                    "Matériel de sécurité"
+                                ],
+                                risque: risk,
+                                duree: duration,
+                                objectif: objective.charAt(0).toUpperCase() + objective.slice(1),
+                                precautions: [
+                                    "Personnel qualifié requis",
+                                    "Protocoles de sécurité standard",
+                                    "Surveillance continue",
+                                    "Plan d'évacuation préparé"
+                                ],
+                                resultatsAttendus: `Données quantifiées sur ${objective}`,
+                                autorisationRequise: risk > 60 ? "Niveau 4" : risk > 40 ? "Niveau 3" : "Niveau 2",
+                                materiels: [
+                                    "Instruments de mesure",
+                                    "Équipement de protection",
+                                    "Systèmes d'enregistrement",
+                                    "Matériel d'urgence"
+                                ],
+                                zone: "Zone de test sécurisée adaptée"
+                            });
+                        }
+                    });
                 });
             });
 
-            return experiments;
+            return extendedExperiments;
         }
 
-        // Génération de toutes les expériences
-        function generateAllExperiments() {
-            allExperiments = [];
-            
-            Object.keys(scpDatabase).forEach(scpId => {
-                const scpData = scpDatabase[scpId];
-                const scpExperiments = generateExperimentsForSCP(scpId, scpData);
-                allExperiments.push(...scpExperiments);
-            });
+        let generatedExperiences = [];
+        let currentSCP = null;
+        let isLoading = false;
+        let allExperiments = generateExtendedExperiments();
 
-            // Ajout d'expériences génériques supplémentaires
-            const genericExperiments = generateGenericExperiments();
-            allExperiments.push(...genericExperiments);
+        // Fonctions utilitaires
+        function getRiskClass(risk) {
+            if (risk < 25) return 'risk-low';
+            if (risk < 50) return 'risk-medium';
+            if (risk < 75) return 'risk-high';
+            return 'risk-critical';
         }
 
-        // Génération d'expériences génériques
-        function generateGenericExperiments() {
-            const genericTypes = [
-                'Analyse Comportementale Standard',
-                'Test de Résistance Environnementale',
-                'Évaluation des Capacités Sensorielles',
-                'Protocole d\'Interaction Contrôlée',
-                'Mesure des Paramètres Physiques',
-                'Analyse des Réactions Chimiques',
-                'Test de Stimulation Externe',
-                'Évaluation de la Mémoire',
-                'Analyse des Patterns d\'Activité',
-                'Test de Réponse aux Stimuli'
-            ];
+        function getClassColor(scpClass) {
+            const classes = {
+                'Safe': 'class-safe',
+                'Euclid': 'class-euclid',
+                'Keter': 'class-keter',
+                'Thaumiel': 'class-thaumiel',
+                'Apollyon': 'class-apollyon',
+                'Archon': 'class-archon',
+                'Neutralized': 'class-neutralized'
+            };
+            return classes[scpClass] || 'class-euclid';
+        }
+
+        // Génération d'expériences cohérentes
+        function generateCoherentExperiments(scpNumber) {
+            const scp = scpDatabase[scpNumber];
+            if (!scp) {
+                return generateGenericExperiments(scpNumber);
+            }
 
             const experiments = [];
-            
-            genericTypes.forEach((type, index) => {
-                for (let i = 0; i < 5; i++) {
-                    const risk = 20 + Math.floor(Math.random() * 50);
-                    const personnel = 1 + Math.floor(Math.random() * 4);
-                    const durations = ['45 minutes', '1 heure', '1 heure 15', '1 heure 30', '1 heure 45', '2 heures'];
-                    
-                    experiments.push({
-                        id: `generic-${index}-${i}`,
-                        titre: `${type} Avancée`,
-                        description: `Protocole expérimental standardisé visant à évaluer les caractéristiques fondamentales de l'entité à travers une approche méthodologique rigoureuse. Cette expérience combine plusieurs techniques d'analyse pour obtenir une compréhension complète des propriétés anormales, des mécanismes de fonctionnement, et des interactions avec l'environnement. L'objectif principal est d'établir des protocoles de base pour toute recherche future et de créer une base de données de référence pour les comparaisons inter-entités.`,
-                        classeD: personnel,
-                        objets: ['Équipement de surveillance', 'Capteurs multispectraux', 'Dispositifs de mesure', 'Matériel de sécurité'],
-                        risque: risk,
-                        duree: durations[i % durations.length],
-                        objectif: 'Établir les paramètres de base et les protocoles d\'interaction standard',
-                        precautions: ['Personnel qualifié requis', 'Surveillance continue', 'Protocoles d\'urgence préparés'],
-                        resultatsAttendus: 'Base de données complète des caractéristiques fondamentales',
-                        autorisationRequise: risk > 50 ? 'Niveau 3' : 'Niveau 2',
-                        materiels: ['Instruments de mesure précis', 'Équipement de protection', 'Systèmes d\'enregistrement'],
-                        zone: 'Laboratoire d\'analyse standard sécurisé',
-                        classification: 'Euclid'
+            const usedTemplates = new Set();
+
+            // Générer des expériences basées sur les propriétés du SCP
+            scp.properties.forEach(property => {
+                if (experimentTemplates[property]) {
+                    const templates = experimentTemplates[property];
+                    templates.forEach(template => {
+                        if (!usedTemplates.has(template.titre)) {
+                            usedTemplates.add(template.titre);
+                            
+                            const risk = calculateRiskLevel(scp.class, property);
+                            const personnel = calculatePersonnelNeeded(scp.class, property);
+                            const duration = calculateDuration(property);
+                            
+                            experiments.push({
+                                titre: `${template.titre} - SCP-${scpNumber}`,
+                                description: `${template.description} spécifiquement pour SCP-${scpNumber} (${scp.name}).`,
+                                classeD: personnel,
+                                risque: risk,
+                                duree: duration,
+                                objectif: `Analyser ${template.focus} de SCP-${scpNumber}`,
+                                precautions: generatePrecautions(scp.class, scp.risks),
+                                resultatsAttendus: `Données détaillées sur ${template.focus} de l'entité`,
+                                autorisationRequise: risk > 70 ? "Niveau 5" : risk > 50 ? "Niveau 4" : risk > 30 ? "Niveau 3" : "Niveau 2",
+                                materiels: generateMaterials(property, template.focus),
+                                zone: generateZone(scp.containment, property),
+                                id: `${Date.now()}-${experiments.length}`
+                            });
+                        }
                     });
                 }
             });
 
-            return experiments;
+            // Ajouter des expériences spécifiques au SCP
+            experiments.push(...generateSpecificExperiments(scpNumber, scp));
+
+            // Compléter avec des expériences génériques si nécessaire
+            while (experiments.length < 6) {
+                const randomExp = allExperiments[Math.floor(Math.random() * allExperiments.length)];
+                experiments.push({
+                    ...randomExp,
+                    titre: `${randomExp.titre} - SCP-${scpNumber}`,
+                    description: `${randomExp.description} spécifiquement pour SCP-${scpNumber}.`,
+                    id: `${Date.now()}-${experiments.length}`
+                });
+            }
+
+            return experiments.slice(0, 6);
         }
 
-        // Fonctions utilitaires
-        function getRiskColor(risk) {
-            if (risk < 25) return '#10b981';
-            if (risk < 50) return '#f59e0b';
-            if (risk < 75) return '#f97316';
-            return '#ef4444';
-        }
-
-        function getRiskBg(risk) {
-            if (risk < 25) return 'rgba(16, 185, 129, 0.1)';
-            if (risk < 50) return 'rgba(245, 158, 11, 0.1)';
-            if (risk < 75) return 'rgba(249, 115, 22, 0.1)';
-            return 'rgba(239, 68, 68, 0.1)';
-        }
-
-        function getRiskBorder(risk) {
-            if (risk < 25) return 'rgba(16, 185, 129, 0.3)';
-            if (risk < 50) return 'rgba(245, 158, 11, 0.3)';
-            if (risk < 75) return 'rgba(249, 115, 22, 0.3)';
-            return 'rgba(239, 68, 68, 0.3)';
-        }
-
-        // Fonction principale de génération
-        function generateExperiments() {
-            const scpInput = document.getElementById('scpInput');
-            const scpName = scpInput.value.trim();
+        function calculateRiskLevel(scpClass, property) {
+            let baseRisk = 30;
             
-            if (!scpName) return;
+            switch(scpClass) {
+                case 'Safe': baseRisk = 20; break;
+                case 'Euclid': baseRisk = 45; break;
+                case 'Keter': baseRisk = 70; break;
+                case 'Thaumiel': baseRisk = 35; break;
+                case 'Apollyon': baseRisk = 90; break;
+                case 'Archon': baseRisk = 60; break;
+                case 'Neutralized': baseRisk = 10; break;
+            }
+
+            const riskModifiers = {
+                'mortel': 25, 'hostile': 20, 'contagion': 30, 'possession': 25,
+                'indestructible': 15, 'intelligent': 10, 'imprévisible': 15,
+                'dimensionnel': 20, 'temporel': 25, 'memétique': 30, 'psychique': 20
+            };
+
+            if (riskModifiers[property]) {
+                baseRisk += riskModifiers[property];
+            }
+
+            return Math.min(95, Math.max(10, baseRisk + Math.floor(Math.random() * 20) - 10));
+        }
+
+        function calculatePersonnelNeeded(scpClass, property) {
+            let basePersonnel = 2;
+            
+            switch(scpClass) {
+                case 'Safe': basePersonnel = 1; break;
+                case 'Euclid': basePersonnel = 3; break;
+                case 'Keter': basePersonnel = 6; break;
+                case 'Thaumiel': basePersonnel = 2; break;
+                case 'Apollyon': basePersonnel = 10; break;
+                case 'Archon': basePersonnel = 4; break;
+                case 'Neutralized': basePersonnel = 1; break;
+            }
+
+            const personnelModifiers = {
+                'mortel': 2, 'hostile': 2, 'contagion': 3, 'intelligent': 1,
+                'dimensionnel': 2, 'temporel': 3, 'memétique': 4, 'psychique': 2
+            };
+
+            if (personnelModifiers[property]) {
+                basePersonnel += personnelModifiers[property];
+            }
+
+            return Math.min(15, Math.max(0, basePersonnel));
+        }
+
+        function calculateDuration(property) {
+            const durations = {
+                'observation': ['30 minutes', '1 heure', '2 heures'],
+                'mécanique': ['2 heures', '4 heures', '6 heures'],
+                'biologique': ['4 heures', '8 heures', '12 heures'],
+                'intelligent': ['6 heures', '12 heures', '24 heures'],
+                'virus': ['24 heures', '48 heures', '72 heures'],
+                'dimensionnel': ['1 heure', '4 heures', '8 heures'],
+                'temporel': ['30 minutes', '2 heures', '6 heures'],
+                'memétique': ['15 minutes', '1 heure', '4 heures'],
+                'psychique': ['2 heures', '6 heures', '12 heures']
+            };
+
+            const defaultDurations = ['1 heure', '2 heures', '4 heures', '6 heures', '8 heures'];
+            const propertyDurations = durations[property] || defaultDurations;
+            
+            return propertyDurations[Math.floor(Math.random() * propertyDurations.length)];
+        }
+
+        function generatePrecautions(scpClass, risks) {
+            const basePrecautions = ["Personnel qualifié requis", "Surveillance continue"];
+            
+            const classPrecautions = {
+                'Safe': ["Procédures standard", "Supervision de niveau 2"],
+                'Euclid': ["Protocoles de confinement renforcés", "Équipe de réponse rapide"],
+                'Keter': ["Mesures de sécurité maximales", "Protocoles d'urgence activés", "Évacuation préparée"],
+                'Thaumiel': ["Protocoles de coopération", "Supervision spécialisée"],
+                'Apollyon': ["Confinement absolu", "Autorisation O5 requise", "Protocoles de fin du monde"],
+                'Archon': ["Confinement indirect", "Surveillance à distance", "Non-intervention"],
+                'Neutralized': ["Procédures d'archivage", "Surveillance passive"]
+            };
+
+            const riskPrecautions = risks.map(risk => `Protection contre: ${risk.toLowerCase()}`);
+            
+            return [...basePrecautions, ...classPrecautions[scpClass] || [], ...riskPrecautions].slice(0, 4);
+        }
+
+        function generateMaterials(property, focus) {
+            const baseMaterials = ["Équipement de surveillance", "Dispositifs de mesure", "Matériel de sécurité"];
+            
+            const propertyMaterials = {
+                'statue': ["Analyseurs de matériaux", "Capteurs de mouvement", "Caméras haute vitesse"],
+                'observation': ["Systèmes de vision", "Détecteurs de présence", "Miroirs unidirectionnels"],
+                'humanoïde': ["Équipement médical", "Scanners corporels", "Moniteurs vitaux"],
+                'mécanique': ["Outils de précision", "Analyseurs mécaniques", "Lubrifiants spécialisés"],
+                'intelligent': ["Tests cognitifs", "Interfaces de communication", "Systèmes d'enregistrement"],
+                'virus': ["Équipement de biosécurité", "Microscopes électroniques", "Centrifugeuses"],
+                'dimensionnel': ["Détecteurs dimensionnels", "Ancres de réalité", "Équipement de navigation"],
+                'temporel': ["Chronomètres de précision", "Détecteurs temporels", "Stabilisateurs"],
+                'memétique': ["Filtres cognitifs", "Analyseurs memétiques", "Équipement de protection mentale"],
+                'psychique': ["Amplificateurs psychiques", "Boucliers mentaux", "Détecteurs d'activité cérébrale"]
+            };
+
+            return [...baseMaterials, ...propertyMaterials[property] || []].slice(0, 4);
+        }
+
+        function generateZone(containment, property) {
+            const zoneMap = {
+                'observation': "Chambre d'observation sécurisée",
+                'mécanique': "Atelier de mécanique de précision",
+                'biologique': "Laboratoire de biologie sécurisé",
+                'virus': "Laboratoire de biosécurité niveau 4",
+                'intelligent': "Chambre d'interaction contrôlée",
+                'dimensionnel': "Laboratoire de recherche dimensionnelle",
+                'temporel': "Chambre de stabilisation temporelle",
+                'memétique': "Laboratoire de recherche cognitive",
+                'psychique': "Chambre d'isolation psychique"
+            };
+
+            return zoneMap[property] || containment || "Zone de test sécurisée";
+        }
+
+        function generateSpecificExperiments(scpNumber, scp) {
+            const specificExperiments = {
+                "001": [
+                    {
+                        titre: "Analyse des Propositions Multiples",
+                        description: "Comparer les différentes versions de SCP-001 pour identifier les éléments communs",
+                        focus: "analyse comparative"
+                    }
+                ],
+                "173": [
+                    {
+                        titre: "Test de Résistance au Béton Renforcé",
+                        description: "Analyser la capacité de SCP-173 à briser différents types de béton et matériaux de construction",
+                        focus: "résistance matérielle"
+                    }
+                ],
+                "096": [
+                    {
+                        titre: "Expérience de Pixellisation d'Image",
+                        description: "Tester si des images fortement pixellisées du visage déclenchent la réaction de rage",
+                        focus: "seuil de reconnaissance"
+                    }
+                ],
+                "682": [
+                    {
+                        titre: "Test de Résistance aux Acides Concentrés",
+                        description: "Évaluer l'efficacité de différents acides pour maintenir le confinement",
+                        focus: "confinement chimique"
+                    }
+                ],
+                "914": [
+                    {
+                        titre: "Expérience de Raffinement d'Objets Complexes",
+                        description: "Tester le raffinement d'appareils électroniques et d'objets technologiques avancés",
+                        focus: "transformation technologique"
+                    }
+                ]
+            };
+
+            const experiments = specificExperiments[scpNumber] || [];
+            
+            return experiments.map((exp, index) => ({
+                titre: `${exp.titre} - SCP-${scpNumber}`,
+                description: `${exp.description} pour mieux comprendre SCP-${scpNumber}.`,
+                classeD: calculatePersonnelNeeded(scp.class, 'specific'),
+                risque: calculateRiskLevel(scp.class, 'specific'),
+                duree: calculateDuration('specific'),
+                objectif: `Analyser ${exp.focus} de SCP-${scpNumber}`,
+                precautions: generatePrecautions(scp.class, scp.risks),
+                resultatsAttendus: `Données spécialisées sur ${exp.focus}`,
+                autorisationRequise: scp.class === 'Keter' ? "Niveau 4" : "Niveau 3",
+                materiels: generateMaterials('specific', exp.focus),
+                zone: generateZone(scp.containment, 'specific'),
+                id: `${Date.now()}-specific-${index}`
+            }));
+        }
+
+        function generateGenericExperiments(scpNumber) {
+            const shuffled = [...allExperiments].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, 6).map((exp, index) => ({
+                ...exp,
+                titre: `${exp.titre} - SCP-${scpNumber}`,
+                description: `${exp.description} pour SCP-${scpNumber}.`,
+                id: `${Date.now()}-generic-${index}`
+            }));
+        }
+
+        // Génération d'expériences
+        function generateExperiences() {
+            const scpInput = document.getElementById('scpInput');
+            const scpNumber = scpInput.value.trim().replace(/^scp-?/i, '');
+            
+            if (!scpNumber) return;
 
             isLoading = true;
             updateLoadingState();
+            currentSCP = scpNumber;
 
             setTimeout(() => {
-                const scpData = scpDatabase[scpName] || {
-                    name: `SCP-${scpName}`,
-                    class: 'Euclid',
-                    properties: ['unknown'],
-                    riskMultiplier: 1.0,
-                    description: 'Entité aux propriétés anormales nécessitant une étude approfondie'
-                };
-
-                // Filtrer les expériences pour ce SCP ou utiliser des génériques
-                let relevantExperiments = allExperiments.filter(exp => exp.id.startsWith(scpName));
-                
-                if (relevantExperiments.length === 0) {
-                    relevantExperiments = allExperiments.filter(exp => exp.id.startsWith('generic'));
-                }
-
-                const shuffled = [...relevantExperiments].sort(() => Math.random() - 0.5);
-                const selected = shuffled.slice(0, 5).map((exp, index) => ({
-                    ...exp,
-                    id: `${Date.now()}-${index}`,
-                    titre: exp.titre.includes(scpName) ? exp.titre : `${exp.titre} - SCP-${scpName}`,
-                    description: exp.description.replace(/SCP-\d+/g, `SCP-${scpName}`).replace(/l'entité/g, `SCP-${scpName}`)
-                }));
-
-                generatedExperiments = selected;
+                generatedExperiences = generateCoherentExperiments(scpNumber);
                 isLoading = false;
                 updateLoadingState();
-                renderResults(scpName, scpData);
+                renderSCPInfo(scpNumber);
+                renderResults(scpNumber);
             }, 1500);
         }
 
@@ -915,7 +1460,7 @@
             const btnContent = generateBtn.querySelector('.btn-content');
             
             if (isLoading) {
-                btnContent.innerHTML = '<span class="loading-spinner"></span> Génération...';
+                btnContent.innerHTML = '<div class="spinner"></div> Analyse en cours...';
                 generateBtn.disabled = true;
             } else {
                 btnContent.innerHTML = 'Générer';
@@ -923,122 +1468,149 @@
             }
         }
 
+        // Rendu des informations SCP
+        function renderSCPInfo(scpNumber) {
+            const scpInfoContainer = document.getElementById('scpInfo');
+            const scp = scpDatabase[scpNumber];
+            
+            if (!scp) {
+                scpInfoContainer.innerHTML = `
+                    <div class="scp-info">
+                        <h3>SCP-${scpNumber} - Entité Non Répertoriée</h3>
+                        <p><strong>Classe d'Objet:</strong> <span class="scp-class class-euclid">Inconnue</span></p>
+                        <p><strong>Description:</strong> Aucune information disponible dans la base de données. Génération d'expériences génériques basées sur les protocoles standard.</p>
+                        <p><strong>Statut:</strong> Expériences exploratoires recommandées pour classification initiale.</p>
+                    </div>
+                `;
+            } else {
+                scpInfoContainer.innerHTML = `
+                    <div class="scp-info">
+                        <h3>SCP-${scpNumber} - ${scp.name}</h3>
+                        <p><strong>Classe d'Objet:</strong> <span class="scp-class ${getClassColor(scp.class)}">${scp.class}</span></p>
+                        <p><strong>Description:</strong> ${scp.description}</p>
+                        <p><strong>Confinement:</strong> ${scp.containment}</p>
+                        <p><strong>Propriétés Clés:</strong> ${scp.properties.join(', ')}</p>
+                    </div>
+                `;
+            }
+            
+            scpInfoContainer.classList.remove('hidden');
+        }
+
         // Rendu des résultats
-        function renderResults(scpName, scpData) {
+        function renderResults(scpNumber) {
             const resultsContainer = document.getElementById('results');
             
-            if (generatedExperiments.length === 0) {
-                resultsContainer.innerHTML = '';
+            if (generatedExperiences.length === 0) {
+                resultsContainer.classList.add('hidden');
                 return;
             }
 
+            resultsContainer.classList.remove('hidden');
+            
             const resultsHTML = `
                 <div class="results-header">
-                    <h2 class="results-title">Protocoles Expérimentaux pour SCP-${scpName}</h2>
-                    <p class="results-subtitle">
-                        ${generatedExperiments.length} expériences générées • Classification: 
-                        <span class="classification-badge ${scpData.class.toLowerCase()}">${scpData.class}</span>
-                    </p>
+                    <h2>Expériences Spécialisées pour SCP-${scpNumber}</h2>
+                    <p>${generatedExperiences.length} expériences cohérentes générées • Basées sur les propriétés documentées</p>
                 </div>
 
-                ${generatedExperiments.map(exp => `
+                ${generatedExperiences.map(exp => `
                     <div class="experiment-card">
-                        <h3 class="experiment-title">${exp.titre}</h3>
-                        <p class="experiment-description">${exp.description}</p>
+                        <div class="card-header">
+                            <h3>${exp.titre}</h3>
+                            <p>${exp.description}</p>
+                        </div>
 
-                        <div class="experiment-meta">
-                            <div class="meta-item">
-                                <div class="meta-label">Niveau de Risque</div>
-                                <div class="meta-value">
-                                    <span class="risk-indicator" style="background: ${getRiskBg(exp.risque)}; color: ${getRiskColor(exp.risque)}; border: 1px solid ${getRiskBorder(exp.risque)}">
-                                        ${exp.risque}%
-                                    </span>
-                                </div>
+                        <div class="card-stats">
+                            <div class="stat-box ${getRiskClass(exp.risque)}">
+                                <h4>Niveau de Risque</h4>
+                                <div class="stat-value">${exp.risque}%</div>
+                                <div class="stat-sub">Autorisation: ${exp.autorisationRequise}</div>
                             </div>
-                            <div class="meta-item">
-                                <div class="meta-label">Personnel Requis</div>
-                                <div class="meta-value">${exp.classeD} Classe-D</div>
+
+                            <div class="stat-box personnel-box">
+                                <h4>Personnel</h4>
+                                <div class="stat-value">${exp.classeD} Classe-D</div>
+                                <div class="stat-sub">Durée: ${exp.duree}</div>
                             </div>
-                            <div class="meta-item">
-                                <div class="meta-label">Durée Estimée</div>
-                                <div class="meta-value">${exp.duree}</div>
-                            </div>
-                            <div class="meta-item">
-                                <div class="meta-label">Autorisation</div>
-                                <div class="meta-value">${exp.autorisationRequise}</div>
+
+                            <div class="stat-box zone-box">
+                                <h4>Zone</h4>
+                                <div class="stat-value">${exp.zone}</div>
                             </div>
                         </div>
 
-                        <div class="experiment-details">
+                        <div class="card-details">
                             <div class="detail-section">
-                                <div class="detail-title">OBJECTIF PRINCIPAL</div>
-                                <div class="detail-content">${exp.objectif}</div>
+                                <h4 class="objective">OBJECTIF</h4>
+                                <p>${exp.objectif}</p>
                             </div>
 
                             <div class="detail-section">
-                                <div class="detail-title">MATÉRIELS REQUIS</div>
-                                <ul class="detail-list">
-                                    ${exp.materiels.map(materiel => `<li>${materiel}</li>`).join('')}
-                                </ul>
+                                <h4 class="materials">MATÉRIELS REQUIS</h4>
+                                <div class="detail-list">
+                                    ${exp.materiels.map(materiel => `
+                                        <div class="detail-item">
+                                            <div class="detail-dot" style="background-color: #3b82f6;"></div>
+                                            ${materiel}
+                                        </div>
+                                    `).join('')}
+                                </div>
                             </div>
 
                             <div class="detail-section">
-                                <div class="detail-title">PRÉCAUTIONS DE SÉCURITÉ</div>
-                                <ul class="detail-list">
-                                    ${exp.precautions.map(precaution => `<li>${precaution}</li>`).join('')}
-                                </ul>
+                                <h4 class="precautions">PRÉCAUTIONS</h4>
+                                <div class="detail-list">
+                                    ${exp.precautions.map(precaution => `
+                                        <div class="detail-item">
+                                            <div class="detail-dot" style="background-color: #f59e0b;"></div>
+                                            ${precaution}
+                                        </div>
+                                    `).join('')}
+                                </div>
                             </div>
 
                             <div class="detail-section">
-                                <div class="detail-title">RÉSULTATS ATTENDUS</div>
-                                <div class="detail-content">${exp.resultatsAttendus}</div>
-                            </div>
-
-                            <div class="detail-section">
-                                <div class="detail-title">ZONE D'EXPÉRIMENTATION</div>
-                                <div class="detail-content">${exp.zone}</div>
+                                <h4 class="results">RÉSULTATS ATTENDUS</h4>
+                                <p>${exp.resultatsAttendus}</p>
                             </div>
                         </div>
                     </div>
                 `).join('')}
 
                 <div class="regenerate-section">
-                    <button class="regenerate-btn" onclick="generateExperiments()">
+                    <button class="regenerate-btn" onclick="generateExperiences()">
                         Générer Nouvelles Expériences
                     </button>
-                    <p style="color: #FF5733; margin-top: 15px;">
-                        Système de génération infinie • Plus de 500 variations disponibles
+                    <p style="color: #9ca3af; font-size: 0.9rem; margin-top: 10px;">
+                        Expériences adaptées aux propriétés spécifiques de chaque SCP
                     </p>
                 </div>
             `;
-
+            
             resultsContainer.innerHTML = resultsHTML;
         }
 
         // Initialisation
-        function initApp() {
-            generateAllExperiments();
-            
+        document.addEventListener('DOMContentLoaded', function() {
             const scpInput = document.getElementById('scpInput');
             const generateBtn = document.getElementById('generateBtn');
+            const dbCount = document.getElementById('dbCount');
+            
+            // Calculer le nombre total d'expériences possibles
+            const totalExperiments = Object.keys(scpDatabase).length * 10 + 
+                                   Object.values(experimentTemplates).reduce((acc, templates) => acc + templates.length, 0) +
+                                   allExperiments.length;
+            dbCount.textContent = `${totalExperiments}+`;
 
-            scpInput.addEventListener('keypress', (e) => {
+            scpInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
-                    generateExperiments();
+                    generateExperiences();
                 }
             });
 
-            generateBtn.addEventListener('click', generateExperiments);
-
-            console.log(`Générateur SCP initialisé avec ${allExperiments.length} expériences`);
-        }
-
-        // Démarrage
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initApp);
-        } else {
-            initApp();
-        }
+            generateBtn.addEventListener('click', generateExperiences);
+        });
     </script>
 </body>
 </html>
