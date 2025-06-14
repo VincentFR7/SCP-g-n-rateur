@@ -1291,3 +1291,32 @@
     </script>
 </body>
 </html>
+
+// Protection contre l'inspection du code - À ajouter dans le <script>
+document.addEventListener('keydown', function(e) {
+    // Bloquer F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+U
+    if (e.key === 'F12' || 
+        (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+        (e.ctrlKey && e.shiftKey && e.key === 'C') ||
+        (e.ctrlKey && e.key === 'U') ||
+        (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Bloquer le clic droit
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// Bloquer la sélection de texte
+document.addEventListener('selectstart', function(e) {
+    e.preventDefault();
+});
+
+// Bloquer le glisser-déposer
+document.addEventListener('dragstart', function(e) {
+    e.preventDefault();
+});
+
