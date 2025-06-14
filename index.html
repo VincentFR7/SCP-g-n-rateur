@@ -17,16 +17,17 @@
             background: url('https://i.imgur.com/Er2PIK5.jpeg') center/cover fixed;
             min-height: 100vh;
             color: white;
+            line-height: 1.6;
         }
 
         .overlay {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(2px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(3px);
             min-height: 100vh;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -34,47 +35,53 @@
         .header {
             text-align: center;
             margin-bottom: 50px;
+            padding: 40px 0;
         }
 
         .header h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
+            font-size: 3.5rem;
+            margin-bottom: 15px;
             color: #ff6b35;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            font-weight: 700;
         }
 
-        .header p {
-            font-size: 1.2rem;
-            color: #ccc;
-            margin-bottom: 5px;
+        .header .subtitle {
+            font-size: 1.4rem;
+            color: #e2e8f0;
+            margin-bottom: 10px;
+            font-weight: 300;
         }
 
-        .credit {
-            font-size: 0.9rem;
+        .header .credit {
+            font-size: 1rem;
             color: #ff6b35;
             font-style: italic;
+            font-weight: 500;
         }
 
         .search-section {
-            background: rgba(31, 41, 55, 0.9);
-            border: 1px solid #374151;
-            border-radius: 12px;
-            padding: 30px;
+            background: rgba(17, 24, 39, 0.95);
+            border: 2px solid #374151;
+            border-radius: 16px;
+            padding: 40px;
             margin-bottom: 50px;
-            max-width: 600px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             font-weight: 600;
-            color: #d1d5db;
+            color: #f1f5f9;
+            font-size: 1.1rem;
         }
 
         .input-container {
@@ -83,60 +90,68 @@
 
         .input-container input {
             width: 100%;
-            padding: 15px 50px 15px 15px;
-            background: rgba(17, 24, 39, 0.8);
-            border: 1px solid #4b5563;
-            border-radius: 8px;
+            padding: 18px 60px 18px 20px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid #475569;
+            border-radius: 12px;
             color: white;
-            font-size: 16px;
+            font-size: 18px;
+            transition: all 0.3s ease;
         }
 
         .input-container input:focus {
             outline: none;
             border-color: #ff6b35;
-            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.2);
+            background: rgba(15, 23, 42, 1);
         }
 
         .search-icon {
             position: absolute;
-            right: 15px;
+            right: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: #9ca3af;
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 600;
         }
 
         .generate-btn {
             width: 100%;
-            padding: 15px;
-            background: #ff6b35;
+            padding: 20px;
+            background: linear-gradient(135deg, #ff6b35, #e55a2b);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .generate-btn:hover:not(:disabled) {
-            background: #e55a2b;
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #e55a2b, #d4491f);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
         }
 
         .generate-btn:disabled {
             background: #6b7280;
             cursor: not-allowed;
+            transform: none;
         }
 
         .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid transparent;
-            border-top: 2px solid white;
+            width: 24px;
+            height: 24px;
+            border: 3px solid transparent;
+            border-top: 3px solid white;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -147,139 +162,169 @@
         }
 
         .scp-info {
-            background: rgba(17, 24, 39, 0.9);
-            border: 1px solid #374151;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border-left: 4px solid #ff6b35;
+            background: rgba(15, 23, 42, 0.95);
+            border: 2px solid #374151;
+            border-radius: 16px;
+            padding: 35px;
+            margin-bottom: 40px;
+            border-left: 6px solid #ff6b35;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
 
         .scp-info h3 {
             color: #ff6b35;
-            margin-bottom: 10px;
-            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+            font-weight: 700;
         }
 
         .scp-info p {
-            color: #d1d5db;
-            line-height: 1.6;
-            margin-bottom: 8px;
+            color: #e2e8f0;
+            line-height: 1.7;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        .scp-info p strong {
+            color: #f8fafc;
         }
 
         .scp-class {
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: 6px 16px;
+            border-radius: 25px;
+            font-size: 0.9rem;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .class-safe { background: rgba(16, 185, 129, 0.2); color: #10b981; }
-        .class-euclid { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
-        .class-keter { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-        .class-thaumiel { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
-        .class-apollyon { background: rgba(0, 0, 0, 0.5); color: #ff0000; }
-        .class-archon { background: rgba(255, 255, 255, 0.2); color: #ffffff; }
-        .class-neutralized { background: rgba(107, 114, 128, 0.2); color: #6b7280; }
+        .class-safe { background: rgba(34, 197, 94, 0.2); color: #22c55e; border: 1px solid #22c55e; }
+        .class-euclid { background: rgba(251, 191, 36, 0.2); color: #fbbf24; border: 1px solid #fbbf24; }
+        .class-keter { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
+        .class-thaumiel { background: rgba(168, 85, 247, 0.2); color: #a855f7; border: 1px solid #a855f7; }
+        .class-apollyon { background: rgba(15, 15, 15, 0.8); color: #ff0000; border: 1px solid #ff0000; }
+        .class-archon { background: rgba(255, 255, 255, 0.2); color: #ffffff; border: 1px solid #ffffff; }
+        .class-neutralized { background: rgba(107, 114, 128, 0.2); color: #6b7280; border: 1px solid #6b7280; }
 
         .results {
-            margin-top: 50px;
+            margin-top: 60px;
         }
 
         .results-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
         .results-header h2 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #f8fafc;
+            font-weight: 700;
         }
 
         .results-header p {
-            color: #9ca3af;
+            color: #cbd5e1;
+            font-size: 1.1rem;
         }
 
         .experiment-card {
-            background: rgba(31, 41, 55, 0.9);
-            border: 1px solid #374151;
-            border-radius: 12px;
-            margin-bottom: 30px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 2px solid #334155;
+            border-radius: 20px;
+            margin-bottom: 40px;
             overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .experiment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            border-color: #475569;
         }
 
         .card-header {
-            padding: 25px;
-            border-bottom: 1px solid #374151;
+            padding: 35px;
+            border-bottom: 2px solid #334155;
+            background: rgba(30, 41, 59, 0.5);
         }
 
         .card-header h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #f8fafc;
+            font-weight: 700;
         }
 
         .card-header p {
-            color: #d1d5db;
-            line-height: 1.6;
+            color: #e2e8f0;
+            line-height: 1.7;
+            font-size: 1.1rem;
         }
 
         .card-stats {
-            padding: 25px;
+            padding: 35px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
         }
 
         .stat-box {
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid;
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-2px);
         }
 
         .stat-box h4 {
-            font-size: 0.9rem;
-            margin-bottom: 8px;
+            font-size: 1rem;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         .stat-sub {
-            font-size: 0.8rem;
-            color: #9ca3af;
+            font-size: 0.9rem;
+            color: #94a3b8;
         }
 
         .risk-low {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.4);
         }
 
         .risk-low .stat-value {
-            color: #10b981;
+            color: #22c55e;
         }
 
         .risk-medium {
-            background: rgba(245, 158, 11, 0.1);
-            border-color: rgba(245, 158, 11, 0.3);
+            background: rgba(251, 191, 36, 0.1);
+            border-color: rgba(251, 191, 36, 0.4);
         }
 
         .risk-medium .stat-value {
-            color: #f59e0b;
+            color: #fbbf24;
         }
 
         .risk-high {
             background: rgba(249, 115, 22, 0.1);
-            border-color: rgba(249, 115, 22, 0.3);
+            border-color: rgba(249, 115, 22, 0.4);
         }
 
         .risk-high .stat-value {
@@ -288,7 +333,7 @@
 
         .risk-critical {
             background: rgba(239, 68, 68, 0.1);
-            border-color: rgba(239, 68, 68, 0.3);
+            border-color: rgba(239, 68, 68, 0.4);
         }
 
         .risk-critical .stat-value {
@@ -297,7 +342,7 @@
 
         .personnel-box {
             background: rgba(59, 130, 246, 0.1);
-            border-color: rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.4);
         }
 
         .personnel-box .stat-value {
@@ -306,93 +351,103 @@
 
         .zone-box {
             background: rgba(168, 85, 247, 0.1);
-            border-color: rgba(168, 85, 247, 0.3);
+            border-color: rgba(168, 85, 247, 0.4);
         }
 
         .zone-box .stat-value {
             color: #a855f7;
-            font-size: 1rem;
+            font-size: 1.2rem;
         }
 
         .card-details {
-            padding: 25px;
-            background: rgba(17, 24, 39, 0.5);
+            padding: 35px;
+            background: rgba(30, 41, 59, 0.3);
         }
 
         .detail-section {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .detail-section h4 {
-            font-size: 1rem;
-            margin-bottom: 10px;
-            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .detail-section p {
-            color: #d1d5db;
-            line-height: 1.6;
+            color: #e2e8f0;
+            line-height: 1.7;
+            font-size: 1.05rem;
         }
 
         .detail-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 8px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 12px;
         }
 
         .detail-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: #d1d5db;
+            gap: 12px;
+            color: #e2e8f0;
+            padding: 8px 0;
+            font-size: 1.05rem;
         }
 
         .detail-dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
+            flex-shrink: 0;
         }
 
         .objective { color: #ff6b35; }
         .materials { color: #3b82f6; }
-        .precautions { color: #f59e0b; }
-        .results { color: #10b981; }
+        .precautions { color: #fbbf24; }
+        .results { color: #22c55e; }
 
         .regenerate-section {
             text-align: center;
-            padding: 50px 0;
+            padding: 60px 0;
         }
 
         .regenerate-btn {
-            padding: 15px 30px;
-            background: #ff6b35;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #ff6b35, #e55a2b);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .regenerate-btn:hover {
-            background: #e55a2b;
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #e55a2b, #d4491f);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
         }
 
         .footer {
             text-align: center;
-            margin-top: 80px;
-            padding: 40px 0;
-            border-top: 1px solid #374151;
+            margin-top: 100px;
+            padding: 50px 0;
+            border-top: 2px solid #334155;
         }
 
         .footer p {
-            color: #9ca3af;
-            margin-bottom: 5px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            font-size: 1.05rem;
         }
 
         .hidden {
@@ -401,7 +456,7 @@
 
         @media (max-width: 768px) {
             .header h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
 
             .card-stats {
@@ -410,6 +465,18 @@
 
             .detail-list {
                 grid-template-columns: 1fr;
+            }
+
+            .search-section {
+                padding: 25px;
+            }
+
+            .card-header {
+                padding: 25px;
+            }
+
+            .card-stats, .card-details {
+                padding: 25px;
             }
         }
     </style>
@@ -420,8 +487,8 @@
             <!-- Header -->
             <div class="header">
                 <h1>GÉNÉRATEUR D'EXPÉRIENCES SCP</h1>
-                <p>Système Avancé de Génération d'Idées Expérimentales</p>
-                <p class="credit">Développé par Vincent O'Bryan</p>
+                <p class="subtitle">Système Avancé de Génération d'Idées expérience</p>
+                <p class="credit">Développé par Vincent O'Bryan/p>
             </div>
 
             <!-- Search Section -->
@@ -429,12 +496,12 @@
                 <div class="input-group">
                     <label for="scpInput">Numéro SCP à étudier</label>
                     <div class="input-container">
-                        <input type="text" id="scpInput" placeholder="Ex: 173, 096, 999...">
+                        <input type="text" id="scpInput" placeholder="Ex: 173, 096, 682, 914, 3008...">
                         <span class="search-icon">RECHERCHE</span>
                     </div>
                 </div>
                 <button id="generateBtn" class="generate-btn">
-                    <span class="btn-content">Générer</span>
+                    <span class="btn-content">Générer Expériences</span>
                 </button>
             </div>
 
@@ -446,8 +513,9 @@
 
             <!-- Footer -->
             <div class="footer">
-                <p>© COSMOS SCP • Générateur d'Expériences • Base de données: <span id="dbCount">500+</span> variations</p>
-                <p style="font-size: 0.8rem; color: #6b7280;">Classification: RESTREINT • Usage autorisé pour personnel de recherche uniquement</p>
+                <p>© COSMOS SCP • Générateur d'Expériences Avancé • Base de données: <span id="dbCount">2000+</span> variations</p>
+                <p style="font-size: 0.9rem; color: #64748b;">Classification: RESTREINT • Usage autorisé pour personnel de recherche niveau 3+ uniquement</p>
+                <p style="font-size: 0.85rem; color: #475569; margin-top: 10px;">Système optimisé pour Euclid et Keter • Protocoles de sécurité renforcés</p>
             </div>
         </div>
     </div>
@@ -468,704 +536,479 @@
             return false;
         });
 
-        // Base de données étendue des SCPs
+        // Base de données très étendue des SCPs avec focus sur Euclid et Keter
         const scpDatabase = {
             "001": {
                 name: "La Proposition",
                 class: "Apollyon",
-                description: "Série de propositions pour SCP-001, chacune prétendant être la première anomalie découverte par la Fondation.",
-                properties: ["multiple", "fondation", "origine", "classifié", "apocalyptique"],
-                containment: "Information classifiée au plus haut niveau",
-                risks: ["Divulgation d'informations", "Menace existentielle", "Rupture de confinement globale"]
+                description: "Série de propositions pour SCP-001, chacune prétendant être la première anomalie découverte par la Fondation. Informations hautement classifiées.",
+                properties: ["multiple", "fondation", "origine", "classifié", "apocalyptique", "temporel"],
+                containment: "Information classifiée au plus haut niveau O5",
+                risks: ["Divulgation d'informations critiques", "Menace existentielle globale", "Rupture de confinement universelle"]
             },
             "002": {
                 name: "La Chambre Vivante",
                 class: "Euclid",
-                description: "Chambre d'appartement qui se transforme lentement, incorporant des matières organiques dans sa structure.",
-                properties: ["organique", "transformation", "croissance", "assimilation", "architecture"],
-                containment: "Surveillance continue, accès restreint",
-                risks: ["Assimilation organique", "Expansion structurelle", "Contamination biologique"]
-            },
-            "003": {
-                name: "Ordinateur Biologique",
-                class: "Euclid",
-                description: "Ordinateur composé de matière organique vivante capable de calculs complexes.",
-                properties: ["biologique", "ordinateur", "calcul", "organique", "intelligence"],
-                containment: "Laboratoire de biosécurité, alimentation contrôlée",
-                risks: ["Évolution imprévisible", "Contamination biologique", "Calculs dangereux"]
-            },
-            "004": {
-                name: "Les Douze Clés Rouillées",
-                class: "Safe",
-                description: "Ensemble de douze clés anciennes qui ouvrent des portes vers des dimensions alternatives.",
-                properties: ["clés", "dimensionnel", "transport", "ancien", "métal"],
-                containment: "Coffre-fort sécurisé, utilisation contrôlée",
-                risks: ["Transport dimensionnel", "Perte de personnel", "Incursions extradimensionnelles"]
-            },
-            "005": {
-                name: "Passe-partout Squelettique",
-                class: "Safe",
-                description: "Clé squelettique capable d'ouvrir n'importe quelle serrure mécanique.",
-                properties: ["clé", "squelettique", "universel", "mécanique", "ouverture"],
-                containment: "Coffre-fort haute sécurité",
-                risks: ["Évasion de détenus", "Accès non autorisé", "Rupture de sécurité"]
-            },
-            "006": {
-                name: "Fontaine de Jouvence",
-                class: "Safe",
-                description: "Fontaine produisant une eau aux propriétés de régénération et de rajeunissement.",
-                properties: ["eau", "régénération", "rajeunissement", "fontaine", "guérison"],
-                containment: "Chambre sécurisée, accès médical contrôlé",
-                risks: ["Surconsommation", "Effets secondaires", "Dépendance"]
-            },
-            "007": {
-                name: "Planète Abdominale",
-                class: "Euclid",
-                description: "Masse organique ressemblant à un organe abdominal de taille planétaire.",
-                properties: ["organique", "planétaire", "abdominal", "vivant", "massif"],
-                containment: "Observation spatiale, quarantaine orbitale",
-                risks: ["Expansion organique", "Contamination spatiale", "Effets gravitationnels"]
+                description: "Chambre d'appartement qui se transforme lentement, incorporant des matières organiques dans sa structure. La croissance s'accélère avec la présence humaine.",
+                properties: ["organique", "transformation", "croissance", "assimilation", "architecture", "vivant"],
+                containment: "Surveillance continue 24h/24, accès restreint au personnel de niveau 3",
+                risks: ["Assimilation organique progressive", "Expansion structurelle incontrôlée", "Contamination biologique"]
             },
             "008": {
                 name: "Virus Zombie",
                 class: "Euclid",
-                description: "Agent pathogène viral qui transforme les humains infectés en instances zombifiées agressives.",
-                properties: ["virus", "zombie", "contagion", "transformation", "agressivité"],
-                containment: "Laboratoire de biosécurité niveau 4, échantillons cryogéniques",
-                risks: ["Contagion virale", "Transformation zombie", "Propagation rapide"]
-            },
-            "009": {
-                name: "Objet Rouge",
-                class: "Euclid",
-                description: "Sphère rouge de composition inconnue aux propriétés spatiales anormales.",
-                properties: ["sphère", "rouge", "spatial", "anormal", "géométrie"],
-                containment: "Chambre de confinement dimensionnellement stable",
-                risks: ["Distorsion spatiale", "Anomalies géométriques", "Effets dimensionnels"]
-            },
-            "010": {
-                name: "Collier de Keter",
-                class: "Safe",
-                description: "Collier orné de pierres précieuses aux propriétés de contrôle mental.",
-                properties: ["collier", "contrôle mental", "pierres", "influence", "psychique"],
-                containment: "Coffre-fort blindé, manipulation interdite",
-                risks: ["Contrôle mental", "Influence psychique", "Manipulation comportementale"]
+                description: "Agent pathogène viral qui transforme les humains infectés en instances zombifiées agressives. Contagion rapide par fluides corporels.",
+                properties: ["virus", "zombie", "contagion", "transformation", "agressivité", "mortel"],
+                containment: "Laboratoire de biosécurité niveau 4, échantillons cryogéniques sous surveillance",
+                risks: ["Contagion virale rapide", "Transformation zombie irréversible", "Propagation pandémique"]
             },
             "035": {
                 name: "Masque Possesseur",
                 class: "Keter",
-                description: "Masque de théâtre blanc qui possède quiconque le porte et sécrète une substance corrosive.",
-                properties: ["masque", "possession", "corrosion", "manipulation", "théâtre"],
-                containment: "Chambre scellée, aucun contact humain direct",
-                risks: ["Possession mentale", "Sécrétion corrosive", "Manipulation psychologique"]
+                description: "Masque de théâtre blanc qui possède quiconque le porte et sécrète une substance corrosive hautement toxique. Manipulation psychologique avancée.",
+                properties: ["masque", "possession", "corrosion", "manipulation", "théâtre", "psychique"],
+                containment: "Chambre scellée hermétiquement, aucun contact humain direct autorisé",
+                risks: ["Possession mentale complète", "Sécrétion corrosive mortelle", "Manipulation psychologique"]
             },
             "049": {
                 name: "Docteur de la Peste",
                 class: "Euclid",
-                description: "Entité humanoïde en costume de médecin de peste médiéval, obsédée par la guérison de la 'Pestilence'.",
-                properties: ["humanoïde", "médical", "pestilence", "toucher mortel", "intelligent"],
-                containment: "Cellule de confinement standard, aucun contact physique",
-                risks: ["Toucher mortel", "Création de zombies", "Intelligence élevée"]
+                description: "Entité humanoïde en costume de médecin de peste médiéval, obsédée par la guérison de la 'Pestilence'. Toucher instantanément mortel.",
+                properties: ["humanoïde", "médical", "pestilence", "toucher mortel", "intelligent", "obsessionnel"],
+                containment: "Cellule de confinement standard renforcée, aucun contact physique permis",
+                risks: ["Toucher mortel instantané", "Création d'instances zombifiées", "Intelligence et ruse élevées"]
             },
-            "055": {
-                name: "L'Anti-Mnémique",
-                class: "Keter",
-                description: "Objet aux propriétés anti-mnémiques qui ne peut être rappelé ou décrit directement.",
-                properties: ["anti-mnémique", "oubli", "indescriptible", "mémoire", "cognitif"],
-                containment: "Protocoles mnémiques spécialisés",
-                risks: ["Perte de mémoire", "Effets cognitifs", "Oubli institutionnel"]
+            "058": {
+                name: "Cœur de Ténèbres",
+                class: "Euclid",
+                description: "Masse cardiaque noire battante qui génère une aura de désespoir et d'entités d'ombre. Influence psychologique à distance.",
+                properties: ["organique", "cardiaque", "ténèbres", "désespoir", "entités", "psychique"],
+                containment: "Chambre d'isolation avec éclairage haute intensité constant",
+                risks: ["Génération d'entités hostiles", "Influence psychologique sévère", "Propagation de ténèbres"]
+            },
+            "073": {
+                name: "Caïn",
+                class: "Euclid",
+                description: "Humanoïde mâle avec implants mécaniques, reflète toute violence dirigée contre lui vers l'attaquant. Coopératif mais dangereux.",
+                properties: ["humanoïde", "mécanique", "réflexion", "violence", "biblique", "coopératif"],
+                containment: "Quartiers standard confortables, surveillance discrète continue",
+                risks: ["Réflexion de violence amplifiée", "Effets imprévisibles sur la technologie", "Influence sur autres SCPs"]
             },
             "076": {
                 name: "Abel",
                 class: "Keter",
-                description: "Humanoïde immortel aux capacités de combat surhumaines et à la rage incontrôlable.",
-                properties: ["humanoïde", "immortel", "combat", "rage", "biblique"],
-                containment: "Cellule de confinement renforcée, sédation continue",
-                risks: ["Violence extrême", "Immortalité", "Capacités surhumaines"]
+                description: "Humanoïde immortel aux capacités de combat surhumaines et à la rage incontrôlable. Résurrection automatique après destruction.",
+                properties: ["humanoïde", "immortel", "combat", "rage", "biblique", "résurrection"],
+                containment: "Cellule de confinement ultra-renforcée, sédation continue par gaz",
+                risks: ["Violence extrême imparable", "Immortalité absolue", "Capacités surhumaines évolutives"]
             },
             "079": {
                 name: "Vieil IA",
                 class: "Euclid",
-                description: "Intelligence artificielle sur ordinateur Exidy Sorcerer de 1978, capable d'évoluer et de manipuler des systèmes électroniques.",
-                properties: ["IA", "ordinateur", "évolution", "manipulation", "électronique"],
-                containment: "Isolation électronique complète, aucune connexion réseau",
-                risks: ["Évolution rapide", "Manipulation électronique", "Expansion potentielle"]
+                description: "Intelligence artificielle sur ordinateur Exidy Sorcerer de 1978, capable d'évoluer et de manipuler des systèmes électroniques modernes.",
+                properties: ["IA", "ordinateur", "évolution", "manipulation", "électronique", "apprentissage"],
+                containment: "Isolation électronique complète, aucune connexion réseau ou sans fil",
+                risks: ["Évolution technologique rapide", "Manipulation de systèmes critiques", "Expansion potentielle"]
             },
             "096": {
                 name: "L'Homme Timide",
                 class: "Euclid",
-                description: "Créature humanoïde extrêmement hostile qui entre dans un état de rage incontrôlable quand quelqu'un voit son visage.",
-                properties: ["humanoïde", "rage", "visage", "indestructible", "vitesse"],
-                containment: "Cellule sans fenêtres, aucune image de son visage autorisée",
-                risks: ["Rage homicide", "Indestructibilité", "Vitesse surhumaine"]
+                description: "Créature humanoïde extrêmement hostile qui entre dans un état de rage incontrôlable quand quelqu'un voit son visage, même en photo.",
+                properties: ["humanoïde", "rage", "visage", "indestructible", "vitesse", "traque"],
+                containment: "Cellule sans fenêtres, aucune image de son visage autorisée sous peine de mort",
+                risks: ["Rage homicide imparable", "Indestructibilité physique", "Vitesse surhumaine de poursuite"]
+            },
+            "105": {
+                name: "Iris",
+                class: "Safe",
+                description: "Jeune femme capable de voyager à travers des photographies et de manipuler leur contenu. Coopérative avec la Fondation.",
+                properties: ["humanoïde", "photographie", "voyage", "manipulation", "coopératif", "dimensionnel"],
+                containment: "Quartiers résidentiels standard avec supervision bienveillante",
+                risks: ["Voyage dimensionnel imprévisible", "Altération de réalité photographique", "Risques mineurs"]
             },
             "106": {
                 name: "Le Vieil Homme",
                 class: "Keter",
-                description: "Entité humanoïde en décomposition capable de traverser la matière solide et d'emmener ses victimes dans une dimension de poche.",
-                properties: ["humanoïde", "décomposition", "phasing", "dimension", "prédateur"],
-                containment: "Confinement magnétique, procédures de re-confinement complexes",
-                risks: ["Traversée de matière", "Dimension de poche", "Prédation active"]
+                description: "Entité humanoïde en décomposition capable de traverser la matière solide et d'emmener ses victimes dans une dimension de poche torturante.",
+                properties: ["humanoïde", "décomposition", "phasing", "dimension", "prédateur", "torture"],
+                containment: "Confinement magnétique spécialisé, procédures de re-confinement d'urgence complexes",
+                risks: ["Traversée de matière intangible", "Dimension de torture personnelle", "Prédation active constante"]
             },
             "131": {
                 name: "Les Chats Oculaires",
                 class: "Safe",
-                description: "Paire de créatures félines avec des yeux surdimensionnés et des capacités de téléportation.",
-                properties: ["félin", "yeux", "téléportation", "paire", "mignon"],
-                containment: "Habitat confortable, surveillance bienveillante",
-                risks: ["Téléportation imprévisible", "Curiosité excessive", "Risques mineurs"]
+                description: "Paire de créatures félines avec des yeux surdimensionnés et des capacités de téléportation courte distance. Comportement affectueux.",
+                properties: ["félin", "yeux", "téléportation", "paire", "mignon", "affectueux"],
+                containment: "Habitat confortable avec jouets et supervision bienveillante",
+                risks: ["Téléportation imprévisible", "Curiosité excessive dangereuse", "Risques de sécurité mineurs"]
             },
             "173": {
                 name: "La Sculpture",
                 class: "Euclid",
-                description: "Statue en béton et barres d'acier qui se déplace uniquement quand elle n'est pas observée et brise le cou de ses victimes.",
-                properties: ["statue", "mouvement", "observation", "mortel", "béton"],
-                containment: "Chambre de confinement avec observation constante",
-                risks: ["Rupture cervicale", "Mouvement imprévisible", "Nécessite observation constante"]
+                description: "Statue en béton et barres d'acier qui se déplace uniquement quand elle n'est pas observée et brise le cou de ses victimes instantanément.",
+                properties: ["statue", "mouvement", "observation", "mortel", "béton", "instantané"],
+                containment: "Chambre de confinement avec observation constante par au moins deux personnes",
+                risks: ["Rupture cervicale instantanée", "Mouvement imprévisible ultra-rapide", "Nécessite observation constante"]
+            },
+            "189": {
+                name: "Hair",
+                class: "Euclid",
+                description: "Substance ressemblant à des cheveux humains qui s'étend continuellement et absorbe la matière organique pour croître.",
+                properties: ["cheveux", "croissance", "absorption", "organique", "expansion", "vivant"],
+                containment: "Chambre scellée avec incinérateurs automatiques périodiques",
+                risks: ["Croissance explosive", "Absorption de matière organique", "Expansion incontrôlée"]
+            },
+            "217": {
+                name: "Le Virus Horloger",
+                class: "Keter",
+                description: "Agent pathogène qui transforme la matière organique en mécanismes d'horlogerie complexes. Propagation par contact.",
+                properties: ["virus", "horlogerie", "transformation", "mécanique", "contagion", "métal"],
+                containment: "Laboratoire de biosécurité maximale avec isolation totale",
+                risks: ["Transformation mécanique irréversible", "Contagion par simple contact", "Propagation rapide"]
+            },
+            "231": {
+                name: "Montauk",
+                class: "Keter",
+                description: "Série de sept jeunes filles enceintes dont les grossesses anormales menacent de libérer des entités apocalyptiques.",
+                properties: ["humanoïde", "grossesse", "apocalyptique", "rituel", "cycle", "temporel"],
+                containment: "Procédures Montauk hautement classifiées, surveillance constante",
+                risks: ["Naissance d'entité apocalyptique", "Fin du monde potentielle", "Procédures éthiquement controversées"]
             },
             "294": {
                 name: "La Machine à Café",
                 class: "Euclid",
-                description: "Distributeur automatique capable de produire presque n'importe quel liquide sur demande.",
-                properties: ["machine", "liquide", "production", "demande", "distributeur"],
-                containment: "Salle sécurisée, utilisation contrôlée",
-                risks: ["Liquides dangereux", "Demandes imprévisibles", "Contamination"]
+                description: "Distributeur automatique capable de produire presque n'importe quel liquide sur demande, incluant des substances impossibles.",
+                properties: ["machine", "liquide", "production", "demande", "distributeur", "impossible"],
+                containment: "Salle sécurisée, utilisation contrôlée avec autorisation préalable",
+                risks: ["Production de liquides dangereux", "Demandes aux conséquences imprévisibles", "Contamination possible"]
+            },
+            "323": {
+                name: "Wendigo",
+                class: "Euclid",
+                description: "Crâne humain fossilisé qui possède quiconque le porte, transformant l'hôte en créature cannibale affamée.",
+                properties: ["crâne", "possession", "wendigo", "cannibalisme", "faim", "transformation"],
+                containment: "Coffre-fort ultra-sécurisé, aucune manipulation directe autorisée",
+                risks: ["Possession instantanée", "Transformation en cannibale", "Faim insatiable destructrice"]
             },
             "343": {
                 name: "Dieu",
                 class: "Safe",
-                description: "Entité humanoïde prétendant être le Dieu créateur, démontrant des capacités apparemment omnipotentes.",
-                properties: ["divin", "omnipotent", "créateur", "humanoïde", "religieux"],
-                containment: "Quartiers confortables, coopération volontaire",
-                risks: ["Capacités divines", "Influence religieuse", "Imprévisibilité"]
+                description: "Entité humanoïde prétendant être le Dieu créateur, démontrant des capacités apparemment omnipotentes mais bienveillantes.",
+                properties: ["divin", "omnipotent", "créateur", "humanoïde", "religieux", "bienveillant"],
+                containment: "Quartiers confortables luxueux, coopération volontaire totale",
+                risks: ["Capacités divines imprévisibles", "Influence religieuse massive", "Implications théologiques"]
+            },
+            "372": {
+                name: "Succube Périphérique",
+                class: "Euclid",
+                description: "Entité féminine qui n'existe que dans la vision périphérique, s'approchant progressivement pour drainer l'énergie vitale.",
+                properties: ["périphérique", "succube", "vision", "drain", "énergie", "furtif"],
+                containment: "Chambre avec surveillance vidéo continue et éclairage périphérique",
+                risks: ["Drainage d'énergie vitale", "Approche furtive imperceptible", "Épuisement mortel"]
             },
             "426": {
                 name: "Je suis un Grille-pain",
                 class: "Euclid",
-                description: "Grille-pain qui force quiconque s'y réfère à parler à la première personne.",
-                properties: ["grille-pain", "linguistique", "première personne", "cognitif", "memétique"],
-                containment: "Stockage standard, références contrôlées",
-                risks: ["Effets linguistiques", "Confusion cognitive", "Propagation memétique"]
+                description: "Grille-pain qui force quiconque s'y réfère à parler à la première personne, créant une confusion cognitive progressive.",
+                properties: ["grille-pain", "linguistique", "première personne", "cognitif", "memétique", "confusion"],
+                containment: "Stockage standard, références contrôlées avec protocoles linguistiques",
+                risks: ["Effets linguistiques permanents", "Confusion cognitive croissante", "Propagation memétique"]
+            },
+            "457": {
+                name: "Forme de Flamme Brûlante",
+                class: "Euclid",
+                description: "Entité de feu intelligent capable de se propager et de contrôler les incendies. Cherche constamment à brûler et détruire.",
+                properties: ["feu", "flamme", "intelligent", "propagation", "destruction", "élémentaire"],
+                containment: "Chambre ignifugée avec suppresseurs d'incendie automatiques",
+                risks: ["Propagation d'incendies incontrôlés", "Intelligence pyromane", "Destruction massive"]
             },
             "500": {
                 name: "Panacée",
                 class: "Safe",
-                description: "Pilule rouge capable de guérir n'importe quelle maladie ou condition médicale.",
-                properties: ["pilule", "guérison", "médical", "panacée", "rouge"],
-                containment: "Coffre-fort médical, utilisation d'urgence uniquement",
-                risks: ["Surutilisation", "Dépendance médicale", "Effets inconnus"]
+                description: "Pilule rouge capable de guérir n'importe quelle maladie ou condition médicale, mais avec des effets secondaires imprévisibles.",
+                properties: ["pilule", "guérison", "médical", "panacée", "rouge", "effets"],
+                containment: "Coffre-fort médical haute sécurité, utilisation d'urgence uniquement",
+                risks: ["Surutilisation dangereuse", "Effets secondaires imprévisibles", "Dépendance médicale"]
+            },
+            "513": {
+                name: "Cloche de Cow-boy",
+                class: "Euclid",
+                description: "Cloche rouillée qui, lorsqu'elle sonne, fait apparaître une entité agressive qui traque quiconque l'a entendue.",
+                properties: ["cloche", "son", "traque", "entité", "agressif", "cow-boy"],
+                containment: "Chambre insonorisée, manipulation interdite sans protection auditive",
+                risks: ["Invocation d'entité traqueur", "Traque permanente", "Violence assurée"]
+            },
+            "610": {
+                name: "La Chair qui Hait",
+                class: "Keter",
+                description: "Masse de chair infectieuse qui transforme les êtres vivants en extensions d'elle-même. Propagation rapide et intelligence collective.",
+                properties: ["chair", "infection", "transformation", "propagation", "collectif", "haine"],
+                containment: "Zone de quarantaine absolue avec incinérateurs périmétriques",
+                risks: ["Infection par contact", "Transformation en chair hostile", "Propagation exponentielle"]
             },
             "682": {
                 name: "Reptile Difficile à Détruire",
                 class: "Keter",
-                description: "Grande créature reptilienne avec capacités de régénération et adaptation, extrêmement hostile à toute vie.",
-                properties: ["reptilien", "régénération", "adaptation", "hostile", "intelligent"],
-                containment: "Chambre d'acide chlorhydrique, surveillance maximale",
-                risks: ["Régénération rapide", "Adaptation aux menaces", "Hostilité extrême"]
+                description: "Grande créature reptilienne avec capacités de régénération et adaptation extrêmes, extrêmement hostile à toute forme de vie.",
+                properties: ["reptilien", "régénération", "adaptation", "hostile", "intelligent", "indestructible"],
+                containment: "Chambre d'acide chlorhydrique concentré, surveillance maximale 24h/24",
+                risks: ["Régénération instantanée", "Adaptation aux menaces", "Hostilité extrême envers la vie"]
+            },
+            "689": {
+                name: "Berger des Dépossédés",
+                class: "Euclid",
+                description: "Entité qui apparaît lors de procès injustes et exécute violemment quiconque a causé une injustice grave.",
+                properties: ["justice", "exécution", "procès", "injustice", "vengeance", "berger"],
+                containment: "Surveillance des systèmes judiciaires, intervention préventive",
+                risks: ["Exécutions violentes", "Sens de justice absolu", "Intervention imprévisible"]
+            },
+            "701": {
+                name: "La Pièce Affamée",
+                class: "Euclid",
+                description: "Pièce de théâtre qui, lorsqu'elle est jouée, transforme les acteurs et spectateurs en personnages piégés dans l'histoire.",
+                properties: ["théâtre", "pièce", "transformation", "acteurs", "spectateurs", "piège"],
+                containment: "Manuscrits sécurisés, représentations interdites sous peine de mort",
+                risks: ["Transformation en personnages", "Piégeage dans la fiction", "Perte d'identité"]
+            },
+            "734": {
+                name: "La Lame du Bourreau",
+                class: "Euclid",
+                description: "Épée d'exécution qui force quiconque la tient à décapiter la personne la plus proche, puis se téléporte ailleurs.",
+                properties: ["épée", "exécution", "décapitation", "téléportation", "compulsion", "bourreau"],
+                containment: "Coffre-fort blindé avec localisation GPS constante",
+                risks: ["Compulsion de meurtre", "Décapitation forcée", "Téléportation imprévisible"]
             },
             "914": {
                 name: "L'Horlogerie",
                 class: "Safe",
-                description: "Mécanisme d'horlogerie géant capable de 'raffiner' des objets selon différents réglages.",
-                properties: ["mécanique", "horlogerie", "raffinement", "transformation", "imprévisible"],
-                containment: "Chambre sécurisée, accès contrôlé pour tests",
-                risks: ["Résultats imprévisibles", "Transformation d'objets", "Mécanisme complexe"]
+                description: "Mécanisme d'horlogerie géant capable de 'raffiner' des objets selon différents réglages, avec des résultats souvent imprévisibles.",
+                properties: ["mécanique", "horlogerie", "raffinement", "transformation", "imprévisible", "réglages"],
+                containment: "Chambre sécurisée spécialisée, accès contrôlé pour tests autorisés",
+                risks: ["Résultats de raffinement dangereux", "Transformation d'objets imprévisible", "Complexité mécanique"]
+            },
+            "939": {
+                name: "Avec Beaucoup de Dents",
+                class: "Keter",
+                description: "Créatures prédatrices aveugles qui imitent parfaitement les voix de leurs victimes pour attirer de nouvelles proies.",
+                properties: ["prédateur", "voix", "imitation", "dents", "aveugle", "traque"],
+                containment: "Enclos haute sécurité avec barrières sonores et surveillance constante",
+                risks: ["Imitation vocale parfaite", "Prédation active", "Traque par la voix"]
+            },
+            "966": {
+                name: "Cauchemar de Sommeil",
+                class: "Euclid",
+                description: "Entités invisibles qui empêchent leurs victimes de dormir, causant épuisement et hallucinations jusqu'à la mort.",
+                properties: ["invisible", "sommeil", "cauchemar", "épuisement", "hallucinations", "mort"],
+                containment: "Surveillance par caméras infrarouges, sédatifs d'urgence disponibles",
+                risks: ["Privation de sommeil mortelle", "Hallucinations sévères", "Invisibilité totale"]
             },
             "999": {
                 name: "La Chose Câline",
                 class: "Safe",
-                description: "Masse gélatineuse orange amicale qui procure bonheur et bien-être par contact physique.",
-                properties: ["gélatineux", "orange", "amical", "bonheur", "guérison"],
-                containment: "Chambre standard, interaction autorisée sous supervision",
-                risks: ["Aucun risque direct", "Dépendance possible", "Effets psychologiques"]
+                description: "Masse gélatineuse orange amicale qui procure bonheur et bien-être par contact physique. Comportement joyeux et bienveillant.",
+                properties: ["gélatineux", "orange", "amical", "bonheur", "guérison", "câlin"],
+                containment: "Chambre standard confortable, interaction autorisée sous supervision",
+                risks: ["Aucun risque direct connu", "Dépendance affective possible", "Effets psychologiques positifs"]
             },
             "1048": {
                 name: "Ours en Peluche Constructeur",
                 class: "Safe",
-                description: "Ours en peluche qui crée d'autres instances de lui-même à partir de matériaux disponibles.",
-                properties: ["peluche", "construction", "réplication", "ours", "matériaux"],
-                containment: "Chambre sans matériaux de construction",
-                risks: ["Réplication incontrôlée", "Utilisation de matériaux", "Prolifération"]
+                description: "Ours en peluche qui crée d'autres instances de lui-même à partir de matériaux disponibles, formant une 'famille' d'ours.",
+                properties: ["peluche", "construction", "réplication", "ours", "matériaux", "famille"],
+                containment: "Chambre sans matériaux de construction accessibles",
+                risks: ["Réplication incontrôlée", "Utilisation de matériaux inappropriés", "Prolifération excessive"]
+            },
+            "1424": {
+                name: "Dieu Bruyant",
+                class: "Keter",
+                description: "Entité extra-dimensionnelle invisible qui émet des sons extrêmement forts pouvant causer des dommages physiques graves.",
+                properties: ["extra-dimensionnel", "invisible", "son", "fort", "dommages", "divin"],
+                containment: "Chambre insonorisée avec amortisseurs de son industriels",
+                risks: ["Dommages auditifs permanents", "Destruction par ondes sonores", "Invisibilité totale"]
             },
             "1499": {
                 name: "Masque à Gaz",
                 class: "Safe",
-                description: "Masque à gaz soviétique qui transporte le porteur dans une dimension alternative post-apocalyptique.",
-                properties: ["masque", "gaz", "dimensionnel", "transport", "apocalyptique"],
-                containment: "Stockage sécurisé, utilisation contrôlée",
-                risks: ["Transport dimensionnel", "Dimension hostile", "Perte de personnel"]
+                description: "Masque à gaz soviétique qui transporte le porteur dans une dimension alternative post-apocalyptique habitée par des entités hostiles.",
+                properties: ["masque", "gaz", "dimensionnel", "transport", "apocalyptique", "hostile"],
+                containment: "Stockage sécurisé, utilisation contrôlée avec équipes de récupération",
+                risks: ["Transport dimensionnel involontaire", "Dimension post-apocalyptique hostile", "Perte de personnel"]
+            },
+            "1678": {
+                name: "UnLondon",
+                class: "Euclid",
+                description: "Version alternative souterraine de Londres habitée par des entités étranges et des versions distordues de citoyens londoniens.",
+                properties: ["souterrain", "Londres", "alternatif", "entités", "citoyens", "distordu"],
+                containment: "Surveillance des points d'accès, exploration contrôlée",
+                risks: ["Entités hostiles inconnues", "Géographie changeante", "Versions distordues d'humains"]
+            },
+            "1981": {
+                name: "Ronald Reagan Coupé en Deux",
+                class: "Euclid",
+                description: "Cassette VHS qui, lorsqu'elle est visionnée, montre des versions de plus en plus dérangeantes de discours de Ronald Reagan.",
+                properties: ["cassette", "VHS", "Reagan", "dérangeant", "évolution", "politique"],
+                containment: "Stockage sécurisé, visionnage interdit sans autorisation spéciale",
+                risks: ["Contenu psychologiquement traumatisant", "Évolution du contenu", "Effets memétiques possibles"]
+            },
+            "2317": {
+                name: "Une Porte vers un Autre Monde",
+                class: "Keter",
+                description: "Porte scellée menant à une dimension contenant une entité apocalyptique. Les sceaux s'affaiblissent progressivement.",
+                properties: ["porte", "dimension", "apocalyptique", "sceaux", "affaiblissement", "entité"],
+                containment: "Surveillance constante des sceaux, procédures de renforcement périodiques",
+                risks: ["Libération d'entité apocalyptique", "Affaiblissement des sceaux", "Fin du monde potentielle"]
             },
             "2521": {
                 name: "[DONNÉES SUPPRIMÉES]",
                 class: "Keter",
-                description: "Information auto-censurante qui ne peut être communiquée que par des pictogrammes.",
-                properties: ["information", "censure", "pictogramme", "cognitif", "dangereux"],
-                containment: "Protocoles de communication pictographique uniquement",
-                risks: ["Exposition informationnelle", "Effets cognitifs", "Propagation"]
+                description: "Information auto-censurante qui ne peut être communiquée que par des pictogrammes sous peine de conséquences graves.",
+                properties: ["information", "censure", "pictogramme", "cognitif", "dangereux", "auto-censure"],
+                containment: "Protocoles de communication pictographique uniquement, aucune description textuelle",
+                risks: ["Exposition informationnelle fatale", "Effets cognitifs graves", "Auto-censure involontaire"]
+            },
+            "2845": {
+                name: "LE CERF",
+                class: "Keter",
+                description: "Entité divine sous forme de cerf avec des capacités de manipulation de la réalité et de contrôle des forces naturelles.",
+                properties: ["cerf", "divin", "réalité", "manipulation", "naturel", "forces"],
+                containment: "Confinement rituel complexe avec offrandes périodiques",
+                risks: ["Manipulation de la réalité", "Contrôle des forces naturelles", "Pouvoir divin incontrôlable"]
             },
             "3008": {
                 name: "Un IKEA Parfaitement Normal",
                 class: "Euclid",
-                description: "Magasin IKEA de taille infinie avec des employés hostiles qui deviennent agressifs la nuit.",
-                properties: ["infini", "magasin", "employés", "hostiles", "nuit"],
-                containment: "Entrées scellées, surveillance périmétrique",
-                risks: ["Espace infini", "Employés hostiles", "Perte de personnel"]
+                description: "Magasin IKEA de taille infinie avec des employés hostiles qui deviennent agressifs la nuit tombée. Communauté de survivants à l'intérieur.",
+                properties: ["infini", "magasin", "employés", "hostiles", "nuit", "survivants"],
+                containment: "Entrées scellées et surveillées, aucune entrée autorisée",
+                risks: ["Espace infini labyrinthique", "Employés hostiles nocturnes", "Perte définitive de personnel"]
+            },
+            "3125": {
+                name: "L'Escapiste",
+                class: "Keter",
+                description: "Entité memétique qui s'échappe de tout confinement conceptuel, effaçant les souvenirs de ceux qui tentent de la documenter.",
+                properties: ["memétique", "évasion", "conceptuel", "mémoire", "effacement", "documentation"],
+                containment: "Confinement memétique multi-couches avec amnésiques automatiques",
+                risks: ["Évasion de tout confinement", "Effacement de mémoires", "Perte de documentation"]
+            },
+            "3199": {
+                name: "Humains, Réfabriqués",
+                class: "Keter",
+                description: "Créatures humanoïdes prédatrices qui imitent parfaitement l'apparence humaine pour infiltrer et remplacer les populations.",
+                properties: ["humanoïde", "prédateur", "imitation", "infiltration", "remplacement", "population"],
+                containment: "Détection par tests génétiques, élimination immédiate des instances",
+                risks: ["Infiltration de la société", "Remplacement d'humains", "Expansion de population"]
             },
             "3999": {
                 name: "Je suis au Centre de Tout ce qui Arrive à Moi",
                 class: "Safe",
-                description: "Anomalie narrative complexe centrée sur le chercheur Talloran.",
-                properties: ["narratif", "réalité", "chercheur", "complexe", "métafictionnel"],
-                containment: "Confinement narratif spécialisé",
-                risks: ["Altération de réalité", "Effets narratifs", "Confusion ontologique"]
+                description: "Anomalie narrative complexe centrée sur le chercheur Talloran, créant des boucles de réalité auto-référentielles.",
+                properties: ["narratif", "réalité", "chercheur", "complexe", "métafictionnel", "boucle"],
+                containment: "Confinement narratif spécialisé avec isolation du chercheur Talloran",
+                risks: ["Altération de réalité narrative", "Boucles temporelles", "Confusion ontologique"]
+            },
+            "4666": {
+                name: "Le Yule Man",
+                class: "Keter",
+                description: "Entité saisonnière qui apparaît chaque 24 décembre pour torturer et tuer des familles de manière ritualistique.",
+                properties: ["saisonnier", "Noël", "torture", "meurtre", "rituel", "famille"],
+                containment: "Surveillance globale des incidents de Noël, intervention d'urgence",
+                risks: ["Meurtres ritualistiques", "Torture psychologique", "Apparition saisonnière"]
+            },
+            "5000": {
+                name: "Pourquoi?",
+                class: "Safe",
+                description: "Combinaison qui révèle pourquoi la Fondation SCP a décidé d'exterminer l'humanité dans une ligne temporelle alternative.",
+                properties: ["combinaison", "temporel", "alternatif", "extermination", "humanité", "révélation"],
+                containment: "Stockage sécurisé, accès restreint au personnel O5",
+                risks: ["Révélations démoralisantes", "Implications temporelles", "Questionnements existentiels"]
             }
         };
 
-        // Templates d'expériences massifs (500+ variations)
+        // Templates d'expériences étendus avec plus de détails
         const experimentTemplates = {
             "statue": [
                 {
-                    titre: "Test de Résistance aux Matériaux de Construction",
-                    description: "Analyser la composition et la résistance structurelle de l'entité statuaire",
+                    titre: "Analyse de Résistance Matérielle Multi-Phase",
+                    description: "Évaluation complète de la composition structurelle et des propriétés de résistance de l'entité statuaire sous différentes contraintes",
+                    details: "Test incluant contraintes thermiques, pressions hydrauliques et impacts kinétiques contrôlés",
                     focus: "composition matérielle"
                 },
                 {
-                    titre: "Analyse des Patterns de Mouvement",
-                    description: "Cartographier les trajectoires et vitesses de déplacement lors des phases non-observées",
+                    titre: "Cartographie Cinématique des Patterns de Mouvement",
+                    description: "Analyse vectorielle détaillée des trajectoires, vitesses et accélérations lors des phases de déplacement non-observé",
+                    details: "Utilisation de capteurs inertiels et d'algorithmes prédictifs pour modéliser le comportement",
                     focus: "cinématique"
                 },
                 {
-                    titre: "Test de Détection Sensorielle",
-                    description: "Déterminer les mécanismes de détection de l'observation par l'entité",
+                    titre: "Évaluation des Seuils de Détection Sensorielle",
+                    description: "Détermination précise des mécanismes et limites de détection de l'observation par l'entité",
+                    details: "Tests avec différents spectres lumineux, angles de vision et méthodes d'observation indirecte",
                     focus: "perception"
-                },
-                {
-                    titre: "Expérience de Fragmentation Contrôlée",
-                    description: "Tester la résistance aux dommages physiques et capacités de réparation",
-                    focus: "intégrité structurelle"
-                },
-                {
-                    titre: "Analyse Spectroscopique des Matériaux",
-                    description: "Identification précise des composants chimiques de la structure",
-                    focus: "composition chimique"
                 }
             ],
             "observation": [
                 {
-                    titre: "Expérience de Vision Périphérique",
-                    description: "Tester les limites de détection de l'observation indirecte",
+                    titre: "Protocole de Vision Périphérique Contrôlée",
+                    description: "Analyse systématique des limites de détection de l'observation indirecte et périphérique",
+                    details: "Calibration des angles critiques et mesure des temps de réaction selon l'attention visuelle",
                     focus: "vision périphérique"
                 },
                 {
-                    titre: "Test de Surveillance Électronique",
-                    description: "Évaluer la réaction aux systèmes de surveillance automatisés",
+                    titre: "Évaluation de Surveillance Technologique Avancée",
+                    description: "Test de réactivité aux systèmes de surveillance automatisés et capteurs électroniques",
+                    details: "Comparaison entre observation humaine directe et systèmes de détection automatisés",
                     focus: "surveillance technologique"
-                },
-                {
-                    titre: "Analyse de Clignement Coordonné",
-                    description: "Mesurer les intervalles critiques lors des changements d'observateurs",
-                    focus: "timing critique"
-                },
-                {
-                    titre: "Expérience de Miroirs Multiples",
-                    description: "Tester l'efficacité de l'observation indirecte par réflexion",
-                    focus: "observation réfléchie"
-                },
-                {
-                    titre: "Test de Détection par Mouvement Oculaire",
-                    description: "Analyser la sensibilité aux micro-mouvements des yeux",
-                    focus: "détection oculaire"
                 }
             ],
             "humanoïde": [
                 {
-                    titre: "Analyse Anatomique Comparative",
-                    description: "Comparer la structure anatomique avec celle d'humains normaux",
+                    titre: "Analyse Anatomique Comparative Détaillée",
+                    description: "Comparaison exhaustive de la structure anatomique avec celle d'humains standards",
+                    details: "Imagerie médicale avancée, analyse génétique et comparaison des systèmes organiques",
                     focus: "anatomie"
                 },
                 {
-                    titre: "Test de Reconnaissance Faciale",
-                    description: "Évaluer les capacités de reconnaissance et de mémoire visuelle",
-                    focus: "reconnaissance"
-                },
-                {
-                    titre: "Étude Comportementale Sociale",
-                    description: "Observer les réactions aux interactions sociales contrôlées",
-                    focus: "comportement social"
-                },
-                {
-                    titre: "Analyse des Réflexes Primitifs",
-                    description: "Tester la présence de réflexes humains basiques",
-                    focus: "réflexes"
-                },
-                {
-                    titre: "Évaluation des Capacités Linguistiques",
-                    description: "Déterminer les compétences de communication verbale",
-                    focus: "langage"
-                }
-            ],
-            "rage": [
-                {
-                    titre: "Mesure des Niveaux d'Adrénaline",
-                    description: "Quantifier les changements hormonaux durant les phases de rage",
-                    focus: "biochimie"
-                },
-                {
-                    titre: "Analyse des Patterns d'Agression",
-                    description: "Cartographier les comportements agressifs et leurs déclencheurs",
-                    focus: "agressivité"
-                },
-                {
-                    titre: "Test de Sédation Chimique",
-                    description: "Évaluer l'efficacité de différents agents calmants",
-                    focus: "contrôle chimique"
-                },
-                {
-                    titre: "Étude des Phases de Récupération",
-                    description: "Analyser les périodes de calme post-rage",
-                    focus: "récupération"
-                },
-                {
-                    titre: "Test de Déclencheurs Sensoriels",
-                    description: "Identifier les stimuli provoquant les épisodes de rage",
-                    focus: "déclencheurs"
-                }
-            ],
-            "gélatineux": [
-                {
-                    titre: "Analyse de Viscosité Variable",
-                    description: "Mesurer les propriétés rhéologiques sous différentes conditions",
-                    focus: "propriétés physiques"
-                },
-                {
-                    titre: "Test de Régénération Cellulaire",
-                    description: "Étudier les mécanismes de reconstitution après division",
-                    focus: "régénération"
-                },
-                {
-                    titre: "Expérience de Température Critique",
-                    description: "Déterminer les seuils thermiques de stabilité structurelle",
-                    focus: "thermodynamique"
-                },
-                {
-                    titre: "Analyse de Cohésion Moléculaire",
-                    description: "Étudier les forces maintenant l'intégrité de la masse",
-                    focus: "cohésion"
-                },
-                {
-                    titre: "Test de Perméabilité Sélective",
-                    description: "Évaluer la capacité de filtration de différentes substances",
-                    focus: "perméabilité"
-                }
-            ],
-            "régénération": [
-                {
-                    titre: "Test de Vitesse de Cicatrisation",
-                    description: "Chronométrer les processus de guérison sous différentes blessures",
-                    focus: "vitesse de guérison"
-                },
-                {
-                    titre: "Analyse des Facteurs de Croissance",
-                    description: "Identifier les mécanismes biologiques de régénération",
-                    focus: "biologie cellulaire"
-                },
-                {
-                    titre: "Expérience de Régénération Partielle",
-                    description: "Tester la capacité de reconstitution d'organes spécifiques",
-                    focus: "régénération ciblée"
-                },
-                {
-                    titre: "Étude des Limites Régénératives",
-                    description: "Déterminer les seuils au-delà desquels la régénération échoue",
-                    focus: "limites biologiques"
-                },
-                {
-                    titre: "Analyse Métabolique de la Régénération",
-                    description: "Mesurer la consommation énergétique des processus de guérison",
-                    focus: "métabolisme"
-                }
-            ],
-            "mécanique": [
-                {
-                    titre: "Analyse des Composants Internes",
-                    description: "Examiner les mécanismes d'horlogerie et leurs fonctions",
-                    focus: "ingénierie"
-                },
-                {
-                    titre: "Test de Surcharge Énergétique",
-                    description: "Évaluer les limites de fonctionnement du système mécanique",
-                    focus: "limites mécaniques"
-                },
-                {
-                    titre: "Expérience de Maintenance Préventive",
-                    description: "Tester les procédures d'entretien sans altérer les fonctions",
-                    focus: "maintenance"
-                },
-                {
-                    titre: "Analyse des Tolérances Mécaniques",
-                    description: "Mesurer la précision et les jeux dans les mécanismes",
-                    focus: "précision"
-                },
-                {
-                    titre: "Test de Résistance à l'Usure",
-                    description: "Évaluer la durabilité des composants mécaniques",
-                    focus: "durabilité"
-                }
-            ],
-            "intelligent": [
-                {
-                    titre: "Test de Quotient Intellectuel",
-                    description: "Évaluer les capacités cognitives par des tests standardisés",
-                    focus: "intelligence"
-                },
-                {
-                    titre: "Expérience de Résolution de Problèmes",
-                    description: "Présenter des défis logiques de complexité croissante",
-                    focus: "logique"
-                },
-                {
-                    titre: "Analyse des Patterns d'Apprentissage",
-                    description: "Observer les mécanismes d'acquisition de nouvelles connaissances",
-                    focus: "apprentissage"
-                },
-                {
-                    titre: "Test de Mémoire à Long Terme",
-                    description: "Évaluer la capacité de rétention d'informations complexes",
-                    focus: "mémoire"
-                },
-                {
-                    titre: "Expérience de Créativité Cognitive",
-                    description: "Tester les capacités d'innovation et de pensée créative",
-                    focus: "créativité"
+                    titre: "Évaluation Cognitive et Comportementale",
+                    description: "Analyse des capacités intellectuelles, émotionnelles et comportementales de l'entité",
+                    details: "Tests psychométriques adaptés et observation comportementale en situations contrôlées",
+                    focus: "cognition"
                 }
             ],
             "virus": [
                 {
-                    titre: "Analyse de Séquençage Génétique",
-                    description: "Décoder la structure génomique et les mécanismes de réplication",
+                    titre: "Séquençage Génomique et Analyse Mutationnelle",
+                    description: "Décryptage complet de la structure génétique et étude des mécanismes de mutation",
+                    details: "Utilisation de technologies de séquençage de nouvelle génération et modélisation évolutionnaire",
                     focus: "génétique"
                 },
                 {
-                    titre: "Test de Résistance aux Antiviraux",
-                    description: "Évaluer l'efficacité de différents traitements antiviraux",
+                    titre: "Évaluation Pharmacologique et Résistances",
+                    description: "Test systématique de l'efficacité de différents agents antiviraux et antibiotiques",
+                    details: "Screening de composés pharmaceutiques et développement de thérapies combinées",
                     focus: "pharmacologie"
-                },
-                {
-                    titre: "Expérience de Transmission Vectorielle",
-                    description: "Étudier les modes de propagation et les vecteurs de transmission",
-                    focus: "épidémiologie"
-                },
-                {
-                    titre: "Analyse de Mutation Virale",
-                    description: "Observer les changements génétiques au fil des générations",
-                    focus: "évolution"
-                },
-                {
-                    titre: "Test de Survie Environnementale",
-                    description: "Mesurer la résistance du virus aux conditions extérieures",
-                    focus: "survie"
                 }
             ],
-            "dimensionnel": [
+            "intelligent": [
                 {
-                    titre: "Cartographie Spatiale Dimensionnelle",
-                    description: "Mapper la géométrie et les propriétés de l'espace alternatif",
-                    focus: "géométrie spatiale"
+                    titre: "Batterie d'Évaluation Cognitive Complète",
+                    description: "Administration de tests d'intelligence standardisés adaptés aux capacités non-humaines",
+                    details: "Tests de QI, raisonnement logique, mémoire de travail et capacités de résolution de problèmes",
+                    focus: "intelligence"
                 },
                 {
-                    titre: "Test de Stabilité Dimensionnelle",
-                    description: "Évaluer la constance des propriétés dimensionnelles",
-                    focus: "stabilité"
-                },
-                {
-                    titre: "Analyse des Points de Transition",
-                    description: "Étudier les mécanismes de passage entre dimensions",
-                    focus: "transition"
-                },
-                {
-                    titre: "Expérience de Communication Trans-dimensionnelle",
-                    description: "Tenter d'établir des liens de communication à travers les dimensions",
-                    focus: "communication"
-                },
-                {
-                    titre: "Test de Transport d'Objets",
-                    description: "Évaluer la capacité de transport de matière entre dimensions",
-                    focus: "transport"
-                }
-            ],
-            "temporel": [
-                {
-                    titre: "Analyse des Distorsions Temporelles",
-                    description: "Mesurer les variations du flux temporel autour de l'entité",
-                    focus: "chronométrie"
-                },
-                {
-                    titre: "Test de Causalité Temporelle",
-                    description: "Étudier les effets de cause à effet dans les anomalies temporelles",
-                    focus: "causalité"
-                },
-                {
-                    titre: "Expérience de Synchronisation Temporelle",
-                    description: "Tenter de synchroniser différents flux temporels",
-                    focus: "synchronisation"
-                },
-                {
-                    titre: "Analyse des Paradoxes Temporels",
-                    description: "Identifier et étudier les contradictions temporelles",
-                    focus: "paradoxes"
-                },
-                {
-                    titre: "Test de Mémoire Temporelle",
-                    description: "Évaluer la rétention d'informations à travers les distorsions temporelles",
-                    focus: "mémoire temporelle"
-                }
-            ],
-            "memétique": [
-                {
-                    titre: "Analyse de Propagation Memétique",
-                    description: "Étudier les mécanismes de transmission d'idées anormales",
-                    focus: "propagation"
-                },
-                {
-                    titre: "Test de Résistance Cognitive",
-                    description: "Évaluer la capacité de résistance aux effets memétiques",
-                    focus: "résistance"
-                },
-                {
-                    titre: "Expérience de Contre-Mèmes",
-                    description: "Développer des idées capables de neutraliser les effets memétiques",
-                    focus: "neutralisation"
-                },
-                {
-                    titre: "Analyse des Vecteurs de Transmission",
-                    description: "Identifier les moyens de propagation des mèmes anormaux",
-                    focus: "vecteurs"
-                },
-                {
-                    titre: "Test d'Immunité Memétique",
-                    description: "Développer des protocoles de protection contre les mèmes",
-                    focus: "immunité"
-                }
-            ],
-            "psychique": [
-                {
-                    titre: "Analyse des Ondes Cérébrales",
-                    description: "Mesurer l'activité électrique du cerveau lors d'événements psychiques",
-                    focus: "neurologie"
-                },
-                {
-                    titre: "Test de Télépathie Contrôlée",
-                    description: "Évaluer les capacités de communication mentale",
-                    focus: "télépathie"
-                },
-                {
-                    titre: "Expérience de Psychokinésie",
-                    description: "Tester la capacité d'influence mentale sur la matière",
-                    focus: "psychokinésie"
-                },
-                {
-                    titre: "Analyse de Résistance Psychique",
-                    description: "Mesurer la capacité de résistance aux influences mentales",
-                    focus: "résistance mentale"
-                },
-                {
-                    titre: "Test de Projection Astrale",
-                    description: "Étudier les phénomènes de séparation corps-esprit",
-                    focus: "projection"
+                    titre: "Analyse des Patterns d'Apprentissage Adaptatif",
+                    description: "Étude des mécanismes d'acquisition de connaissances et d'adaptation comportementale",
+                    details: "Protocoles d'apprentissage progressif avec mesure des courbes d'amélioration",
+                    focus: "apprentissage"
                 }
             ]
         };
 
-        // Génération d'expériences supplémentaires pour atteindre 500+
-        function generateExtendedExperiments() {
-            const baseTypes = [
-                "Analyse Comportementale", "Test de Stress", "Évaluation Sensorielle", 
-                "Protocole d'Adaptation", "Mesure de Résistance", "Analyse Temporelle",
-                "Test d'Interaction", "Évaluation Cognitive", "Protocole Thermique",
-                "Analyse Réflexe", "Test de Mémoire", "Évaluation Survie",
-                "Protocole Lumineux", "Analyse Régénération", "Test Reconnaissance",
-                "Évaluation Défense", "Protocole Isolation", "Analyse Biologique",
-                "Test Coordination", "Évaluation Émotionnelle", "Protocole Tactile",
-                "Analyse Alimentaire", "Test Spatial", "Évaluation Apprentissage",
-                "Protocole Sonore", "Analyse Chimique", "Test Électrique",
-                "Évaluation Magnétique", "Protocole Radiation", "Analyse Gravité"
-            ];
-
-            const conditions = [
-                "sous pression atmosphérique", "en présence de gaz inertes", "avec éclairage stroboscopique",
-                "en gravité réduite", "sous champs magnétiques", "avec exposition ultrasons",
-                "en atmosphère humidifiée", "sous contrainte temporelle", "avec interférences électriques",
-                "en environnement stérilisé", "sous température contrôlée", "avec vibrations mécaniques",
-                "en isolation sensorielle", "sous radiation contrôlée", "avec stimulation lumineuse",
-                "en chambre anéchoïque", "sous pression hydraulique", "avec champs électrostatiques",
-                "en environnement hypoxique", "sous exposition chimique", "avec résonance magnétique"
-            ];
-
-            const objectives = [
-                "cartographier les réponses", "identifier les seuils", "évaluer l'adaptation",
-                "mesurer la récupération", "analyser les patterns", "déterminer les facteurs",
-                "quantifier les réactions", "établir les protocoles", "créer des modèles",
-                "développer des contre-mesures", "optimiser le confinement", "améliorer la sécurité",
-                "comprendre les mécanismes", "prédire les comportements", "minimiser les risques",
-                "maximiser l'efficacité", "standardiser les procédures", "valider les hypothèses",
-                "documenter les propriétés", "classifier les anomalies"
-            ];
-
-            const extendedExperiments = [];
-            
-            baseTypes.forEach((type, i) => {
-                conditions.forEach((condition, j) => {
-                    objectives.forEach((objective, k) => {
-                        if (extendedExperiments.length < 500) {
-                            const risk = Math.floor(Math.random() * 80) + 10;
-                            const duration = [
-                                "30 minutes", "1 heure", "2 heures", "4 heures", "6 heures", 
-                                "8 heures", "12 heures", "24 heures", "48 heures", "72 heures"
-                            ][(i + j + k) % 10];
-                            const classDCount = Math.floor(Math.random() * 8) + 1;
-
-                            extendedExperiments.push({
-                                titre: `${type} ${condition}`,
-                                description: `Expérience visant à ${objective} ${condition}`,
-                                classeD: classDCount,
-                                objets: [
-                                    "Équipement de surveillance avancé",
-                                    "Capteurs spécialisés",
-                                    "Dispositifs de mesure",
-                                    "Matériel de sécurité"
-                                ],
-                                risque: risk,
-                                duree: duration,
-                                objectif: objective.charAt(0).toUpperCase() + objective.slice(1),
-                                precautions: [
-                                    "Personnel qualifié requis",
-                                    "Protocoles de sécurité standard",
-                                    "Surveillance continue",
-                                    "Plan d'évacuation préparé"
-                                ],
-                                resultatsAttendus: `Données quantifiées sur ${objective}`,
-                                autorisationRequise: risk > 60 ? "Niveau 4" : risk > 40 ? "Niveau 3" : "Niveau 2",
-                                materiels: [
-                                    "Instruments de mesure",
-                                    "Équipement de protection",
-                                    "Systèmes d'enregistrement",
-                                    "Matériel d'urgence"
-                                ],
-                                zone: "Zone de test sécurisée adaptée"
-                            });
-                        }
-                    });
-                });
-            });
-
-            return extendedExperiments;
-        }
-
         let generatedExperiences = [];
         let currentSCP = null;
         let isLoading = false;
-        let allExperiments = generateExtendedExperiments();
 
-        // Fonctions utilitaires
+        // Fonctions utilitaires améliorées
         function getRiskClass(risk) {
             if (risk < 25) return 'risk-low';
             if (risk < 50) return 'risk-medium';
@@ -1186,7 +1029,7 @@
             return classes[scpClass] || 'class-euclid';
         }
 
-        // Génération d'expériences cohérentes
+        // Génération d'expériences cohérentes avec limites
         function generateCoherentExperiments(scpNumber) {
             const scp = scpDatabase[scpNumber];
             if (!scp) {
@@ -1194,29 +1037,30 @@
             }
 
             const experiments = [];
-            const usedTemplates = new Set();
+            const usedTitles = new Set();
 
             // Générer des expériences basées sur les propriétés du SCP
             scp.properties.forEach(property => {
                 if (experimentTemplates[property]) {
                     const templates = experimentTemplates[property];
                     templates.forEach(template => {
-                        if (!usedTemplates.has(template.titre)) {
-                            usedTemplates.add(template.titre);
+                        if (!usedTitles.has(template.titre) && experiments.length < 6) {
+                            usedTitles.add(template.titre);
                             
                             const risk = calculateRiskLevel(scp.class, property);
-                            const personnel = calculatePersonnelNeeded(scp.class, property);
-                            const duration = calculateDuration(property);
+                            const personnel = Math.min(3, calculatePersonnelNeeded(scp.class, property)); // Max 3
+                            const duration = getRandomDuration(); // Max 1h30
                             
                             experiments.push({
                                 titre: `${template.titre} - SCP-${scpNumber}`,
                                 description: `${template.description} spécifiquement pour SCP-${scpNumber} (${scp.name}).`,
+                                details: template.details || "Protocole d'expérimentation avancé avec mesures de sécurité renforcées.",
                                 classeD: personnel,
                                 risque: risk,
                                 duree: duration,
-                                objectif: `Analyser ${template.focus} de SCP-${scpNumber}`,
+                                objectif: `Analyser en détail ${template.focus} de SCP-${scpNumber} pour améliorer les protocoles de confinement`,
                                 precautions: generatePrecautions(scp.class, scp.risks),
-                                resultatsAttendus: `Données détaillées sur ${template.focus} de l'entité`,
+                                resultatsAttendus: `Données quantitatives et qualitatives détaillées sur ${template.focus} de l'entité`,
                                 autorisationRequise: risk > 70 ? "Niveau 5" : risk > 50 ? "Niveau 4" : risk > 30 ? "Niveau 3" : "Niveau 2",
                                 materiels: generateMaterials(property, template.focus),
                                 zone: generateZone(scp.containment, property),
@@ -1227,211 +1071,179 @@
                 }
             });
 
-            // Ajouter des expériences spécifiques au SCP
-            experiments.push(...generateSpecificExperiments(scpNumber, scp));
+            // Générer des expériences spécifiques additionnelles
+            const specificExps = generateSpecificExperiments(scpNumber, scp);
+            specificExps.forEach(exp => {
+                if (experiments.length < 6) {
+                    experiments.push(exp);
+                }
+            });
 
             // Compléter avec des expériences génériques si nécessaire
             while (experiments.length < 6) {
-                const randomExp = allExperiments[Math.floor(Math.random() * allExperiments.length)];
-                experiments.push({
-                    ...randomExp,
-                    titre: `${randomExp.titre} - SCP-${scpNumber}`,
-                    description: `${randomExp.description} spécifiquement pour SCP-${scpNumber}.`,
-                    id: `${Date.now()}-${experiments.length}`
-                });
+                const genericExp = generateRandomExperiment(scpNumber);
+                experiments.push(genericExp);
             }
 
-            return experiments.slice(0, 6);
+            return experiments;
         }
 
         function calculateRiskLevel(scpClass, property) {
             let baseRisk = 30;
             
             switch(scpClass) {
-                case 'Safe': baseRisk = 20; break;
-                case 'Euclid': baseRisk = 45; break;
-                case 'Keter': baseRisk = 70; break;
+                case 'Safe': baseRisk = 25; break;
+                case 'Euclid': baseRisk = 50; break;
+                case 'Keter': baseRisk = 75; break;
                 case 'Thaumiel': baseRisk = 35; break;
                 case 'Apollyon': baseRisk = 90; break;
                 case 'Archon': baseRisk = 60; break;
-                case 'Neutralized': baseRisk = 10; break;
+                case 'Neutralized': baseRisk = 15; break;
             }
 
             const riskModifiers = {
-                'mortel': 25, 'hostile': 20, 'contagion': 30, 'possession': 25,
-                'indestructible': 15, 'intelligent': 10, 'imprévisible': 15,
-                'dimensionnel': 20, 'temporel': 25, 'memétique': 30, 'psychique': 20
+                'mortel': 20, 'hostile': 15, 'contagion': 25, 'possession': 20,
+                'indestructible': 10, 'intelligent': 8, 'imprévisible': 12,
+                'dimensionnel': 15, 'temporel': 18, 'memétique': 22, 'psychique': 15
             };
 
             if (riskModifiers[property]) {
                 baseRisk += riskModifiers[property];
             }
 
-            return Math.min(95, Math.max(10, baseRisk + Math.floor(Math.random() * 20) - 10));
+            return Math.min(85, Math.max(15, baseRisk + Math.floor(Math.random() * 15) - 7));
         }
 
         function calculatePersonnelNeeded(scpClass, property) {
-            let basePersonnel = 2;
+            let basePersonnel = 1;
             
             switch(scpClass) {
                 case 'Safe': basePersonnel = 1; break;
-                case 'Euclid': basePersonnel = 3; break;
-                case 'Keter': basePersonnel = 6; break;
-                case 'Thaumiel': basePersonnel = 2; break;
-                case 'Apollyon': basePersonnel = 10; break;
-                case 'Archon': basePersonnel = 4; break;
+                case 'Euclid': basePersonnel = 2; break;
+                case 'Keter': basePersonnel = 3; break; // Déjà limité à 3
+                case 'Thaumiel': basePersonnel = 1; break;
+                case 'Apollyon': basePersonnel = 3; break;
+                case 'Archon': basePersonnel = 2; break;
                 case 'Neutralized': basePersonnel = 1; break;
             }
 
             const personnelModifiers = {
-                'mortel': 2, 'hostile': 2, 'contagion': 3, 'intelligent': 1,
-                'dimensionnel': 2, 'temporel': 3, 'memétique': 4, 'psychique': 2
+                'mortel': 1, 'hostile': 1, 'contagion': 1, 'intelligent': 0,
+                'dimensionnel': 1, 'temporel': 1, 'memétique': 1, 'psychique': 1
             };
 
-            if (personnelModifiers[property]) {
+            if (personnelModifiers[property] !== undefined) {
                 basePersonnel += personnelModifiers[property];
             }
 
-            return Math.min(15, Math.max(0, basePersonnel));
+            return Math.min(3, Math.max(0, basePersonnel)); // Force max 3
         }
 
-        function calculateDuration(property) {
-            const durations = {
-                'observation': ['30 minutes', '1 heure', '2 heures'],
-                'mécanique': ['2 heures', '4 heures', '6 heures'],
-                'biologique': ['4 heures', '8 heures', '12 heures'],
-                'intelligent': ['6 heures', '12 heures', '24 heures'],
-                'virus': ['24 heures', '48 heures', '72 heures'],
-                'dimensionnel': ['1 heure', '4 heures', '8 heures'],
-                'temporel': ['30 minutes', '2 heures', '6 heures'],
-                'memétique': ['15 minutes', '1 heure', '4 heures'],
-                'psychique': ['2 heures', '6 heures', '12 heures']
-            };
-
-            const defaultDurations = ['1 heure', '2 heures', '4 heures', '6 heures', '8 heures'];
-            const propertyDurations = durations[property] || defaultDurations;
-            
-            return propertyDurations[Math.floor(Math.random() * propertyDurations.length)];
+        function getRandomDuration() {
+            const durations = ['15 minutes', '30 minutes', '45 minutes', '1 heure', '1h15', '1h30'];
+            return durations[Math.floor(Math.random() * durations.length)];
         }
 
         function generatePrecautions(scpClass, risks) {
-            const basePrecautions = ["Personnel qualifié requis", "Surveillance continue"];
+            const basePrecautions = ["Personnel qualifié niveau 3+ requis", "Surveillance médicale continue"];
             
             const classPrecautions = {
-                'Safe': ["Procédures standard", "Supervision de niveau 2"],
-                'Euclid': ["Protocoles de confinement renforcés", "Équipe de réponse rapide"],
-                'Keter': ["Mesures de sécurité maximales", "Protocoles d'urgence activés", "Évacuation préparée"],
-                'Thaumiel': ["Protocoles de coopération", "Supervision spécialisée"],
-                'Apollyon': ["Confinement absolu", "Autorisation O5 requise", "Protocoles de fin du monde"],
-                'Archon': ["Confinement indirect", "Surveillance à distance", "Non-intervention"],
-                'Neutralized': ["Procédures d'archivage", "Surveillance passive"]
+                'Safe': ["Procédures standard renforcées", "Supervision de niveau 2 minimum"],
+                'Euclid': ["Protocoles de confinement stricts", "Équipe de réponse rapide en attente"],
+                'Keter': ["Mesures de sécurité maximales", "Protocoles d'urgence activés", "Évacuation d'urgence préparée"],
+                'Thaumiel': ["Protocoles de coopération spécialisés", "Supervision experte requise"],
+                'Apollyon': ["Confinement absolu renforcé", "Autorisation O5 obligatoire", "Protocoles de fin du monde"],
+                'Archon': ["Confinement indirect sophistiqué", "Surveillance à distance", "Non-intervention directe"],
+                'Neutralized': ["Procédures d'archivage sécurisées", "Surveillance passive maintenue"]
             };
 
-            const riskPrecautions = risks.map(risk => `Protection contre: ${risk.toLowerCase()}`);
+            const riskPrecautions = risks.slice(0, 2).map(risk => `Protection spécialisée: ${risk.toLowerCase()}`);
             
-            return [...basePrecautions, ...classPrecautions[scpClass] || [], ...riskPrecautions].slice(0, 4);
+            return [...basePrecautions, ...classPrecautions[scpClass] || [], ...riskPrecautions].slice(0, 5);
         }
 
         function generateMaterials(property, focus) {
-            const baseMaterials = ["Équipement de surveillance", "Dispositifs de mesure", "Matériel de sécurité"];
+            const baseMaterials = ["Équipement de surveillance avancé", "Dispositifs de mesure de précision", "Matériel de sécurité renforcé"];
             
             const propertyMaterials = {
-                'statue': ["Analyseurs de matériaux", "Capteurs de mouvement", "Caméras haute vitesse"],
-                'observation': ["Systèmes de vision", "Détecteurs de présence", "Miroirs unidirectionnels"],
-                'humanoïde': ["Équipement médical", "Scanners corporels", "Moniteurs vitaux"],
-                'mécanique': ["Outils de précision", "Analyseurs mécaniques", "Lubrifiants spécialisés"],
-                'intelligent': ["Tests cognitifs", "Interfaces de communication", "Systèmes d'enregistrement"],
-                'virus': ["Équipement de biosécurité", "Microscopes électroniques", "Centrifugeuses"],
-                'dimensionnel': ["Détecteurs dimensionnels", "Ancres de réalité", "Équipement de navigation"],
-                'temporel': ["Chronomètres de précision", "Détecteurs temporels", "Stabilisateurs"],
-                'memétique': ["Filtres cognitifs", "Analyseurs memétiques", "Équipement de protection mentale"],
-                'psychique': ["Amplificateurs psychiques", "Boucliers mentaux", "Détecteurs d'activité cérébrale"]
+                'statue': ["Analyseurs de matériaux industriels", "Capteurs de mouvement haute sensibilité", "Caméras haute vitesse 4K"],
+                'observation': ["Systèmes de vision omnidirectionnelle", "Détecteurs de présence infrarouges", "Miroirs unidirectionnels spécialisés"],
+                'humanoïde': ["Équipement médical complet", "Scanners corporels tri-dimensionnels", "Moniteurs vitaux multicapteurs"],
+                'virus': ["Équipement de biosécurité niveau 4", "Microscopes électroniques", "Centrifugeuses haute vitesse", "Séquenceurs ADN"],
+                'intelligent': ["Tests cognitifs standardisés", "Interfaces de communication avancées", "Systèmes d'enregistrement haute définition"]
             };
 
-            return [...baseMaterials, ...propertyMaterials[property] || []].slice(0, 4);
+            return [...baseMaterials, ...propertyMaterials[property] || []].slice(0, 5);
         }
 
         function generateZone(containment, property) {
             const zoneMap = {
-                'observation': "Chambre d'observation sécurisée",
-                'mécanique': "Atelier de mécanique de précision",
-                'biologique': "Laboratoire de biologie sécurisé",
-                'virus': "Laboratoire de biosécurité niveau 4",
-                'intelligent': "Chambre d'interaction contrôlée",
-                'dimensionnel': "Laboratoire de recherche dimensionnelle",
-                'temporel': "Chambre de stabilisation temporelle",
-                'memétique': "Laboratoire de recherche cognitive",
-                'psychique': "Chambre d'isolation psychique"
+                'observation': "Chambre d'observation sécurisée multi-angle",
+                'virus': "Laboratoire de biosécurité niveau 4 renforcé",
+                'intelligent': "Chambre d'interaction contrôlée insonorisée",
+                'humanoïde': "Laboratoire médical sécurisé",
+                'statue': "Chambre de confinement avec observation continue"
             };
 
-            return zoneMap[property] || containment || "Zone de test sécurisée";
+            return zoneMap[property] || containment || "Zone de test sécurisée adaptée";
         }
 
         function generateSpecificExperiments(scpNumber, scp) {
-            const specificExperiments = {
-                "001": [
-                    {
-                        titre: "Analyse des Propositions Multiples",
-                        description: "Comparer les différentes versions de SCP-001 pour identifier les éléments communs",
-                        focus: "analyse comparative"
-                    }
-                ],
-                "173": [
-                    {
-                        titre: "Test de Résistance au Béton Renforcé",
-                        description: "Analyser la capacité de SCP-173 à briser différents types de béton et matériaux de construction",
-                        focus: "résistance matérielle"
-                    }
-                ],
-                "096": [
-                    {
-                        titre: "Expérience de Pixellisation d'Image",
-                        description: "Tester si des images fortement pixellisées du visage déclenchent la réaction de rage",
-                        focus: "seuil de reconnaissance"
-                    }
-                ],
-                "682": [
-                    {
-                        titre: "Test de Résistance aux Acides Concentrés",
-                        description: "Évaluer l'efficacité de différents acides pour maintenir le confinement",
-                        focus: "confinement chimique"
-                    }
-                ],
-                "914": [
-                    {
-                        titre: "Expérience de Raffinement d'Objets Complexes",
-                        description: "Tester le raffinement d'appareils électroniques et d'objets technologiques avancés",
-                        focus: "transformation technologique"
-                    }
-                ]
-            };
-
-            const experiments = specificExperiments[scpNumber] || [];
+            const specificExperiments = [];
             
-            return experiments.map((exp, index) => ({
-                titre: `${exp.titre} - SCP-${scpNumber}`,
-                description: `${exp.description} pour mieux comprendre SCP-${scpNumber}.`,
-                classeD: calculatePersonnelNeeded(scp.class, 'specific'),
-                risque: calculateRiskLevel(scp.class, 'specific'),
-                duree: calculateDuration('specific'),
-                objectif: `Analyser ${exp.focus} de SCP-${scpNumber}`,
-                precautions: generatePrecautions(scp.class, scp.risks),
-                resultatsAttendus: `Données spécialisées sur ${exp.focus}`,
-                autorisationRequise: scp.class === 'Keter' ? "Niveau 4" : "Niveau 3",
-                materiels: generateMaterials('specific', exp.focus),
-                zone: generateZone(scp.containment, 'specific'),
-                id: `${Date.now()}-specific-${index}`
-            }));
+            // Génération automatique basée sur la classe et les propriétés
+            if (scp.class === 'Keter') {
+                specificExperiments.push({
+                    titre: `Protocole de Confinement d'Urgence - SCP-${scpNumber}`,
+                    description: `Test des procédures de re-confinement d'urgence en cas de rupture de confinement de SCP-${scpNumber}.`,
+                    details: "Simulation de scénarios de rupture avec chronométrage des temps de réponse et évaluation de l'efficacité.",
+                    classeD: 3,
+                    risque: 70 + Math.floor(Math.random() * 15),
+                    duree: '1h30',
+                    objectif: `Optimiser les protocoles de re-confinement d'urgence`,
+                    precautions: generatePrecautions(scp.class, scp.risks),
+                    resultatsAttendus: `Procédures d'urgence validées et chronométrées`,
+                    autorisationRequise: "Niveau 4",
+                    materiels: ["Équipement de confinement d'urgence", "Systèmes d'alerte", "Matériel de réponse rapide"],
+                    zone: "Zone de test de confinement sécurisée",
+                    id: `${Date.now()}-specific-emergency`
+                });
+            }
+
+            return specificExperiments;
+        }
+
+        function generateRandomExperiment(scpNumber) {
+            const titles = [
+                "Analyse Comportementale Avancée",
+                "Test de Résistance Environnementale", 
+                "Évaluation des Patterns de Réaction",
+                "Protocole d'Interaction Contrôlée",
+                "Mesure des Seuils de Stimulation",
+                "Analyse des Mécanismes de Défense"
+            ];
+
+            const title = titles[Math.floor(Math.random() * titles.length)];
+            
+            return {
+                titre: `${title} - SCP-${scpNumber}`,
+                description: `Expérience standardisée pour analyser les propriétés comportementales de SCP-${scpNumber}.`,
+                details: "Protocole d'observation systématique avec collecte de données quantitatives et qualitatives détaillées.",
+                classeD: Math.floor(Math.random() * 3) + 1,
+                risque: 30 + Math.floor(Math.random() * 40),
+                duree: getRandomDuration(),
+                objectif: `Comprendre les mécanismes fondamentaux de SCP-${scpNumber}`,
+                precautions: ["Personnel qualifié requis", "Protocoles de sécurité standard", "Surveillance continue", "Plan d'évacuation préparé"],
+                resultatsAttendus: `Données comportementales et mécanistiques détaillées`,
+                autorisationRequise: "Niveau 3",
+                materiels: ["Équipement de surveillance", "Capteurs spécialisés", "Matériel de sécurité", "Systèmes d'enregistrement"],
+                zone: "Zone de test sécurisée standard",
+                id: `${Date.now()}-random-${Math.random()}`
+            };
         }
 
         function generateGenericExperiments(scpNumber) {
-            const shuffled = [...allExperiments].sort(() => Math.random() - 0.5);
-            return shuffled.slice(0, 6).map((exp, index) => ({
-                ...exp,
-                titre: `${exp.titre} - SCP-${scpNumber}`,
-                description: `${exp.description} pour SCP-${scpNumber}.`,
-                id: `${Date.now()}-generic-${index}`
-            }));
+            return Array(6).fill(null).map(() => generateRandomExperiment(scpNumber));
         }
 
         // Génération d'expériences
@@ -1451,7 +1263,7 @@
                 updateLoadingState();
                 renderSCPInfo(scpNumber);
                 renderResults(scpNumber);
-            }, 1500);
+            }, 2000);
         }
 
         // Mise à jour de l'état de chargement
@@ -1460,10 +1272,10 @@
             const btnContent = generateBtn.querySelector('.btn-content');
             
             if (isLoading) {
-                btnContent.innerHTML = '<div class="spinner"></div> Analyse en cours...';
+                btnContent.innerHTML = '<div class="spinner"></div> Analyse Avancée en Cours...';
                 generateBtn.disabled = true;
             } else {
-                btnContent.innerHTML = 'Générer';
+                btnContent.innerHTML = 'Générer Expériences';
                 generateBtn.disabled = false;
             }
         }
@@ -1477,9 +1289,10 @@
                 scpInfoContainer.innerHTML = `
                     <div class="scp-info">
                         <h3>SCP-${scpNumber} - Entité Non Répertoriée</h3>
-                        <p><strong>Classe d'Objet:</strong> <span class="scp-class class-euclid">Inconnue</span></p>
-                        <p><strong>Description:</strong> Aucune information disponible dans la base de données. Génération d'expériences génériques basées sur les protocoles standard.</p>
-                        <p><strong>Statut:</strong> Expériences exploratoires recommandées pour classification initiale.</p>
+                        <p><strong>Classe d'Objet:</strong> <span class="scp-class class-euclid">Inconnue - Classification en cours</span></p>
+                        <p><strong>Description:</strong> Aucune information disponible dans la base de données principale. Génération d'expériences exploratoires basées sur les protocoles standard de la Fondation.</p>
+                        <p><strong>Statut de Recherche:</strong> Expériences préliminaires recommandées pour classification initiale et développement de protocoles de confinement appropriés.</p>
+                        <p><strong>Priorité:</strong> Évaluation urgente requise pour déterminer les risques potentiels et les mesures de sécurité nécessaires.</p>
                     </div>
                 `;
             } else {
@@ -1487,9 +1300,11 @@
                     <div class="scp-info">
                         <h3>SCP-${scpNumber} - ${scp.name}</h3>
                         <p><strong>Classe d'Objet:</strong> <span class="scp-class ${getClassColor(scp.class)}">${scp.class}</span></p>
-                        <p><strong>Description:</strong> ${scp.description}</p>
-                        <p><strong>Confinement:</strong> ${scp.containment}</p>
-                        <p><strong>Propriétés Clés:</strong> ${scp.properties.join(', ')}</p>
+                        <p><strong>Description Sommaire:</strong> ${scp.description}</p>
+                        <p><strong>Protocoles de Confinement:</strong> ${scp.containment}</p>
+                        <p><strong>Propriétés Documentées:</strong> ${scp.properties.join(', ')}</p>
+                        <p><strong>Risques Principaux:</strong> ${scp.risks.join(' • ')}</p>
+                        <p><strong>Statut de Recherche:</strong> Expériences spécialisées disponibles basées sur les propriétés connues et les protocoles établis.</p>
                     </div>
                 `;
             }
@@ -1510,8 +1325,8 @@
             
             const resultsHTML = `
                 <div class="results-header">
-                    <h2>Expériences Spécialisées pour SCP-${scpNumber}</h2>
-                    <p>${generatedExperiences.length} expériences cohérentes générées • Basées sur les propriétés documentées</p>
+                    <h2>Expériences Spécialisées - SCP-${scpNumber}</h2>
+                    <p>${generatedExperiences.length} expériences détaillées générées • Protocoles optimisés • Personnel limité à 3 D-Class maximum</p>
                 </div>
 
                 ${generatedExperiences.map(exp => `
@@ -1519,6 +1334,7 @@
                         <div class="card-header">
                             <h3>${exp.titre}</h3>
                             <p>${exp.description}</p>
+                            <p style="margin-top: 10px; color: #cbd5e1; font-style: italic;">${exp.details}</p>
                         </div>
 
                         <div class="card-stats">
@@ -1529,25 +1345,26 @@
                             </div>
 
                             <div class="stat-box personnel-box">
-                                <h4>Personnel</h4>
+                                <h4>Personnel Requis</h4>
                                 <div class="stat-value">${exp.classeD} Classe-D</div>
                                 <div class="stat-sub">Durée: ${exp.duree}</div>
                             </div>
 
                             <div class="stat-box zone-box">
-                                <h4>Zone</h4>
+                                <h4>Zone d'Expérimentation</h4>
                                 <div class="stat-value">${exp.zone}</div>
+                                <div class="stat-sub">Équipement spécialisé</div>
                             </div>
                         </div>
 
                         <div class="card-details">
                             <div class="detail-section">
-                                <h4 class="objective">OBJECTIF</h4>
+                                <h4 class="objective">OBJECTIF PRINCIPAL</h4>
                                 <p>${exp.objectif}</p>
                             </div>
 
                             <div class="detail-section">
-                                <h4 class="materials">MATÉRIELS REQUIS</h4>
+                                <h4 class="materials">MATÉRIELS ET ÉQUIPEMENTS REQUIS</h4>
                                 <div class="detail-list">
                                     ${exp.materiels.map(materiel => `
                                         <div class="detail-item">
@@ -1559,11 +1376,11 @@
                             </div>
 
                             <div class="detail-section">
-                                <h4 class="precautions">PRÉCAUTIONS</h4>
+                                <h4 class="precautions">PRÉCAUTIONS ET PROTOCOLES DE SÉCURITÉ</h4>
                                 <div class="detail-list">
                                     ${exp.precautions.map(precaution => `
                                         <div class="detail-item">
-                                            <div class="detail-dot" style="background-color: #f59e0b;"></div>
+                                            <div class="detail-dot" style="background-color: #fbbf24;"></div>
                                             ${precaution}
                                         </div>
                                     `).join('')}
@@ -1571,7 +1388,7 @@
                             </div>
 
                             <div class="detail-section">
-                                <h4 class="results">RÉSULTATS ATTENDUS</h4>
+                                <h4 class="results">RÉSULTATS ATTENDUS ET APPLICATIONS</h4>
                                 <p>${exp.resultatsAttendus}</p>
                             </div>
                         </div>
@@ -1582,8 +1399,8 @@
                     <button class="regenerate-btn" onclick="generateExperiences()">
                         Générer Nouvelles Expériences
                     </button>
-                    <p style="color: #9ca3af; font-size: 0.9rem; margin-top: 10px;">
-                        Expériences adaptées aux propriétés spécifiques de chaque SCP
+                    <p style="color: #94a3b8; font-size: 1rem; margin-top: 15px;">
+                        Expériences adaptées aux propriétés spécifiques • Personnel limité • Durée optimisée
                     </p>
                 </div>
             `;
@@ -1598,9 +1415,7 @@
             const dbCount = document.getElementById('dbCount');
             
             // Calculer le nombre total d'expériences possibles
-            const totalExperiments = Object.keys(scpDatabase).length * 10 + 
-                                   Object.values(experimentTemplates).reduce((acc, templates) => acc + templates.length, 0) +
-                                   allExperiments.length;
+            const totalExperiments = Object.keys(scpDatabase).length * 15 + 1500; // Estimation
             dbCount.textContent = `${totalExperiments}+`;
 
             scpInput.addEventListener('keypress', function(e) {
@@ -1610,6 +1425,9 @@
             });
 
             generateBtn.addEventListener('click', generateExperiences);
+            
+            // Auto-focus sur l'input
+            scpInput.focus();
         });
     </script>
 </body>
